@@ -5,10 +5,12 @@ import {
   Brightness7 as Brightness7Icon,
 } from '@mui/icons-material';
 import { useTheme as useAppTheme } from '../../contexts/ThemeContext';
+import { useTranslation } from 'react-i18next';
 
 const AuthLayout = () => {
   const theme = useTheme();
   const { mode, toggleMode } = useAppTheme();
+  const { t } = useTranslation();
 
   return (
     <Box
@@ -29,7 +31,7 @@ const AuthLayout = () => {
             right: 16,
           }}
         >
-          <IconButton onClick={toggleMode} color="inherit">
+          <IconButton onClick={toggleMode} color="inherit" aria-label={t('settings.darkMode')}>
             {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
           </IconButton>
         </Box>
@@ -44,7 +46,7 @@ const AuthLayout = () => {
           }}
         >
           <Typography component="h1" variant="h4" gutterBottom>
-            Welcome
+            {t('auth.login')}
           </Typography>
           <Outlet />
         </Paper>

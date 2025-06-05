@@ -1,0 +1,69 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "email": "Email Address",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password?",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "signUp": "Sign Up",
+    "signIn": "Sign In",
+    "logout": "Logout"
+  },
+  "navigation": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "profile": "Profile",
+    "admin": "Admin Panel",
+    "notFound": "Page Not Found"
+  },
+  "settings": {
+    "title": "User Settings",
+    "personalInfo": "Personal Information",
+    "preferences": "Preferences",
+    "name": "Full Name",
+    "email": "Email Address",
+    "language": "Language",
+    "timezone": "Timezone",
+    "notifications": "Enable Notifications",
+    "darkMode": "Dark Mode",
+    "saved": "Settings updated successfully!",
+    "error": "An error occurred while saving your settings.",
+    "saving": "Saving..."
+  },
+  "languages": {
+    "en_US": "English (US)",
+    "pt_BR": "Portuguese (Brazil)",
+    "es": "Spanish",
+    "fr": "French",
+    "de": "German",
+    "ja": "Japanese"
+  },
+  "timezones": {
+    "UTC": "UTC",
+    "EST": "Eastern Standard Time (EST)",
+    "CST": "Central Standard Time (CST)",
+    "MST": "Mountain Standard Time (MST)",
+    "PST": "Pacific Standard Time (PST)"
+  },
+  "errors": {
+    "nameRequired": "Name must be at least 2 characters",
+    "emailRequired": "Please enter a valid email address",
+    "passwordRequired": "Password is required",
+    "passwordLength": "Password must be at least 8 characters long",
+    "passwordMatch": "Passwords do not match",
+    "unauthorized": "Unauthorized access",
+    "notFound": "The page you are looking for doesn't exist",
+    "generalError": "Something went wrong. Please try again."
+  }
+}

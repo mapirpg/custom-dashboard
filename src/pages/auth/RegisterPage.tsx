@@ -5,7 +5,6 @@ import {
   Button,
   Link,
   Box,
-  Grid,
   Typography,
   Alert,
   InputAdornment,
@@ -16,6 +15,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 // Validation schema using Zod
 const registerSchema = z
@@ -44,6 +44,7 @@ const RegisterPage = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { signup, error, clearError, isLoading } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const {
     control,
@@ -59,22 +60,20 @@ const RegisterPage = () => {
     },
   });
 
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleToggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
   const onSubmit = async (data: RegisterFormValues) => {
     try {
       await signup(data.name, data.email, data.password);
       navigate('/'); // Navigate to home page after successful registration
-    } catch (err) {
+    } catch {
       // Error is handled in the auth context
-      console.error('Registration error:', err);
     }
-  };
-
-  const handleTogglePasswordVisibility = () => {
-    setShowPassword(prev => !prev);
-  };
-
-  const handleToggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword(prev => !prev);
   };
 
   return (
@@ -86,7 +85,7 @@ const RegisterPage = () => {
       )}
 
       <Typography component="h2" variant="h6" align="center" gutterBottom>
-        Create an Account
+        {t('auth.createAccount')}
       </Typography>
 
       <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
@@ -96,11 +95,12 @@ const RegisterPage = () => {
           render={({ field }) => (
             <TextField
               {...field}
+              variant="outlined"
               margin="normal"
               required
               fullWidth
               id="name"
-              label="Full Name"
+              label={t('settings.name')}
               autoComplete="name"
               autoFocus
               disabled={isLoading}
@@ -109,18 +109,18 @@ const RegisterPage = () => {
             />
           )}
         />
-
         <Controller
           name="email"
           control={control}
           render={({ field }) => (
             <TextField
               {...field}
+              variant="outlined"
               margin="normal"
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label={t('auth.email')}
               autoComplete="email"
               disabled={isLoading}
               error={!!errors.email}
@@ -128,19 +128,19 @@ const RegisterPage = () => {
             />
           )}
         />
-
         <Controller
           name="password"
           control={control}
           render={({ field }) => (
             <TextField
               {...field}
+              variant="outlined"
               margin="normal"
               required
               fullWidth
-              label="Password"
-              type={showPassword ? 'text' : 'password'}
               id="password"
+              label={t('auth.password')}
+              type={showPassword ? 'text' : 'password'}
               autoComplete="new-password"
               disabled={isLoading}
               error={!!errors.password}
@@ -161,19 +161,20 @@ const RegisterPage = () => {
             />
           )}
         />
-
         <Controller
           name="confirmPassword"
           control={control}
           render={({ field }) => (
             <TextField
               {...field}
+              variant="outlined"
               margin="normal"
               required
               fullWidth
-              label="Confirm Password"
-              type={showConfirmPassword ? 'text' : 'password'}
               id="confirmPassword"
+              label={t('auth.confirmPassword')}
+              type={showConfirmPassword ? 'text' : 'password'}
+              autoComplete="new-password"
               disabled={isLoading}
               error={!!errors.confirmPassword}
               helperText={errors.confirmPassword?.message}
@@ -193,7 +194,6 @@ const RegisterPage = () => {
             />
           )}
         />
-
         <Button
           type="submit"
           fullWidth
@@ -201,16 +201,15 @@ const RegisterPage = () => {
           sx={{ mt: 3, mb: 2 }}
           disabled={isLoading}
         >
-          {isLoading ? 'Creating Account...' : 'Sign Up'}
-        </Button>
-
-        <Grid container justifyContent="center">
-          <Grid>
+          {isLoading ? t('auth.register') + '...' : t('auth.signUp')}
+        </Button>{' '}
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+          <Box>
             <Link component={RouterLink} to="/auth/login" variant="body2">
-              Already have an account? Sign In
+              {t('auth.haveAccount')} {t('auth.signIn')}
             </Link>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
       </Box>
     </Box>
   );

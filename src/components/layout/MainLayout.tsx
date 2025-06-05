@@ -32,6 +32,7 @@ import { styled } from '@mui/material/styles';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme as useAppTheme } from '../../contexts/ThemeContext';
 import { useNavigate, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 // Constants
 const DRAWER_WIDTH = 240;
@@ -63,6 +64,7 @@ const MainLayout = () => {
   const { mode, toggleMode } = useAppTheme();
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleDrawerToggle = () => {
@@ -84,15 +86,15 @@ const MainLayout = () => {
 
   // Navigation items
   const navItems = [
-    { text: 'Home', icon: <HomeIcon />, path: '/' },
-    { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
-    { text: 'Settings', icon: <SettingsIcon />, path: '/settings' },
+    { text: t('navigation.home'), icon: <HomeIcon />, path: '/' },
+    { text: t('navigation.dashboard'), icon: <DashboardIcon />, path: '/dashboard' },
+    { text: t('navigation.settings'), icon: <SettingsIcon />, path: '/settings' },
   ];
 
   // Admin navigation items
   const adminNavItems = [
     ...(user?.role === 'admin'
-      ? [{ text: 'Admin Panel', icon: <DashboardIcon />, path: '/admin' }]
+      ? [{ text: t('navigation.admin'), icon: <DashboardIcon />, path: '/admin' }]
       : []),
   ];
 
@@ -146,7 +148,7 @@ const MainLayout = () => {
             <ListItemIcon>
               {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
             </ListItemIcon>
-            <ListItemText primary={`${mode === 'dark' ? 'Light' : 'Dark'} Mode`} />
+            <ListItemText primary={t('settings.darkMode')} />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
@@ -154,7 +156,7 @@ const MainLayout = () => {
             <ListItemIcon>
               <LogoutIcon />
             </ListItemIcon>
-            <ListItemText primary="Logout" />
+            <ListItemText primary={t('auth.logout')} />
           </ListItemButton>
         </ListItem>
       </List>

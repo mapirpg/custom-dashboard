@@ -7,7 +7,10 @@ import './index.css';
 import App from './App.tsx';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthProvider } from './contexts/AuthContext';
+import { LanguageProvider } from './contexts/LanguageContext';
 import createAppTheme from './theme';
+// Import i18n configuration (no need to assign to a variable)
+import './i18n/i18n';
 
 // Create a client for React Query
 const queryClient = new QueryClient({
@@ -23,16 +26,18 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider>
-          {({ mode }) => (
-            <MuiThemeProvider theme={createAppTheme(mode)}>
-              <CssBaseline />
-              <AuthProvider>
-                <App />
-              </AuthProvider>
-            </MuiThemeProvider>
-          )}
-        </ThemeProvider>
+        <LanguageProvider>
+          <ThemeProvider>
+            {({ mode }) => (
+              <MuiThemeProvider theme={createAppTheme(mode)}>
+                <CssBaseline />
+                <AuthProvider>
+                  <App />
+                </AuthProvider>
+              </MuiThemeProvider>
+            )}
+          </ThemeProvider>
+        </LanguageProvider>
       </QueryClientProvider>
     </BrowserRouter>
   </StrictMode>,

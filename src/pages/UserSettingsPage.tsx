@@ -21,6 +21,8 @@ import {
 import SaveIcon from '@mui/icons-material/Save';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
+import { useTranslation } from 'react-i18next';
+import { useLanguageContext } from '../contexts/LanguageContext';
 
 // Form validation schema
 const userSettingsSchema = z.object({
@@ -36,6 +38,8 @@ type UserSettingsFormValues = z.infer<typeof userSettingsSchema>;
 const UserSettingsPage = () => {
   const { user } = useAuth();
   const { mode, toggleMode } = useTheme();
+  const { t } = useTranslation();
+  const { currentLanguage, changeLanguage, languages } = useLanguageContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState<boolean | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -45,7 +49,7 @@ const UserSettingsPage = () => {
     name: user?.name || '',
     email: user?.email || '',
     notificationsEnabled: true,
-    language: 'en',
+    language: currentLanguage,
     timezone: 'UTC',
   };
 
@@ -64,13 +68,18 @@ const UserSettingsPage = () => {
     setErrorMessage(null);
 
     try {
+      // Handle language change
+      if (data.language !== currentLanguage) {
+        changeLanguage(data.language);
+      }
+
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       console.log('Settings updated:', data);
       setSubmitSuccess(true);
     } catch (error) {
       console.error('Error updating settings:', error);
-      setErrorMessage('Failed to update settings. Please try again.');
+      setErrorMessage(t('settings.error'));
       setSubmitSuccess(false);
     } finally {
       setIsSubmitting(false);
@@ -81,25 +90,25 @@ const UserSettingsPage = () => {
     <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
       <Paper sx={{ p: { xs: 2, md: 4 } }}>
         <Typography variant="h4" gutterBottom>
-          User Settings
+          {t('settings.title')}
         </Typography>
         <Divider sx={{ mb: 4 }} />
 
         {submitSuccess === true && (
           <Alert severity="success" sx={{ mb: 3 }}>
-            Settings updated successfully!
+            {t('settings.saved')}
           </Alert>
         )}
 
         {submitSuccess === false && (
           <Alert severity="error" sx={{ mb: 3 }}>
-            {errorMessage || 'An error occurred while saving your settings.'}
+            {errorMessage || t('errors.generalError')}
           </Alert>
         )}
 
         <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={3}>
-            <Grid>
+            <Grid item xs={12}>
               <Controller
                 name="name"
                 control={control}
@@ -107,7 +116,7 @@ const UserSettingsPage = () => {
                   <TextField
                     {...field}
                     fullWidth
-                    label="Full Name"
+                    label={t('settings.name')}
                     error={!!errors.name}
                     helperText={errors.name?.message}
                   />
@@ -115,7 +124,7 @@ const UserSettingsPage = () => {
               />
             </Grid>
 
-            <Grid>
+            <Grid item xs={12}>
               <Controller
                 name="email"
                 control={control}
@@ -123,7 +132,7 @@ const UserSettingsPage = () => {
                   <TextField
                     {...field}
                     fullWidth
-                    label="Email Address"
+                    label={t('settings.email')}
                     error={!!errors.email}
                     helperText={errors.email?.message}
                   />
@@ -131,7 +140,7 @@ const UserSettingsPage = () => {
               />
             </Grid>
 
-            <Grid>
+            <Grid item xs={12}>
               <Controller
                 name="language"
                 control={control}
@@ -140,21 +149,21 @@ const UserSettingsPage = () => {
                     {...field}
                     select
                     fullWidth
-                    label="Language"
+                    label={t('settings.language')}
                     error={!!errors.language}
                     helperText={errors.language?.message}
                   >
-                    <MenuItem value="en">English</MenuItem>
-                    <MenuItem value="es">Spanish</MenuItem>
-                    <MenuItem value="fr">French</MenuItem>
-                    <MenuItem value="de">German</MenuItem>
-                    <MenuItem value="ja">Japanese</MenuItem>
+                    {languages.map(lang => (
+                      <MenuItem key={lang.code} value={lang.code}>
+                        {lang.name}
+                      </MenuItem>
+                    ))}
                   </TextField>
                 )}
               />
             </Grid>
 
-            <Grid>
+            <Grid item xs={12}>
               <Controller
                 name="timezone"
                 control={control}
@@ -163,42 +172,42 @@ const UserSettingsPage = () => {
                     {...field}
                     select
                     fullWidth
-                    label="Timezone"
+                    label={t('settings.timezone')}
                     error={!!errors.timezone}
                     helperText={errors.timezone?.message}
                   >
-                    <MenuItem value="UTC">UTC</MenuItem>
-                    <MenuItem value="EST">Eastern Standard Time (EST)</MenuItem>
-                    <MenuItem value="CST">Central Standard Time (CST)</MenuItem>
-                    <MenuItem value="MST">Mountain Standard Time (MST)</MenuItem>
-                    <MenuItem value="PST">Pacific Standard Time (PST)</MenuItem>
+                    <MenuItem value="UTC">{t('timezones.UTC')}</MenuItem>
+                    <MenuItem value="EST">{t('timezones.EST')}</MenuItem>
+                    <MenuItem value="CST">{t('timezones.CST')}</MenuItem>
+                    <MenuItem value="MST">{t('timezones.MST')}</MenuItem>
+                    <MenuItem value="PST">{t('timezones.PST')}</MenuItem>
                   </TextField>
                 )}
               />
             </Grid>
 
-            <Grid>
+            <Grid item xs={12}>
               <Controller
                 name="notificationsEnabled"
                 control={control}
                 render={({ field }) => (
                   <FormControlLabel
                     control={<Switch checked={field.value} onChange={field.onChange} />}
-                    label="Enable Notifications"
+                    label={t('settings.notifications')}
                   />
                 )}
               />
             </Grid>
 
-            <Grid>
-              <Divider sx={{ my: 2 }} />{' '}
+            <Grid item xs={12}>
+              <Divider sx={{ my: 2 }} />
               <FormControlLabel
                 control={<Switch checked={mode === 'dark'} onChange={toggleMode} />}
-                label="Dark Mode"
+                label={t('settings.darkMode')}
               />
             </Grid>
 
-            <Grid>
+            <Grid item xs={12}>
               <Button
                 type="submit"
                 variant="contained"
@@ -207,7 +216,7 @@ const UserSettingsPage = () => {
                 startIcon={isSubmitting ? <CircularProgress size={20} /> : <SaveIcon />}
                 sx={{ mt: 2 }}
               >
-                {isSubmitting ? 'Saving...' : 'Save Settings'}
+                {isSubmitting ? t('settings.saving') : t('common.save')}
               </Button>
             </Grid>
           </Grid>

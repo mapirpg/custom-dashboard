@@ -1,0 +1,69 @@
+{
+  "common": {
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "loading": "Carregando...",
+    "error": "Erro",
+    "success": "Sucesso"
+  },
+  "auth": {
+    "login": "Entrar",
+    "register": "Registrar",
+    "email": "Endereço de Email",
+    "password": "Senha",
+    "confirmPassword": "Confirmar Senha",
+    "forgotPassword": "Esqueceu a senha?",
+    "noAccount": "Não tem uma conta?",
+    "haveAccount": "Já tem uma conta?",
+    "signUp": "Cadastrar",
+    "signIn": "Entrar",
+    "logout": "Sair"
+  },
+  "navigation": {
+    "home": "Início",
+    "dashboard": "Painel",
+    "settings": "Configurações",
+    "profile": "Perfil",
+    "admin": "Painel Administrativo",
+    "notFound": "Página Não Encontrada"
+  },
+  "settings": {
+    "title": "Configurações do Usuário",
+    "personalInfo": "Informações Pessoais",
+    "preferences": "Preferências",
+    "name": "Nome Completo",
+    "email": "Endereço de Email",
+    "language": "Idioma",
+    "timezone": "Fuso Horário",
+    "notifications": "Ativar Notificações",
+    "darkMode": "Modo Escuro",
+    "saved": "Configurações atualizadas com sucesso!",
+    "error": "Ocorreu um erro ao salvar suas configurações.",
+    "saving": "Salvando..."
+  },
+  "languages": {
+    "en_US": "Inglês (EUA)",
+    "pt_BR": "Português (Brasil)",
+    "es": "Espanhol",
+    "fr": "Francês",
+    "de": "Alemão",
+    "ja": "Japonês"
+  },
+  "timezones": {
+    "UTC": "UTC",
+    "EST": "Horário Padrão do Leste (EST)",
+    "CST": "Horário Padrão Central (CST)",
+    "MST": "Horário Padrão das Montanhas (MST)",
+    "PST": "Horário Padrão do Pacífico (PST)"
+  },
+  "errors": {
+    "nameRequired": "O nome deve ter pelo menos 2 caracteres",
+    "emailRequired": "Por favor, insira um endereço de email válido",
+    "passwordRequired": "A senha é obrigatória",
+    "passwordLength": "A senha deve ter pelo menos 8 caracteres",
+    "passwordMatch": "As senhas não coincidem",
+    "unauthorized": "Acesso não autorizado",
+    "notFound": "A página que você está procurando não existe",
+    "generalError": "Algo deu errado. Por favor, tente novamente."
+  }
+}

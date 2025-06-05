@@ -75,7 +75,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         localStorage.setItem('user', JSON.stringify(mockUser));
         setUser(mockUser);
       } else if (email === 'admin@example.com' && password === 'admin') {
-        // Mock admin login
         const mockAdmin: User = {
           id: '2',
           name: 'Admin User',

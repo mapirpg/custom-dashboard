@@ -5,7 +5,6 @@ import {
   Button,
   Link,
   Box,
-  Grid,
   Typography,
   Alert,
   InputAdornment,
@@ -16,11 +15,12 @@ import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 // Validation schema using Zod
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+  password: z.string(),
 });
 
 // Infer type from the schema
@@ -30,6 +30,7 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { login, error, clearError, isLoading } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const {
     control,
@@ -66,7 +67,7 @@ const LoginPage = () => {
       )}
 
       <Typography component="h2" variant="h6" align="center" gutterBottom>
-        Sign In
+        {t('auth.signIn')}
       </Typography>
 
       <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
@@ -76,11 +77,12 @@ const LoginPage = () => {
           render={({ field }) => (
             <TextField
               {...field}
+              variant="outlined"
               margin="normal"
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label={t('auth.email')}
               autoComplete="email"
               autoFocus
               disabled={isLoading}
@@ -89,19 +91,19 @@ const LoginPage = () => {
             />
           )}
         />
-
         <Controller
           name="password"
           control={control}
           render={({ field }) => (
             <TextField
               {...field}
+              variant="outlined"
               margin="normal"
               required
               fullWidth
-              label="Password"
-              type={showPassword ? 'text' : 'password'}
               id="password"
+              label={t('auth.password')}
+              type={showPassword ? 'text' : 'password'}
               autoComplete="current-password"
               disabled={isLoading}
               error={!!errors.password}
@@ -122,7 +124,6 @@ const LoginPage = () => {
             />
           )}
         />
-
         <Button
           type="submit"
           fullWidth
@@ -130,22 +131,20 @@ const LoginPage = () => {
           sx={{ mt: 3, mb: 2 }}
           disabled={isLoading}
         >
-          {isLoading ? 'Signing In...' : 'Sign In'}
-        </Button>
-
-        <Grid container justifyContent="space-between">
-          <Grid>
+          {isLoading ? t('auth.login') + '...' : t('auth.signIn')}
+        </Button>{' '}
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+          <Box>
             <Link component={RouterLink} to="/auth/forgot-password" variant="body2">
-              Forgot password?
+              {t('auth.forgotPassword')}
             </Link>
-          </Grid>
-          <Grid>
+          </Box>
+          <Box>
             <Link component={RouterLink} to="/auth/register" variant="body2">
-              {"Don't have an account? Sign Up"}
+              {t('auth.noAccount')} {t('auth.signUp')}
             </Link>
-          </Grid>
-        </Grid>
-
+          </Box>
+        </Box>
         <Box sx={{ mt: 3 }}>
           <Typography variant="body2" color="text.secondary" align="center">
             Demo Accounts:
