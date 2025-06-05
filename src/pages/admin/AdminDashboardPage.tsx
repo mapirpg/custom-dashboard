@@ -198,7 +198,7 @@ const AdminDashboardPage = () => {
       {/* Statistics Cards */}
       <Grid container spacing={3} sx={{ mb: 3 }}>
         {stats.map((stat, index) => (
-          <Grid item xs={6} sm={6} md={3} key={index}>
+          <Grid xs={6} sm={6} md={3} key={index}>
             <Card sx={{ height: '100%', borderLeft: `4px solid ${stat.color}` }}>
               <CardContent>
                 <Box
@@ -334,7 +334,7 @@ const AdminDashboardPage = () => {
             <Box sx={{ mt: 2 }}>
               <Grid container spacing={3}>
                 {['Security', 'Appearance', 'Notifications', 'Integration'].map(setting => (
-                  <Grid item xs={12} sm={6} md={3} key={setting}>
+                  <Grid md={3} key={setting}>
                     <Paper sx={{ p: 2, textAlign: 'center' }} variant="outlined">
                       <Typography variant="subtitle1">{setting} Settings</Typography>
                     </Paper>

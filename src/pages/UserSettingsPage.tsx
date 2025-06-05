@@ -35,7 +35,7 @@ type UserSettingsFormValues = z.infer<typeof userSettingsSchema>;
 
 const UserSettingsPage = () => {
   const { user } = useAuth();
-  const { mode, toggleColorMode } = useTheme();
+  const { mode, toggleMode } = useTheme();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState<boolean | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -99,7 +99,7 @@ const UserSettingsPage = () => {
 
         <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={3}>
-            <Grid item xs={12}>
+            <Grid>
               <Controller
                 name="name"
                 control={control}
@@ -115,7 +115,7 @@ const UserSettingsPage = () => {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid>
               <Controller
                 name="email"
                 control={control}
@@ -131,7 +131,7 @@ const UserSettingsPage = () => {
               />
             </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid>
               <Controller
                 name="language"
                 control={control}
@@ -154,7 +154,7 @@ const UserSettingsPage = () => {
               />
             </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid>
               <Controller
                 name="timezone"
                 control={control}
@@ -177,7 +177,7 @@ const UserSettingsPage = () => {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid>
               <Controller
                 name="notificationsEnabled"
                 control={control}
@@ -190,15 +190,15 @@ const UserSettingsPage = () => {
               />
             </Grid>
 
-            <Grid item xs={12}>
-              <Divider sx={{ my: 2 }} />
+            <Grid>
+              <Divider sx={{ my: 2 }} />{' '}
               <FormControlLabel
-                control={<Switch checked={mode === 'dark'} onChange={toggleColorMode} />}
+                control={<Switch checked={mode === 'dark'} onChange={toggleMode} />}
                 label="Dark Mode"
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid>
               <Button
                 type="submit"
                 variant="contained"

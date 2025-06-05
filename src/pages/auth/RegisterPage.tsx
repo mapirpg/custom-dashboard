@@ -205,7 +205,7 @@ const RegisterPage = () => {
         </Button>
 
         <Grid container justifyContent="center">
-          <Grid item>
+          <Grid>
             <Link component={RouterLink} to="/auth/login" variant="body2">
               Already have an account? Sign In
             </Link>

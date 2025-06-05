@@ -134,12 +134,12 @@ const LoginPage = () => {
         </Button>
 
         <Grid container justifyContent="space-between">
-          <Grid item>
+          <Grid>
             <Link component={RouterLink} to="/auth/forgot-password" variant="body2">
               Forgot password?
             </Link>
           </Grid>
-          <Grid item>
+          <Grid>
             <Link component={RouterLink} to="/auth/register" variant="body2">
               {"Don't have an account? Sign Up"}
             </Link>

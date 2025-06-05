@@ -10,6 +10,7 @@ import prettierPlugin from 'eslint-plugin-prettier';
 import prettierConfig from 'eslint-config-prettier';
 import globals from 'globals';
 
+/** @type {import('eslint').Linter.FlatConfig[]} */
 export default [
   js.configs.recommended,
   {

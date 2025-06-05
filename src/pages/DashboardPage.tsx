@@ -114,7 +114,7 @@ const DashboardPage = () => {
       {/* Stats Cards */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
         {stats.map(stat => (
-          <Grid item xs={6} md={3} key={stat.id}>
+          <Grid size={6} key={stat.id}>
             <Paper
               sx={{
                 p: 2,
@@ -154,7 +154,7 @@ const DashboardPage = () => {
 
       <Grid container spacing={3}>
         {/* Main Dashboard Content */}
-        <Grid item xs={12} md={8}>
+        <Grid>
           <Paper sx={{ mb: 3 }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <Tabs value={tabValue} onChange={handleTabChange} aria-label="dashboard tabs">
@@ -237,7 +237,7 @@ const DashboardPage = () => {
             <TabPanel value={tabValue} index={2}>
               <Grid container spacing={2}>
                 {projects.map(project => (
-                  <Grid item xs={12} sm={6} key={project.id}>
+                  <Grid key={project.id}>
                     <Card variant="outlined">
                       <CardHeader
                         title={project.name}
@@ -286,7 +286,7 @@ const DashboardPage = () => {
         </Grid>
 
         {/* Sidebar */}
-        <Grid item xs={12} md={4}>
+        <Grid md={4}>
           <Paper sx={{ p: 2, mb: 3 }}>
             <Typography variant="h6" gutterBottom>
               Recent Activities
