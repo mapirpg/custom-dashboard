@@ -10,7 +10,7 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | null>(null);
 
 type ThemeProviderProps = {
-  children: ReactNode;
+  children: ReactNode | ((props: ThemeContextType) => ReactNode);
 };
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
@@ -69,7 +69,11 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
     [mode],
   );
 
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={value}>
+      {typeof children === 'function' ? children(value) : children}
+    </ThemeContext.Provider>
+  );
 };
 
 export const useTheme = (): ThemeContextType => {
