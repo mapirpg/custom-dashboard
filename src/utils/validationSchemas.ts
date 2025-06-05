@@ -1,12 +1,10 @@
 import * as z from 'zod';
 
-// Login form schema
 export const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
   password: z.string().min(8, 'Password must be at least 8 characters'),
 });
 
-// Registration form schema
 export const registerSchema = z
   .object({
     name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -24,7 +22,6 @@ export const registerSchema = z
     path: ['confirmPassword'],
   });
 
-// User settings form schema
 export const userSettingsSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Please enter a valid email address'),
@@ -33,7 +30,6 @@ export const userSettingsSchema = z.object({
   timezone: z.string(),
 });
 
-// Profile update schema
 export const profileUpdateSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Please enter a valid email address'),
@@ -46,7 +42,6 @@ export const profileUpdateSchema = z.object({
     .optional(),
 });
 
-// Password change schema
 export const passwordChangeSchema = z
   .object({
     currentPassword: z.string().min(1, 'Current password is required'),
@@ -67,7 +62,6 @@ export const passwordChangeSchema = z
     path: ['newPassword'],
   });
 
-// Create post schema
 export const createPostSchema = z.object({
   title: z
     .string()
@@ -78,7 +72,6 @@ export const createPostSchema = z.object({
   tags: z.array(z.string()).optional(),
 });
 
-// Contact form schema
 export const contactFormSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Please enter a valid email address'),
@@ -92,7 +85,6 @@ export const contactFormSchema = z.object({
     .max(1000, 'Message cannot exceed 1000 characters'),
 });
 
-// Export types for use with react-hook-form
 export type LoginFormValues = z.infer<typeof loginSchema>;
 export type RegisterFormValues = z.infer<typeof registerSchema>;
 export type UserSettingsFormValues = z.infer<typeof userSettingsSchema>;

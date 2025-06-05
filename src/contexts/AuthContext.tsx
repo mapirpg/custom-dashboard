@@ -9,7 +9,6 @@ export interface User {
   role: 'user' | 'admin';
 }
 
-// Define Auth Context state and actions
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
@@ -21,21 +20,17 @@ interface AuthContextType {
   clearError: () => void;
 }
 
-// Create the context
 const AuthContext = createContext<AuthContextType | null>(null);
 
-// Provider Props
 interface AuthProviderProps {
   children: ReactNode;
 }
 
-// Create the Auth Provider
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Check if the user is already logged in (from localStorage or session)
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -55,15 +50,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     checkAuth();
   }, []);
 
-  // Login function
   const login = async (email: string, password: string): Promise<void> => {
     setIsLoading(true);
     setError(null);
 
     try {
-      // In a real app, this would be an API call to your authentication server
       if (email === 'user@example.com' && password === 'password') {
-        // Mock successful login
         const mockUser: User = {
           id: '1',
           name: 'Demo User',
@@ -71,7 +63,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           role: 'user',
         };
 
-        // Store user in localStorage
         localStorage.setItem('user', JSON.stringify(mockUser));
         setUser(mockUser);
       } else if (email === 'admin@example.com' && password === 'admin') {
@@ -95,19 +86,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  // Signup function
   const signup = async (name: string, email: string): Promise<void> => {
     setIsLoading(true);
     setError(null);
 
     try {
-      // In a real app, this would be an API call to your registration endpoint
-      // For demo purpose, we'll just simulate a successful registration
       if (email === 'user@example.com') {
         throw new Error('Email already in use');
       }
 
-      // Mock successful registration
       const newUser: User = {
         id: Date.now().toString(),
         name,
@@ -115,7 +102,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         role: 'user',
       };
 
-      // Store user in localStorage
       localStorage.setItem('user', JSON.stringify(newUser));
       setUser(newUser);
     } catch (err) {
@@ -126,18 +112,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  // Logout function
   const logout = () => {
     localStorage.removeItem('user');
     setUser(null);
   };
 
-  // Clear error function
   const clearError = () => {
     setError(null);
   };
 
-  // Auth context value
   const value = {
     user,
     isAuthenticated: !!user,
@@ -152,7 +135,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-// Custom hook to use the auth context
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
 

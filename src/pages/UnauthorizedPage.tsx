@@ -31,7 +31,7 @@ const UnauthorizedPage = () => {
           Access Denied
         </Typography>
         <Typography variant="body1" align="center" paragraph>
-          You don't have permission to access this page. Please contact your administrator if you
+          You do not have permission to access this page. Please contact your administrator if you
           believe this is a mistake.
         </Typography>
         <Box sx={{ mt: 2, display: 'flex', gap: 2 }}>

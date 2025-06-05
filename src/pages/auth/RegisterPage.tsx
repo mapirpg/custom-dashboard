@@ -17,7 +17,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
 
-// Validation schema using Zod
 const registerSchema = z
   .object({
     name: z
@@ -70,9 +69,9 @@ const RegisterPage = () => {
   const onSubmit = async (data: RegisterFormValues) => {
     try {
       await signup(data.name, data.email, data.password);
-      navigate('/'); // Navigate to home page after successful registration
+      navigate('/');
     } catch {
-      // Error is handled in the auth context
+      console.error('Registration error:', error);
     }
   };
 

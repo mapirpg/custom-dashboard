@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useState, useEffect } from 'react';
 
 interface UseLanguageReturn {
-  t: (key: string, options?: any) => string;
+  t: (key: string) => string;
   currentLanguage: string;
   changeLanguage: (lang: string) => Promise<void>;
   languages: { code: string; name: string }[];

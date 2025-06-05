@@ -54,7 +54,7 @@ const DashboardPage = () => {
   const [tabValue, setTabValue] = useState(0);
   const theme = useTheme();
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
 
@@ -153,7 +153,6 @@ const DashboardPage = () => {
       </Grid>
 
       <Grid container spacing={3}>
-        {/* Main Dashboard Content */}
         <Grid>
           <Paper sx={{ mb: 3 }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -164,7 +163,6 @@ const DashboardPage = () => {
               </Tabs>
             </Box>
 
-            {/* Overview Tab */}
             <TabPanel value={tabValue} index={0}>
               <Box sx={{ p: 2 }}>
                 <Typography variant="h6" gutterBottom>
@@ -202,7 +200,6 @@ const DashboardPage = () => {
               </Box>
             </TabPanel>
 
-            {/* Activities Tab */}
             <TabPanel value={tabValue} index={1}>
               <List>
                 {activities.map((activity, index) => (
@@ -233,7 +230,6 @@ const DashboardPage = () => {
               </List>
             </TabPanel>
 
-            {/* Projects Tab */}
             <TabPanel value={tabValue} index={2}>
               <Grid container spacing={2}>
                 {projects.map(project => (
@@ -285,8 +281,7 @@ const DashboardPage = () => {
           </Paper>
         </Grid>
 
-        {/* Sidebar */}
-        <Grid md={4}>
+        <Grid>
           <Paper sx={{ p: 2, mb: 3 }}>
             <Typography variant="h6" gutterBottom>
               Recent Activities

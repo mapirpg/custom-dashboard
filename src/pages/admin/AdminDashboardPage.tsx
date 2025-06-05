@@ -63,7 +63,6 @@ const TabPanel = (props: TabPanelProps) => {
   );
 };
 
-// Mock data
 const createUser = (
   id: number,
   name: string,
@@ -106,11 +105,11 @@ const AdminDashboardPage = () => {
   const [dialogMode, setDialogMode] = useState<'add' | 'edit'>('add');
   const theme = useTheme();
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
@@ -161,7 +160,6 @@ const AdminDashboardPage = () => {
     setSelectedUser({ ...selectedUser, [field]: value });
   };
 
-  // Admin dashboard statistics
   const stats = [
     {
       title: 'Total Users',
@@ -195,10 +193,9 @@ const AdminDashboardPage = () => {
         Admin Dashboard
       </Typography>
 
-      {/* Statistics Cards */}
       <Grid container spacing={3} sx={{ mb: 3 }}>
         {stats.map((stat, index) => (
-          <Grid xs={6} sm={6} md={3} key={index}>
+          <Grid key={index}>
             <Card sx={{ height: '100%', borderLeft: `4px solid ${stat.color}` }}>
               <CardContent>
                 <Box
@@ -244,7 +241,6 @@ const AdminDashboardPage = () => {
           </Tabs>
         </AppBar>
 
-        {/* Users Tab */}
         <TabPanel value={tabValue} index={0}>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
             <Button
@@ -319,7 +315,6 @@ const AdminDashboardPage = () => {
           />
         </TabPanel>
 
-        {/* Settings Tab */}
         <TabPanel value={tabValue} index={1}>
           <Typography variant="h6" gutterBottom>
             System Settings
@@ -330,11 +325,10 @@ const AdminDashboardPage = () => {
               behavior and security preferences.
             </Typography>
 
-            {/* Placeholder for settings content */}
             <Box sx={{ mt: 2 }}>
               <Grid container spacing={3}>
                 {['Security', 'Appearance', 'Notifications', 'Integration'].map(setting => (
-                  <Grid md={3} key={setting}>
+                  <Grid key={setting}>
                     <Paper sx={{ p: 2, textAlign: 'center' }} variant="outlined">
                       <Typography variant="subtitle1">{setting} Settings</Typography>
                     </Paper>
@@ -345,7 +339,6 @@ const AdminDashboardPage = () => {
           </Paper>
         </TabPanel>
 
-        {/* Logs Tab */}
         <TabPanel value={tabValue} index={2}>
           <Typography variant="h6" gutterBottom>
             System Logs
@@ -355,7 +348,6 @@ const AdminDashboardPage = () => {
               Viewing system logs and activity history.
             </Typography>
 
-            {/* Placeholder for logs content */}
             <TableContainer>
               <Table size="small">
                 <TableHead>
@@ -407,7 +399,6 @@ const AdminDashboardPage = () => {
         </TabPanel>
       </Paper>
 
-      {/* Add/Edit User Dialog */}
       <Dialog open={isDialogOpen} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
         <DialogTitle>{dialogMode === 'add' ? 'Add New User' : 'Edit User'}</DialogTitle>
         <DialogContent>

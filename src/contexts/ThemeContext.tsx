@@ -14,16 +14,13 @@ type ThemeProviderProps = {
 };
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
-  // Check if user has theme preference stored in localStorage
   const [mode, setMode] = useState<PaletteMode>(() => {
     const storedMode = localStorage.getItem('themeMode');
 
-    // Use user preference or system preference or default to 'light'
     if (storedMode === 'dark' || storedMode === 'light') {
       return storedMode;
     }
 
-    // Check system preference
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       return 'dark';
     }
@@ -31,7 +28,6 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
     return 'light'; // default
   });
 
-  // Toggle theme mode
   const toggleMode = () => {
     setMode(prevMode => {
       const newMode = prevMode === 'light' ? 'dark' : 'light';
@@ -40,7 +36,6 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
     });
   };
 
-  // Update theme when system preference changes
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = (e: MediaQueryListEvent) => {
@@ -49,7 +44,6 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
       }
     };
 
-    // Add listener for system preference changes
     if (mediaQuery.addEventListener) {
       mediaQuery.addEventListener('change', handleChange);
     }

@@ -108,7 +108,7 @@ const UserSettingsPage = () => {
 
         <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={3}>
-            <Grid item xs={12}>
+            <Grid>
               <Controller
                 name="name"
                 control={control}
@@ -124,7 +124,7 @@ const UserSettingsPage = () => {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid>
               <Controller
                 name="email"
                 control={control}
@@ -140,7 +140,7 @@ const UserSettingsPage = () => {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid>
               <Controller
                 name="language"
                 control={control}
@@ -163,7 +163,7 @@ const UserSettingsPage = () => {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid>
               <Controller
                 name="timezone"
                 control={control}
@@ -186,7 +186,7 @@ const UserSettingsPage = () => {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid>
               <Controller
                 name="notificationsEnabled"
                 control={control}
@@ -199,7 +199,7 @@ const UserSettingsPage = () => {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid>
               <Divider sx={{ my: 2 }} />
               <FormControlLabel
                 control={<Switch checked={mode === 'dark'} onChange={toggleMode} />}
@@ -207,7 +207,7 @@ const UserSettingsPage = () => {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid>
               <Button
                 type="submit"
                 variant="contained"

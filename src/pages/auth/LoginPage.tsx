@@ -17,13 +17,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
 
-// Validation schema using Zod
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
   password: z.string(),
 });
 
-// Infer type from the schema
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 const LoginPage = () => {
@@ -47,9 +45,8 @@ const LoginPage = () => {
   const onSubmit = async (data: LoginFormValues) => {
     try {
       await login(data.email, data.password);
-      navigate('/'); // Navigate to home page after successful login
+      navigate('/');
     } catch (err) {
-      // Error is handled in the auth context
       console.error('Login error:', err);
     }
   };

@@ -1,6 +1,5 @@
 import { createTheme, PaletteMode } from '@mui/material';
 
-// Define custom color values
 const customColors = {
   primary: {
     main: '#1976d2',
@@ -49,14 +48,12 @@ const customColors = {
   },
 };
 
-// Create theme based on mode (light or dark)
 export const createAppTheme = (mode: PaletteMode) => {
   return createTheme({
     palette: {
       mode,
       ...(mode === 'light'
         ? {
-            // Light mode colors
             primary: customColors.primary,
             secondary: customColors.secondary,
             error: customColors.error,
@@ -67,7 +64,6 @@ export const createAppTheme = (mode: PaletteMode) => {
             background: customColors.background,
           }
         : {
-            // Dark mode colors
             primary: {
               main: '#90caf9',
               light: '#bbdefb',

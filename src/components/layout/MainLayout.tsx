@@ -34,10 +34,8 @@ import { useTheme as useAppTheme } from '../../contexts/ThemeContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-// Constants
 const DRAWER_WIDTH = 240;
 
-// Styled components
 const StyledAppBar = styled(AppBar, {
   shouldForwardProp: prop => prop !== 'open',
 })<{
@@ -84,14 +82,12 @@ const MainLayout = () => {
     navigate('/auth/login');
   };
 
-  // Navigation items
   const navItems = [
     { text: t('navigation.home'), icon: <HomeIcon />, path: '/' },
     { text: t('navigation.dashboard'), icon: <DashboardIcon />, path: '/dashboard' },
     { text: t('navigation.settings'), icon: <SettingsIcon />, path: '/settings' },
   ];
 
-  // Admin navigation items
   const adminNavItems = [
     ...(user?.role === 'admin'
       ? [{ text: t('navigation.admin'), icon: <DashboardIcon />, path: '/admin' }]
@@ -197,7 +193,7 @@ const MainLayout = () => {
         open={drawerOpen}
         onClose={handleDrawerToggle}
         ModalProps={{
-          keepMounted: true, // Better performance on mobile
+          keepMounted: true,
         }}
         sx={{
           width: DRAWER_WIDTH,
@@ -220,8 +216,8 @@ const MainLayout = () => {
           backgroundColor: theme.palette.background.default,
         }}
       >
-        <Toolbar /> {/* this provides spacing from appbar */}
-        <Container maxWidth="lg">
+        <Toolbar />
+        <Container maxWidth="xl">
           <Outlet />
         </Container>
       </Box>

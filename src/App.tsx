@@ -14,7 +14,6 @@ import UnauthorizedPage from './pages/UnauthorizedPage';
 import { useAuth } from './contexts/AuthContext';
 import ErrorBoundary from './components/ErrorBoundary';
 
-// Lazy-loaded components
 const AdminDashboardPage = lazy(() => import('./pages/admin/AdminDashboardPage'));
 
 function App() {
@@ -23,7 +22,6 @@ function App() {
   return (
     <ErrorBoundary>
       <Routes>
-        {/* Auth Routes */}
         <Route path="/auth" element={<AuthLayout />}>
           <Route
             path="login"
@@ -36,13 +34,11 @@ function App() {
           <Route path="*" element={<Navigate to="/auth/login" replace />} />
         </Route>
 
-        {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
           <Route element={<MainLayout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
 
-            {/* Admin Routes */}
             <Route
               path="/admin"
               element={<ProtectedRoute allowedRoles={['admin']} redirectPath="/unauthorized" />}
@@ -57,12 +53,10 @@ function App() {
               />
             </Route>
 
-            {/* User Settings */}
             <Route path="/settings" element={<UserSettingsPage />} />
           </Route>
         </Route>
 
-        {/* Public Routes */}
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

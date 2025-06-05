@@ -25,7 +25,6 @@ const HomePage = () => {
   const { user } = useAuth();
   const theme = useTheme();
 
-  // Example state for favorite buttons
   const [favorites, setFavorites] = useState<Record<number, boolean>>({
     1: false,
     2: false,
@@ -112,7 +111,7 @@ const HomePage = () => {
         <Divider sx={{ mb: 3 }} />
         <Grid container spacing={3}>
           {cards.map(card => (
-            <Grid md={4} key={card.id}>
+            <Grid key={card.id}>
               <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <CardHeader
                   avatar={

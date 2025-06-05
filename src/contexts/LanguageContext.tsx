@@ -40,7 +40,6 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     localStorage.setItem('i18nextLng', lang);
   };
 
-  // Initialize with saved language from localStorage
   useEffect(() => {
     const savedLanguage = localStorage.getItem('i18nextLng');
 
