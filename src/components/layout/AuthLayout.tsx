@@ -1,15 +1,12 @@
 import { Outlet } from 'react-router-dom';
-import { Box, Container, Paper, Typography, useTheme, IconButton } from '@mui/material';
-import {
-  Brightness4 as Brightness4Icon,
-  Brightness7 as Brightness7Icon,
-} from '@mui/icons-material';
-import { useTheme as useAppTheme } from '../../contexts/ThemeContext';
+import { Box, Container, Paper, Typography, useTheme } from '@mui/material';
+
 import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from '../LanguageSwitcher';
+import ThemeModeSwitcher from '../ThemeModeSwitcher';
 
 const AuthLayout = () => {
   const theme = useTheme();
-  const { mode, toggleMode } = useAppTheme();
   const { t } = useTranslation();
 
   return (
@@ -31,9 +28,9 @@ const AuthLayout = () => {
             right: 16,
           }}
         >
-          <IconButton onClick={toggleMode} color="inherit" aria-label={t('settings.darkMode')}>
-            {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-          </IconButton>
+          <ThemeModeSwitcher />
+
+          <LanguageSwitcher />
         </Box>
 
         <Paper
@@ -53,7 +50,8 @@ const AuthLayout = () => {
 
         <Box sx={{ mt: 3, textAlign: 'center' }}>
           <Typography variant="body2" color="text.secondary">
-            &copy; {new Date().getFullYear()} React Application. All rights reserved.
+            &copy;
+            {` ${new Date().getFullYear()} ${t('common.brandName')}. ${t('common.allRightsReserved')} `}
           </Typography>
         </Box>
       </Container>

@@ -13,11 +13,14 @@ import NotFoundPage from './pages/NotFoundPage';
 import UnauthorizedPage from './pages/UnauthorizedPage';
 import { useAuth } from './contexts/AuthContext';
 import ErrorBoundary from './components/ErrorBoundary';
+import { useTranslation } from 'react-i18next';
 
 const AdminDashboardPage = lazy(() => import('./pages/admin/AdminDashboardPage'));
 
 function App() {
+  const { t } = useTranslation();
   const { isAuthenticated } = useAuth();
+  document.title = t('common.brandName');
 
   return (
     <ErrorBoundary>

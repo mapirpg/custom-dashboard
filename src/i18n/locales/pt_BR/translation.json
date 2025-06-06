@@ -1,10 +1,12 @@
 {
   "common": {
+    "brandName": "Meu App",
     "save": "Salvar",
     "cancel": "Cancelar",
     "loading": "Carregando...",
     "error": "Erro",
-    "success": "Sucesso"
+    "success": "Sucesso",
+    "allRightsReserved": "Todos os direitos reservados"
   },
   "auth": {
     "login": "Entrar",
