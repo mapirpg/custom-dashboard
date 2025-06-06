@@ -7,11 +7,11 @@ type ThemeContextType = {
   toggleMode: () => void;
 };
 
-const ThemeContext = createContext<ThemeContextType | null>(null);
-
 type ThemeProviderProps = {
   children: ReactNode | ((props: ThemeContextType) => ReactNode);
 };
+
+const ThemeContext = createContext<ThemeContextType | null>(null);
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const [mode, setMode] = useState<PaletteMode>(() => {

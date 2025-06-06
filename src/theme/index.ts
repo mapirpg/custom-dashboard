@@ -145,6 +145,13 @@ export const createAppTheme = (mode: PaletteMode) => {
             borderRadius: 4,
             textTransform: 'none',
             padding: '8px 16px',
+            '&:focus': {
+              outline: 'none',
+              boxShadow: 'none',
+            },
+            '&.Mui-focusVisible': {
+              boxShadow: '0 0 0 0.2rem rgba(25, 118, 210, 0.25)',
+            },
           },
           contained: {
             boxShadow: 'none',
@@ -154,10 +161,59 @@ export const createAppTheme = (mode: PaletteMode) => {
           },
         },
       },
+      MuiIconButton: {
+        styleOverrides: {
+          root: {
+            height: '50px',
+            padding: '0px 14px',
+            '&:focus': {
+              outline: 'none',
+              boxShadow: 'none',
+            },
+            '&.Mui-focusVisible': {
+              boxShadow: '0 0 0 0.2rem rgba(25, 118, 210, 0.25)',
+            },
+          },
+        },
+      },
       MuiTextField: {
         styleOverrides: {
           root: {
             marginBottom: 16,
+            '& .MuiInputBase-root': {
+              borderRadius: 8,
+            },
+            // Override browser autocomplete styles
+            '& input:-webkit-autofill': {
+              WebkitBoxShadow: '0 0 0 30px #d9e0ea inset !important',
+              WebkitTextFillColor: mode === 'light' ? '#333333' : '#000000',
+            },
+            '& input:-webkit-autofill:hover': {
+              WebkitBoxShadow: '0 0 0 30px #d9e0ea inset !important',
+            },
+            '& input:-webkit-autofill:focus': {
+              WebkitBoxShadow: '0 0 0 30px #d9e0ea inset !important',
+            },
+          },
+        },
+      },
+      MuiInputBase: {
+        styleOverrides: {
+          root: {
+            backgroundColor: mode === 'light' ? '#f3f5f8' : '#eee',
+          },
+        },
+      },
+      MuiOutlinedInput: {
+        styleOverrides: {
+          root: {
+            backgroundColor: mode === 'light' ? '#f3f5f8' : '#eee',
+            '&:hover': {
+              backgroundColor: mode === 'light' ? '#e9ecf2' : '#eee',
+            },
+            '&.Mui-focused': {
+              backgroundColor: mode === 'light' ? '#f8fafc' : '#eee',
+            },
           },
         },
       },

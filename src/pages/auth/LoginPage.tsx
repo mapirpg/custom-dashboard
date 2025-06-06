@@ -1,41 +1,26 @@
-import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import {
-  TextField,
-  Button,
-  Link,
-  Box,
-  Typography,
-  Alert,
-  InputAdornment,
-  IconButton,
-} from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { useForm, Controller } from 'react-hook-form';
+import { Button, Link, Box, Typography, Alert } from '@mui/material';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '@contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
-
-const loginSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string(),
-});
-
-type LoginFormValues = z.infer<typeof loginSchema>;
+import FormInput from '@/components/FormInput';
 
 const LoginPage = () => {
-  const [showPassword, setShowPassword] = useState(false);
   const { login, error, clearError, isLoading } = useAuth();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
+  const schema = z.object({
+    email: z.string().email(t('errors.invalidEmail')),
+    password: z.string(),
+  });
+
+  type LoginFormValues = z.infer<typeof schema>;
+
+  const { control, handleSubmit } = useForm<LoginFormValues>({
+    resolver: zodResolver(schema),
     defaultValues: {
       email: '',
       password: '',
@@ -51,10 +36,6 @@ const LoginPage = () => {
     }
   };
 
-  const handleTogglePasswordVisibility = () => {
-    setShowPassword(prev => !prev);
-  };
-
   return (
     <Box sx={{ width: '100%', mt: 2 }}>
       {error && (
@@ -68,59 +49,8 @@ const LoginPage = () => {
       </Typography>
 
       <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
-        <Controller
-          name="email"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label={t('auth.email')}
-              autoComplete="email"
-              autoFocus
-              disabled={isLoading}
-              error={!!errors.email}
-              helperText={errors.email?.message}
-            />
-          )}
-        />
-        <Controller
-          name="password"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="password"
-              label={t('auth.password')}
-              type={showPassword ? 'text' : 'password'}
-              autoComplete="current-password"
-              disabled={isLoading}
-              error={!!errors.password}
-              helperText={errors.password?.message}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleTogglePasswordVisibility}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          )}
-        />
+        <FormInput control={control} name="email" />
+        <FormInput control={control} name="password" inputType="password" />
         <Button
           type="submit"
           fullWidth

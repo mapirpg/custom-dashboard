@@ -6,7 +6,8 @@
     "loading": "Loading...",
     "error": "Error",
     "success": "Success",
-    "allRightsReserved": "All rights reserved"
+    "allRightsReserved": "All rights reserved",
+    "language": "Language"
   },
   "auth": {
     "login": "Login",
@@ -59,6 +60,7 @@
     "PST": "Pacific Standard Time (PST)"
   },
   "errors": {
+    "invalidEmail": "Invalid email address",
     "nameRequired": "Name must be at least 2 characters",
     "emailRequired": "Please enter a valid email address",
     "passwordRequired": "Password is required",

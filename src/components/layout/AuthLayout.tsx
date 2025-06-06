@@ -24,8 +24,11 @@ const AuthLayout = () => {
         <Box
           sx={{
             position: 'absolute',
+            gap: 2,
             top: 16,
             right: 16,
+            display: 'flex',
+            alignItems: 'flex-end',
           }}
         >
           <ThemeModeSwitcher />

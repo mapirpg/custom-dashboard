@@ -6,7 +6,8 @@
     "loading": "Carregando...",
     "error": "Erro",
     "success": "Sucesso",
-    "allRightsReserved": "Todos os direitos reservados"
+    "allRightsReserved": "Todos os direitos reservados",
+    "language": "Idioma"
   },
   "auth": {
     "login": "Entrar",
@@ -59,6 +60,7 @@
     "PST": "Horário Padrão do Pacífico (PST)"
   },
   "errors": {
+    "invalidEmail": "Endereço de email inválido",
     "nameRequired": "O nome deve ter pelo menos 2 caracteres",
     "emailRequired": "Por favor, insira um endereço de email válido",
     "passwordRequired": "A senha é obrigatória",
