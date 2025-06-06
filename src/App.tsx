@@ -1,21 +1,21 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import './App.css';
-import MainLayout from './components/layout/MainLayout';
-import AuthLayout from './components/layout/AuthLayout';
-import ProtectedRoute from './components/ProtectedRoute';
-import LoginPage from './pages/auth/LoginPage';
-import RegisterPage from './pages/auth/RegisterPage';
-import HomePage from './pages/HomePage';
-import DashboardPage from './pages/DashboardPage';
-import UserSettingsPage from './pages/UserSettingsPage';
-import NotFoundPage from './pages/NotFoundPage';
-import UnauthorizedPage from './pages/UnauthorizedPage';
-import { useAuth } from './contexts/AuthContext';
-import ErrorBoundary from './components/ErrorBoundary';
+import MainLayout from '@components/layout/MainLayout';
+import AuthLayout from '@components/layout/AuthLayout';
+import ProtectedRoute from '@components/ProtectedRoute';
+import LoginPage from '@pages/auth/LoginPage';
+import RegisterPage from '@pages/auth/RegisterPage';
+import HomePage from '@pages/HomePage';
+import DashboardPage from '@pages/DashboardPage';
+import UserSettingsPage from '@pages/UserSettingsPage';
+import NotFoundPage from '@pages/NotFoundPage';
+import UnauthorizedPage from '@pages/UnauthorizedPage';
+import { useAuth } from '@contexts/AuthContext';
+import ErrorBoundary from '@components/ErrorBoundary';
 import { useTranslation } from 'react-i18next';
 
-const AdminDashboardPage = lazy(() => import('./pages/admin/AdminDashboardPage'));
+const AdminDashboardPage = lazy(() => import('@pages/admin/AdminDashboardPage'));
 
 function App() {
   const { t } = useTranslation();

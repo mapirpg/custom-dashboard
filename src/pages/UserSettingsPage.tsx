@@ -19,10 +19,10 @@ import {
   CircularProgress,
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
-import { useTheme } from '../contexts/ThemeContext';
-import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '@contexts/ThemeContext';
+import { useAuth } from '@contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
-import { useLanguageContext } from '../contexts/LanguageContext';
+import { useLanguageContext } from '@contexts/LanguageContext';
 
 // Form validation schema
 const userSettingsSchema = z.object({

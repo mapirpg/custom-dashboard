@@ -19,7 +19,7 @@ import {
   Favorite as FavoriteIcon,
   MoreVert as MoreVertIcon,
 } from '@mui/icons-material';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '@contexts/AuthContext';
 
 const HomePage = () => {
   const { user } = useAuth();

@@ -2,8 +2,8 @@ import { Outlet } from 'react-router-dom';
 import { Box, Container, Paper, Typography, useTheme } from '@mui/material';
 
 import { useTranslation } from 'react-i18next';
-import LanguageSwitcher from '../LanguageSwitcher';
-import ThemeModeSwitcher from '../ThemeModeSwitcher';
+import LanguageSwitcher from '@components/LanguageSwitcher';
+import ThemeModeSwitcher from '@components/ThemeModeSwitcher';
 
 const AuthLayout = () => {
   const theme = useTheme();

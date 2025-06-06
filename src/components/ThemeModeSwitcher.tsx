@@ -2,7 +2,7 @@ import {
   Brightness4 as Brightness4Icon,
   Brightness7 as Brightness7Icon,
 } from '@mui/icons-material';
-import { useTheme as useAppTheme } from '../contexts/ThemeContext';
+import { useTheme as useAppTheme } from '@contexts/ThemeContext';
 
 const ThemeModeSwitcher = () => {
   const { mode, toggleMode } = useAppTheme();

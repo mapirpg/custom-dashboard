@@ -15,6 +15,22 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
+    /* Path aliases */
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"],
+      "@components/*": ["components/*"],
+      "@contexts/*": ["contexts/*"],
+      "@hooks/*": ["hooks/*"],
+      "@pages/*": ["pages/*"],
+      "@services/*": ["services/*"],
+      "@utils/*": ["utils/*"],
+      "@i18n/*": ["i18n/*"],
+      "@theme/*": ["theme/*"],
+      "@assets/*": ["assets/*"],
+      "@types/*": ["types/*"]
+    },
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,

@@ -39,6 +39,8 @@ module.exports = {
     'no-unused-vars': 'off', // Using @typescript-eslint/no-unused-vars instead
     '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
     'unused-imports/no-unused-imports': 'warn',
+    'linebreak-style': ['error', 'unix'], // Enforce LF line endings
+    'prettier/prettier': ['error', { endOfLine: 'lf' }], // Ensure prettier uses LF
   },
   ignorePatterns: ['dist', 'node_modules', 'vite.config.ts', 'eslint.config.js'],
 };

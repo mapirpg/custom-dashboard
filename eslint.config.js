@@ -83,6 +83,9 @@ export default [
       'no-useless-constructor': 'off',
       camelcase: 'off',
 
+      // Cross-platform compatibility
+      'linebreak-style': ['error', 'unix'],
+
       // Import rules
       'import/prefer-default-export': 'off',
       'import/no-cycle': 'off',

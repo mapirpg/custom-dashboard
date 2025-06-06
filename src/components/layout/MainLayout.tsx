@@ -29,8 +29,8 @@ import {
   ExitToApp as LogoutIcon,
 } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
-import { useAuth } from '../../contexts/AuthContext';
-import { useTheme as useAppTheme } from '../../contexts/ThemeContext';
+import { useAuth } from '@contexts/AuthContext';
+import { useTheme as useAppTheme } from '@contexts/ThemeContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 

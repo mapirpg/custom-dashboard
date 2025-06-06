@@ -10,16 +10,17 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,scss,json}\"",
     "format:check": "prettier --check \"src/**/*.{js,jsx,ts,tsx,css,scss,json}\"",
+    "normalize-line-endings": "prettier --write \"**/*.{js,jsx,ts,tsx,css,scss,json,md}\" --end-of-line lf",
     "preview": "vite preview",
     "prepare": "husky"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "eslint --fix",
-      "prettier --write"
+      "prettier --write --end-of-line lf"
     ],
     "*.{json,css,scss,md}": [
-      "prettier --write"
+      "prettier --write --end-of-line lf"
     ]
   },
   "dependencies": {

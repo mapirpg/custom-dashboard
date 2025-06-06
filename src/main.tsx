@@ -5,11 +5,11 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { CssBaseline, ThemeProvider as MuiThemeProvider } from '@mui/material';
 import './index.css';
 import App from './App.tsx';
-import { ThemeProvider } from './contexts/ThemeContext';
-import { AuthProvider } from './contexts/AuthContext';
-import { LanguageProvider } from './contexts/LanguageContext';
+import { ThemeProvider } from '@contexts/ThemeContext';
+import { AuthProvider } from '@contexts/AuthContext';
+import { LanguageProvider } from '@contexts/LanguageContext';
 import createAppTheme from './theme';
-import './i18n/i18n';
+import '@i18n/i18n';
 
 const queryClient = new QueryClient({
   defaultOptions: {
