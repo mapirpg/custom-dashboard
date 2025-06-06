@@ -29,8 +29,9 @@ import {
   ExitToApp as LogoutIcon,
 } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
-import { useAuth } from '@contexts/AuthContext';
-import { useTheme as useAppTheme } from '@contexts/ThemeContext';
+import { useAuth, useThemeMode, useAppDispatch } from '@hooks/useRedux';
+import { toggleMode } from '@store/themeSlice';
+import { logout } from '@store/authSlice';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -59,8 +60,9 @@ const StyledAppBar = styled(AppBar, {
 const MainLayout = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const theme = useTheme();
-  const { mode, toggleMode } = useAppTheme();
-  const { user, logout } = useAuth();
+  const { mode } = useThemeMode();
+  const { user } = useAuth();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -78,8 +80,12 @@ const MainLayout = () => {
   };
 
   const handleLogout = () => {
-    logout();
+    dispatch(logout());
     navigate('/auth/login');
+  };
+
+  const handleToggleMode = () => {
+    dispatch(toggleMode());
   };
 
   const navItems = [
@@ -140,7 +146,7 @@ const MainLayout = () => {
       )}
       <List>
         <ListItem disablePadding>
-          <ListItemButton onClick={toggleMode}>
+          <ListItemButton onClick={handleToggleMode}>
             <ListItemIcon>
               {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
             </ListItemIcon>
@@ -183,7 +189,7 @@ const MainLayout = () => {
           >
             React Application
           </Typography>
-          <IconButton color="inherit" onClick={toggleMode}>
+          <IconButton color="inherit" onClick={handleToggleMode}>
             {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
           </IconButton>
         </Toolbar>

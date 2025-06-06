@@ -19,12 +19,11 @@ import {
   CircularProgress,
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
-import { useTheme } from '@contexts/ThemeContext';
-import { useAuth } from '@contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
-import { useLanguageContext } from '@contexts/LanguageContext';
+import { useAuth, useThemeMode, useLanguage, useAppDispatch } from '@hooks/useRedux';
+import { toggleMode } from '@store/themeSlice';
+import { changeLanguage } from '@store/languageSlice';
 
-// Form validation schema
 const userSettingsSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Please enter a valid email address'),
@@ -37,14 +36,14 @@ type UserSettingsFormValues = z.infer<typeof userSettingsSchema>;
 
 const UserSettingsPage = () => {
   const { user } = useAuth();
-  const { mode, toggleMode } = useTheme();
+  const { mode } = useThemeMode();
   const { t } = useTranslation();
-  const { currentLanguage, changeLanguage, languages } = useLanguageContext();
+  const { currentLanguage, languages } = useLanguage();
+  const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState<boolean | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Default values for the form
   const defaultValues: UserSettingsFormValues = {
     name: user?.name || '',
     email: user?.email || '',
@@ -68,12 +67,10 @@ const UserSettingsPage = () => {
     setErrorMessage(null);
 
     try {
-      // Handle language change
       if (data.language !== currentLanguage) {
         changeLanguage(data.language);
       }
 
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       console.log('Settings updated:', data);
       setSubmitSuccess(true);
@@ -202,7 +199,9 @@ const UserSettingsPage = () => {
             <Grid>
               <Divider sx={{ my: 2 }} />
               <FormControlLabel
-                control={<Switch checked={mode === 'dark'} onChange={toggleMode} />}
+                control={
+                  <Switch checked={mode === 'dark'} onChange={() => dispatch(toggleMode())} />
+                }
                 label={t('settings.darkMode')}
               />
             </Grid>

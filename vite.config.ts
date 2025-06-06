@@ -8,7 +8,6 @@ export default defineConfig({
     alias: {
       '@': resolve(__dirname, './src'),
       '@components': resolve(__dirname, './src/components'),
-      '@contexts': resolve(__dirname, './src/contexts'),
       '@hooks': resolve(__dirname, './src/hooks'),
       '@pages': resolve(__dirname, './src/pages'),
       '@services': resolve(__dirname, './src/services'),
@@ -17,6 +16,7 @@ export default defineConfig({
       '@theme': resolve(__dirname, './src/theme'),
       '@assets': resolve(__dirname, './src/assets'),
       '@types': resolve(__dirname, './src/types'),
+      '@store': resolve(__dirname, './src/store'),
     },
   },
 });

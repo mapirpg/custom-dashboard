@@ -14,7 +14,8 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAuth } from '@contexts/AuthContext';
+import { useAuth, useAppDispatch } from '@hooks/useRedux';
+import { signup, clearError } from '@store/authSlice';
 import { useTranslation } from 'react-i18next';
 
 const registerSchema = z
@@ -35,13 +36,13 @@ const registerSchema = z
     path: ['confirmPassword'],
   });
 
-// Infer type from the schema
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
 const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const { signup, error, clearError, isLoading } = useAuth();
+  const { error, isLoading } = useAuth();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -68,17 +69,20 @@ const RegisterPage = () => {
   };
   const onSubmit = async (data: RegisterFormValues) => {
     try {
-      await signup(data.name, data.email, data.password);
-      navigate('/');
-    } catch {
-      console.error('Registration error:', error);
+      const resultAction = await dispatch(signup({ name: data.name, email: data.email }));
+
+      if (signup.fulfilled.match(resultAction)) {
+        navigate('/');
+      }
+    } catch (err) {
+      console.error('Registration error:', err);
     }
   };
 
   return (
     <Box sx={{ width: '100%', mt: 2 }}>
       {error && (
-        <Alert severity="error" onClose={clearError} sx={{ mb: 2 }}>
+        <Alert severity="error" onClose={() => dispatch(clearError())} sx={{ mb: 2 }}>
           {error}
         </Alert>
       )}

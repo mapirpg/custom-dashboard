@@ -58,7 +58,6 @@ const DashboardPage = () => {
     setTabValue(newValue);
   };
 
-  // Mock data for the dashboard
   const stats = [
     {
       id: 1,

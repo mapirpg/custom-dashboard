@@ -1,12 +1,18 @@
 import { LightMode, DarkMode } from '@mui/icons-material';
-import { useTheme as useAppTheme } from '@contexts/ThemeContext';
+import { useThemeMode, useAppDispatch } from '@hooks/useRedux';
+import { toggleMode } from '@store/themeSlice';
 import { IconButton } from '@mui/material';
 
 const ThemeModeSwitcher = () => {
-  const { mode, toggleMode } = useAppTheme();
+  const { mode } = useThemeMode();
+  const dispatch = useAppDispatch();
+
+  const handleToggleMode = () => {
+    dispatch(toggleMode());
+  };
 
   return (
-    <IconButton color="inherit" onClick={toggleMode}>
+    <IconButton color="inherit" onClick={handleToggleMode}>
       {mode === 'dark' ? <LightMode /> : <DarkMode />}
     </IconButton>
   );

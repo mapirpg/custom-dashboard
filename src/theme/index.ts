@@ -183,7 +183,6 @@ export const createAppTheme = (mode: PaletteMode) => {
             '& .MuiInputBase-root': {
               borderRadius: 8,
             },
-            // Override browser autocomplete styles
             '& input:-webkit-autofill': {
               WebkitBoxShadow: '0 0 0 30px #d9e0ea inset !important',
               WebkitTextFillColor: mode === 'light' ? '#333333' : '#000000',

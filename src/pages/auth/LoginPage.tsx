@@ -3,12 +3,14 @@ import { Button, Link, Box, Typography, Alert } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAuth } from '@contexts/AuthContext';
+import { useAuth, useAppDispatch } from '@hooks/useRedux';
+import { login, clearError } from '@store/authSlice';
 import { useTranslation } from 'react-i18next';
 import FormInput from '@/components/FormInput';
 
 const LoginPage = () => {
-  const { login, error, clearError, isLoading } = useAuth();
+  const { error, isLoading } = useAuth();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -29,8 +31,11 @@ const LoginPage = () => {
 
   const onSubmit = async (data: LoginFormValues) => {
     try {
-      await login(data.email, data.password);
-      navigate('/');
+      const resultAction = await dispatch(login({ email: data.email, password: data.password }));
+
+      if (login.fulfilled.match(resultAction)) {
+        navigate('/');
+      }
     } catch (err) {
       console.error('Login error:', err);
     }
@@ -39,7 +44,7 @@ const LoginPage = () => {
   return (
     <Box sx={{ width: '100%', mt: 2 }}>
       {error && (
-        <Alert severity="error" onClose={clearError} sx={{ mb: 2 }}>
+        <Alert severity="error" onClose={() => dispatch(clearError())} sx={{ mb: 2 }}>
           {error}
         </Alert>
       )}
