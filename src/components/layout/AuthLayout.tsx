@@ -32,7 +32,6 @@ const AuthLayout = () => {
           }}
         >
           <ThemeModeSwitcher />
-
           <LanguageSwitcher />
         </Box>
 
@@ -43,11 +42,9 @@ const AuthLayout = () => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            borderRadius: 2,
           }}
         >
-          <Typography component="h1" variant="h4" gutterBottom>
-            {t('auth.login')}
-          </Typography>
           <Outlet />
         </Paper>
 

@@ -4,20 +4,20 @@ import './App.css';
 import MainLayout from '@components/layout/MainLayout';
 import AuthLayout from '@components/layout/AuthLayout';
 import ProtectedRoute from '@components/ProtectedRoute';
-import LoginPage from '@pages/auth/LoginPage';
-import RegisterPage from '@pages/auth/RegisterPage';
-import HomePage from '@pages/HomePage';
-import DashboardPage from '@pages/DashboardPage';
-import UserSettingsPage from '@pages/UserSettingsPage';
-import NotFoundPage from '@pages/NotFoundPage';
-import UnauthorizedPage from '@pages/UnauthorizedPage';
+import LoginPage from '@/pages/public/LoginPage';
+import RegisterPage from '@/pages/public/RegisterPage';
+import HomePage from '@/pages/app/HomePage';
+import DashboardPage from '@/pages/app/DashboardPage';
+import UserSettingsPage from '@/pages/app/UserSettingsPage';
+import NotFoundPage from '@/pages/public/NotFoundPage';
+import UnauthorizedPage from '@/pages/public/UnauthorizedPage';
 import { useAuth } from '@hooks';
 import ErrorBoundary from '@components/ErrorBoundary';
 import { useTranslation } from 'react-i18next';
 import AlertSnackbar from '@components/AlertSnackbar';
 import SuspenseComponents from './components/Suspense';
 
-const AdminDashboardPage = lazy(() => import('@pages/admin/AdminDashboardPage'));
+const AdminDashboardPage = lazy(() => import('@/pages/app/AdminDashboardPage'));
 
 function App() {
   const { t } = useTranslation();

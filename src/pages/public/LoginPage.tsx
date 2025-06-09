@@ -7,6 +7,7 @@ import { useAuth, useAppDispatch } from '@hooks';
 import { login, clearError } from '@store/authSlice';
 import { useTranslation } from 'react-i18next';
 import FormInput from '@components/FormInput';
+import { Logo } from '@components/Logo';
 
 const LoginPage = () => {
   const { error, isLoading } = useAuth();
@@ -43,6 +44,8 @@ const LoginPage = () => {
 
   return (
     <Box sx={{ width: '100%', mt: 2 }}>
+      <Logo />
+
       {error && (
         <Alert severity="error" onClose={() => dispatch(clearError())} sx={{ mb: 2 }}>
           {error}

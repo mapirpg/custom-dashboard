@@ -25,6 +25,7 @@
       "@services/*": ["services/*"],
       "@utils/*": ["utils/*"],
       "@i18n/*": ["i18n/*"],
+      "@theme": ["theme"],
       "@theme/*": ["theme/*"],
       "@assets/*": ["assets/*"],
       "@types/*": ["types/*"],

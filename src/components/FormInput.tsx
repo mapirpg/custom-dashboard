@@ -1,15 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 import React from 'react';
-import {
-  BaseTextFieldProps,
-  IconButton,
-  InputAdornment,
-  InputProps,
-  SlotProps,
-  TextField,
-  TextFieldProps,
-  Box,
-} from '@mui/material';
+import { IconButton, InputAdornment, TextField, TextFieldProps, Box } from '@mui/material';
 import { Control, Controller, FieldValues, Path } from 'react-hook-form';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
@@ -18,11 +9,14 @@ type FormInputType = 'text' | 'password' | 'email';
 
 type DefaultProps = Record<
   FormInputType,
-  | SlotProps<
-      React.ElementType<InputProps, keyof React.JSX.IntrinsicElements>,
-      {},
-      BaseTextFieldProps
-    >
+  | {
+      type?: string;
+      slotProps?: {
+        input?: {
+          endAdornment?: React.ReactNode;
+        };
+      };
+    }
   | undefined
 >;
 
@@ -47,17 +41,22 @@ function FormInput<T extends FieldValues>({
 
   const defaultProps: DefaultProps = {
     password: {
-      endAdornment: (
-        <InputAdornment position="end">
-          <IconButton
-            aria-label="toggle password visibility"
-            onClick={handleTogglePasswordVisibility}
-            edge="end"
-          >
-            {showPassword ? <VisibilityOff /> : <Visibility />}
-          </IconButton>
-        </InputAdornment>
-      ),
+      type: showPassword ? 'text' : 'password',
+      slotProps: {
+        input: {
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleTogglePasswordVisibility}
+                edge="end"
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        },
+      },
     },
     email: undefined,
     text: undefined,
@@ -70,6 +69,7 @@ function FormInput<T extends FieldValues>({
         name={name}
         render={({ field, fieldState }) => (
           <TextField
+            {...defaultProps[inputType || 'text']}
             {...field}
             {...inputProps}
             label={inputProps?.label || t(name)}
@@ -77,12 +77,8 @@ function FormInput<T extends FieldValues>({
             helperText={fieldState.error ? fieldState.error.message : ' '}
             variant="outlined"
             fullWidth
-            type={showPassword ? 'text' : 'password'}
             autoComplete="current-password"
             disabled={isLoading}
-            slotProps={{
-              input: defaultProps[inputType || 'text'],
-            }}
           />
         )}
       />
