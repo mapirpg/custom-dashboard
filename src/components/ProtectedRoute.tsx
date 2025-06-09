@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '@hooks/useRedux';
+import { useAuth } from '@hooks';
 
 interface ProtectedRouteProps {
   allowedRoles?: ('user' | 'admin')[];

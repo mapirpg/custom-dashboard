@@ -20,7 +20,7 @@ import {
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import { useTranslation } from 'react-i18next';
-import { useAuth, useThemeMode, useLanguage, useAppDispatch } from '@hooks/useRedux';
+import { useAuth, useThemeMode, useLanguage, useAppDispatch } from '@hooks';
 import { toggleMode } from '@store/themeSlice';
 import { changeLanguage } from '@store/languageSlice';
 

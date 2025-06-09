@@ -8,9 +8,11 @@ import {
   SlotProps,
   TextField,
   TextFieldProps,
+  Box,
 } from '@mui/material';
 import { Control, Controller, FieldValues, Path } from 'react-hook-form';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useTranslation } from 'react-i18next';
 
 type FormInputType = 'text' | 'password' | 'email';
 
@@ -41,6 +43,7 @@ function FormInput<T extends FieldValues>({
 }: FormInputProps<T>) {
   const [showPassword, setShowPassword] = React.useState(false);
   const handleTogglePasswordVisibility = () => setShowPassword(prev => !prev);
+  const { t } = useTranslation();
 
   const defaultProps: DefaultProps = {
     password: {
@@ -61,26 +64,29 @@ function FormInput<T extends FieldValues>({
   };
 
   return (
-    <Controller
-      control={control}
-      name={name}
-      render={({ field, fieldState }) => (
-        <TextField
-          {...field}
-          {...inputProps}
-          error={!!fieldState.error}
-          helperText={fieldState.error ? fieldState.error.message : ''}
-          variant="outlined"
-          fullWidth
-          type={showPassword ? 'text' : 'password'}
-          autoComplete="current-password"
-          disabled={isLoading}
-          slotProps={{
-            input: defaultProps[inputType || 'text'],
-          }}
-        />
-      )}
-    />
+    <Box sx={{ minHeight: '80px' }}>
+      <Controller
+        control={control}
+        name={name}
+        render={({ field, fieldState }) => (
+          <TextField
+            {...field}
+            {...inputProps}
+            label={inputProps?.label || t(name)}
+            error={!!fieldState.error}
+            helperText={fieldState.error ? fieldState.error.message : ' '}
+            variant="outlined"
+            fullWidth
+            type={showPassword ? 'text' : 'password'}
+            autoComplete="current-password"
+            disabled={isLoading}
+            slotProps={{
+              input: defaultProps[inputType || 'text'],
+            }}
+          />
+        )}
+      />
+    </Box>
   );
 }
 

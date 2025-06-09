@@ -3,10 +3,10 @@ import { Button, Link, Box, Typography, Alert } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAuth, useAppDispatch } from '@hooks/useRedux';
+import { useAuth, useAppDispatch } from '@hooks';
 import { login, clearError } from '@store/authSlice';
 import { useTranslation } from 'react-i18next';
-import FormInput from '@/components/FormInput';
+import FormInput from '@components/FormInput';
 
 const LoginPage = () => {
   const { error, isLoading } = useAuth();

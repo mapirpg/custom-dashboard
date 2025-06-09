@@ -14,7 +14,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAuth, useAppDispatch } from '@hooks/useRedux';
+import { useAuth, useAppDispatch } from '@hooks';
 import { signup, clearError } from '@store/authSlice';
 import { useTranslation } from 'react-i18next';
 

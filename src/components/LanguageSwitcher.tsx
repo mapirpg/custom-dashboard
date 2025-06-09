@@ -1,14 +1,21 @@
 import { FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useLanguage, useAppDispatch } from '@hooks/useRedux';
-import { changeLanguage } from '@store/languageSlice';
+import { useLanguage, useDialog } from '@hooks/useRedux';
 
 const LanguageSwitcher = () => {
   const { t } = useTranslation();
   const { languages, currentLanguage } = useLanguage();
-  const dispatch = useAppDispatch();
-
+  const { openDialog } = useDialog();
   const selectedLanguage = languages.find(lang => lang.code === currentLanguage);
+
+  const handleChangeLanguage = (lang: string) => {
+    openDialog({
+      content: '',
+      title: t('common.changeLanguageConfirmation'),
+      actionType: 'CHANGE_LANGUAGE',
+      actionPayload: { lang },
+    });
+  };
 
   return (
     <FormControl>
@@ -18,7 +25,7 @@ const LanguageSwitcher = () => {
         id="demo-simple-select"
         value={currentLanguage}
         label={t('common.language')}
-        onChange={e => dispatch(changeLanguage(e.target.value as string))}
+        onChange={e => handleChangeLanguage(e.target.value)}
         variant="standard"
         sx={{
           minWidth: '100px',

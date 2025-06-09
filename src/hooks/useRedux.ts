@@ -1,7 +1,8 @@
-import React from 'react';
+/* eslint-disable no-console */
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import type { RootState, AppDispatch } from '@store';
-import { AlertState, showAlert, hideAlert } from '@/store/alertSlice';
+import { auth, theme, alert, dialog, language, RootState, AlertState, AppDispatch } from '@store';
+import { useNavigate } from 'react-router-dom';
+import { DialogPayloadProps } from '@/store/dialogSlice';
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
@@ -9,13 +10,29 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 export const useAuth = () => {
   const { user, isAuthenticated, isLoading, error } = useAppSelector(state => state.auth);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const login = (credentials: { email: string; password: string }) => {
+    dispatch(auth.login(credentials));
+  };
+
+  const logout = () => {
+    dispatch(auth.logout());
+    navigate('/auth/login');
+  };
+
+  const register = (userData: { name: string; email: string; password: string }) => {
+    dispatch(auth.signup(userData));
+  };
 
   return {
     user,
     isAuthenticated,
     isLoading,
     error,
-    dispatch,
+    login,
+    logout,
+    register,
   };
 };
 
@@ -23,10 +40,14 @@ export const useLanguage = () => {
   const { currentLanguage, languages } = useAppSelector(state => state.language);
   const dispatch = useAppDispatch();
 
+  const changeLanguage = (languageCode: string) => {
+    dispatch(language.changeLanguage(languageCode));
+  };
+
   return {
     currentLanguage,
     languages,
-    dispatch,
+    changeLanguage,
   };
 };
 
@@ -34,50 +55,73 @@ export const useThemeMode = () => {
   const { mode } = useAppSelector(state => state.theme);
   const dispatch = useAppDispatch();
 
+  const toggleMode = () => {
+    dispatch(theme.toggleMode());
+  };
+
   return {
     mode,
-    dispatch,
+    toggleMode,
   };
 };
 
 export const useDialog = () => {
-  const { isOpen, content, title } = useAppSelector(state => state.dialog);
+  const state = useAppSelector(state => state.dialog);
   const dispatch = useAppDispatch();
+  const languageDispatch = useAppDispatch();
 
-  const openDialog = (content: React.ReactNode, title: string) => {
-    dispatch({ type: 'dialog/open', payload: { content, title } });
-  };
+  const handleConfirm = () => {
+    if (!state.actionType) return;
 
-  const closeDialog = () => {
-    dispatch({ type: 'dialog/close' });
+    switch (state.actionType) {
+      case 'CHANGE_LANGUAGE':
+        if (state?.actionPayload?.lang) {
+          languageDispatch(language.changeLanguage(state?.actionPayload.lang));
+        }
+
+        break;
+      default:
+        console.warn(`Action type not implemented: ${state.actionType}`);
+    }
+
+    dispatch(dialog.closeDialog());
   };
 
   return {
-    isOpen,
-    content,
-    title,
-    openDialog,
-    closeDialog,
+    isOpen: state.open,
+    title: state.title,
+    content: state?.content,
+    onConfirm: handleConfirm,
+    actionType: state.actionType,
+    actionPayload: state.actionPayload,
+    closeDialog: () => dispatch(dialog.closeDialog()),
+    openDialog: (props: {
+      title?: string;
+      content?: string;
+      actionType?: string;
+      actionPayload?: DialogPayloadProps;
+    }) => dispatch(dialog.openDialog(props)),
   };
 };
 
 export const useAlert = () => {
   const { open, message, severity } = useAppSelector(state => state.alert);
+
   const dispatch = useAppDispatch();
 
   const openAlert = (payload: Omit<AlertState, 'open'>) => {
-    dispatch(showAlert(payload));
+    dispatch(alert.showAlert(payload));
   };
 
   const closeAlert = () => {
-    dispatch(hideAlert());
+    dispatch(alert.hideAlert());
   };
 
   return {
-    isOpen: open,
     message,
     severity,
     openAlert,
     closeAlert,
+    isOpen: open,
   };
 };

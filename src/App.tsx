@@ -11,10 +11,11 @@ import DashboardPage from '@pages/DashboardPage';
 import UserSettingsPage from '@pages/UserSettingsPage';
 import NotFoundPage from '@pages/NotFoundPage';
 import UnauthorizedPage from '@pages/UnauthorizedPage';
-import { useAuth } from '@hooks/useRedux';
+import { useAuth } from '@hooks';
 import ErrorBoundary from '@components/ErrorBoundary';
 import { useTranslation } from 'react-i18next';
 import AlertSnackbar from '@components/AlertSnackbar';
+import SuspenseComponents from './components/Suspense';
 
 const AdminDashboardPage = lazy(() => import('@pages/admin/AdminDashboardPage'));
 
@@ -26,6 +27,7 @@ function App() {
   return (
     <ErrorBoundary>
       <AlertSnackbar />
+
       <Routes>
         <Route path="/auth" element={<AuthLayout />}>
           <Route
@@ -65,6 +67,8 @@ function App() {
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+
+      <SuspenseComponents />
     </ErrorBoundary>
   );
 }

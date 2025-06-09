@@ -24,16 +24,14 @@ import {
   Home as HomeIcon,
   Dashboard as DashboardIcon,
   Settings as SettingsIcon,
-  Brightness4 as Brightness4Icon,
-  Brightness7 as Brightness7Icon,
   ExitToApp as LogoutIcon,
 } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
-import { useAuth, useThemeMode, useAppDispatch } from '@hooks/useRedux';
-import { toggleMode } from '@store/themeSlice';
-import { logout } from '@store/authSlice';
+import { useAuth } from '@hooks';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import ThemeModeSwitcher from '../ThemeModeSwitcher';
+import LanguageSwitcher from '../LanguageSwitcher';
 
 const DRAWER_WIDTH = 240;
 
@@ -60,9 +58,7 @@ const StyledAppBar = styled(AppBar, {
 const MainLayout = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const theme = useTheme();
-  const { mode } = useThemeMode();
-  const { user } = useAuth();
-  const dispatch = useAppDispatch();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -77,15 +73,6 @@ const MainLayout = () => {
     if (isSmallScreen) {
       setDrawerOpen(false);
     }
-  };
-
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate('/auth/login');
-  };
-
-  const handleToggleMode = () => {
-    dispatch(toggleMode());
   };
 
   const navItems = [
@@ -144,17 +131,9 @@ const MainLayout = () => {
           <Divider />
         </>
       )}
-      <List>
+      <List sx={{ mt: 'auto' }}>
         <ListItem disablePadding>
-          <ListItemButton onClick={handleToggleMode}>
-            <ListItemIcon>
-              {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-            </ListItemIcon>
-            <ListItemText primary={t('settings.darkMode')} />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton onClick={handleLogout}>
+          <ListItemButton onClick={logout}>
             <ListItemIcon>
               <LogoutIcon />
             </ListItemIcon>
@@ -189,9 +168,8 @@ const MainLayout = () => {
           >
             React Application
           </Typography>
-          <IconButton color="inherit" onClick={handleToggleMode}>
-            {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-          </IconButton>
+          <LanguageSwitcher />
+          <ThemeModeSwitcher />
         </Toolbar>
       </StyledAppBar>
       <Drawer

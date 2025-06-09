@@ -1,10 +1,9 @@
 import React from 'react';
 import { Snackbar, Alert } from '@mui/material';
-import { useAppSelector, useAppDispatch } from '@hooks/useRedux';
-import { hideAlert } from '@store/alertSlice';
+import { useAppSelector, useAlert } from '@hooks';
 
 const AlertSnackbar: React.FC = () => {
-  const dispatch = useAppDispatch();
+  const { closeAlert } = useAlert();
   const { open, message, severity, autoHideDuration, position } = useAppSelector(
     state => state.alert,
   );
@@ -14,7 +13,7 @@ const AlertSnackbar: React.FC = () => {
       return;
     }
 
-    dispatch(hideAlert());
+    closeAlert();
   };
 
   return (
@@ -22,7 +21,7 @@ const AlertSnackbar: React.FC = () => {
       open={open}
       autoHideDuration={autoHideDuration}
       onClose={handleClose}
-      anchorOrigin={position}
+      anchorOrigin={position || { vertical: 'bottom', horizontal: 'left' }}
     >
       <Alert
         onClose={handleClose}

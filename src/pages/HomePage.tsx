@@ -19,6 +19,7 @@ const HomePage = () => {
                 message: 'Operação realizada com sucesso!',
                 severity: 'success',
                 autoHideDuration: 3000,
+                position: { vertical: 'top', horizontal: 'right' },
               })
             }
           >

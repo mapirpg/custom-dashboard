@@ -1,43 +1,52 @@
-import React from 'react';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+type LanguagePayload = {
+  lang: string;
+};
+
+export type DialogPayloadProps = LanguagePayload | null;
+
 interface DialogState {
-  open?: boolean;
-  title?: string;
-  content?: React.ReactNode;
-  onClose?: () => void;
-  onCancel?: () => void;
-  onConfirm?: () => void;
+  open: boolean;
+  title: string;
+  content?: string | null;
+  actionType: string | null;
+  actionPayload?: DialogPayloadProps;
 }
 
 const initialState: DialogState = {
   open: false,
   title: '',
   content: null,
-  onClose: undefined,
-  onCancel: undefined,
-  onConfirm: undefined,
+  actionType: null,
+  actionPayload: null,
 };
 
 const dialogSlice = createSlice({
   initialState,
   name: 'dialog',
   reducers: {
-    openDialog: (state, action: PayloadAction<Partial<DialogState>>) => {
+    openDialog: (
+      state,
+      action: PayloadAction<{
+        title?: string;
+        content?: string;
+        actionType?: string;
+        actionPayload?: unknown;
+      }>,
+    ) => {
       state.open = true;
       state.title = action.payload.title || '';
       state.content = action.payload.content || null;
-      state.onClose = action.payload.onClose;
-      state.onCancel = action.payload.onCancel;
-      state.onConfirm = action.payload.onConfirm;
+      state.actionType = action.payload.actionType || null;
+      state.actionPayload = (action?.payload?.actionPayload as DialogPayloadProps) || null;
     },
     closeDialog: state => {
       state.open = false;
       state.title = '';
       state.content = null;
-      state.onClose = undefined;
-      state.onCancel = undefined;
-      state.onConfirm = undefined;
+      state.actionType = null;
+      state.actionPayload = null;
     },
   },
 });
