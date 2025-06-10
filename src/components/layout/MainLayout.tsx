@@ -22,8 +22,6 @@ import {
   Menu as MenuIcon,
   ChevronLeft as ChevronLeftIcon,
   Home as HomeIcon,
-  Dashboard as DashboardIcon,
-  Settings as SettingsIcon,
   ExitToApp as LogoutIcon,
 } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
@@ -58,7 +56,7 @@ const StyledAppBar = styled(AppBar, {
 const MainLayout = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const theme = useTheme();
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -75,17 +73,7 @@ const MainLayout = () => {
     }
   };
 
-  const navItems = [
-    { text: t('navigation.home'), icon: <HomeIcon />, path: '/' },
-    { text: t('navigation.dashboard'), icon: <DashboardIcon />, path: '/dashboard' },
-    { text: t('navigation.settings'), icon: <SettingsIcon />, path: '/settings' },
-  ];
-
-  const adminNavItems = [
-    ...(user?.role === 'admin'
-      ? [{ text: t('navigation.admin'), icon: <DashboardIcon />, path: '/admin' }]
-      : []),
-  ];
+  const navItems = [{ text: t('navigation.home'), icon: <HomeIcon />, path: '/' }];
 
   const drawer = (
     <>
@@ -116,28 +104,14 @@ const MainLayout = () => {
         ))}
       </List>
       <Divider />
-      {adminNavItems.length > 0 && (
-        <>
-          <List>
-            {adminNavItems.map(item => (
-              <ListItem key={item.text} disablePadding>
-                <ListItemButton onClick={() => handleNavItemClick(item.path)}>
-                  <ListItemIcon>{item.icon}</ListItemIcon>
-                  <ListItemText primary={item.text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-        </>
-      )}
+
       <List sx={{ mt: 'auto' }}>
         <ListItem disablePadding>
           <ListItemButton onClick={logout}>
             <ListItemIcon>
               <LogoutIcon />
             </ListItemIcon>
-            <ListItemText primary={t('auth.logout')} />
+            <ListItemText primary={t('common.logout')} />
           </ListItemButton>
         </ListItem>
       </List>

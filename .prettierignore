@@ -4,4 +4,4 @@ build
 coverage
 .vscode
 .github
-public
+.public

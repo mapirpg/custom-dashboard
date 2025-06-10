@@ -3,6 +3,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { auth, theme, alert, dialog, language, RootState, AlertState, AppDispatch } from '@store';
 import { useNavigate } from 'react-router-dom';
 import { DialogPayloadProps } from '@/store/dialogSlice';
+import { normalizeLanguageCode } from '@/utils/normalizeLanguageCode';
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
@@ -41,11 +42,13 @@ export const useLanguage = () => {
   const dispatch = useAppDispatch();
 
   const changeLanguage = (languageCode: string) => {
-    dispatch(language.changeLanguage(languageCode));
+    const normalizedCode = normalizeLanguageCode(languageCode);
+    dispatch(language.changeLanguage(normalizedCode));
   };
 
   return {
-    currentLanguage,
+    // Garantir que o currentLanguage está no formato correto
+    currentLanguage: normalizeLanguageCode(currentLanguage),
     languages,
     changeLanguage,
   };
@@ -109,19 +112,15 @@ export const useAlert = () => {
 
   const dispatch = useAppDispatch();
 
-  const openAlert = (payload: Omit<AlertState, 'open'>) => {
-    dispatch(alert.showAlert(payload));
-  };
+  const showAlert = (payload: Omit<AlertState, 'open'>) => dispatch(alert.showAlert(payload));
 
-  const closeAlert = () => {
-    dispatch(alert.hideAlert());
-  };
+  const hideAlert = () => dispatch(alert.hideAlert());
 
   return {
     message,
     severity,
-    openAlert,
-    closeAlert,
+    showAlert,
+    hideAlert,
     isOpen: open,
   };
 };

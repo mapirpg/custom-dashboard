@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
+import { FormControl, MenuItem, Select, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useLanguage, useDialog } from '@hooks/useRedux';
 
@@ -10,8 +10,8 @@ const LanguageSwitcher = () => {
 
   const handleChangeLanguage = (lang: string) => {
     openDialog({
-      content: '',
-      title: t('common.changeLanguageConfirmation'),
+      content: t('alerts.changeLanguageConfirmation'),
+      title: t('alerts.changeLanguage'),
       actionType: 'CHANGE_LANGUAGE',
       actionPayload: { lang },
     });
@@ -19,16 +19,24 @@ const LanguageSwitcher = () => {
 
   return (
     <FormControl>
-      <InputLabel id="demo-simple-select-label">{t('common.language')}</InputLabel>
       <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         value={currentLanguage}
-        label={t('common.language')}
         onChange={e => handleChangeLanguage(e.target.value)}
-        variant="standard"
+        variant="outlined"
         sx={{
-          minWidth: '100px',
+          border: 'transparent',
+          backgroundColor: 'transparent',
+          '& .MuiOutlinedInput-notchedOutline': {
+            border: 'none',
+          },
+          '& .MuiSelect-select': {
+            padding: '8px',
+          },
+          '& .MuiSelect-select:focus': {
+            backgroundColor: 'transparent',
+          },
         }}
         renderValue={() => (
           <div>
@@ -39,6 +47,9 @@ const LanguageSwitcher = () => {
                 style={{
                   height: '20px',
                   width: 'auto',
+                  alignSelf: 'center',
+                  marginRight: '4px',
+                  verticalAlign: 'middle',
                 }}
               />
             )}

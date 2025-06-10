@@ -2,7 +2,7 @@ import { Typography, Box, Paper, Button, Stack } from '@mui/material';
 import { useAlert } from '@hooks/useRedux';
 
 const HomePage = () => {
-  const { openAlert } = useAlert();
+  const { showAlert } = useAlert();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -15,10 +15,10 @@ const HomePage = () => {
             variant="contained"
             color="success"
             onClick={() =>
-              openAlert({
+              showAlert({
                 message: 'Operação realizada com sucesso!',
                 severity: 'success',
-                autoHideDuration: 3000,
+                autoHideDuration: 500,
                 position: { vertical: 'top', horizontal: 'right' },
               })
             }

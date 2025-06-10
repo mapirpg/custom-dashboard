@@ -1,5 +1,4 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
 import './App.css';
 import MainLayout from '@components/layout/MainLayout';
 import AuthLayout from '@components/layout/AuthLayout';
@@ -7,8 +6,6 @@ import ProtectedRoute from '@components/ProtectedRoute';
 import LoginPage from '@/pages/public/LoginPage';
 import RegisterPage from '@/pages/public/RegisterPage';
 import HomePage from '@/pages/app/HomePage';
-import DashboardPage from '@/pages/app/DashboardPage';
-import UserSettingsPage from '@/pages/app/UserSettingsPage';
 import NotFoundPage from '@/pages/public/NotFoundPage';
 import UnauthorizedPage from '@/pages/public/UnauthorizedPage';
 import { useAuth } from '@hooks';
@@ -16,8 +13,6 @@ import ErrorBoundary from '@components/ErrorBoundary';
 import { useTranslation } from 'react-i18next';
 import AlertSnackbar from '@components/AlertSnackbar';
 import SuspenseComponents from './components/Suspense';
-
-const AdminDashboardPage = lazy(() => import('@/pages/app/AdminDashboardPage'));
 
 function App() {
   const { t } = useTranslation();
@@ -44,23 +39,6 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route element={<MainLayout />}>
             <Route path="/" element={<HomePage />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
-
-            <Route
-              path="/admin"
-              element={<ProtectedRoute allowedRoles={['admin']} redirectPath="/unauthorized" />}
-            >
-              <Route
-                index
-                element={
-                  <Suspense fallback={<div>Loading...</div>}>
-                    <AdminDashboardPage />
-                  </Suspense>
-                }
-              />
-            </Route>
-
-            <Route path="/settings" element={<UserSettingsPage />} />
           </Route>
         </Route>
 

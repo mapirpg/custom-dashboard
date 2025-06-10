@@ -13,21 +13,19 @@ class InstanceModel {
   };
 
   public async getInstance(): Promise<IIstance> {
-    return new Promise((_resolve, reject) => {
+    return new Promise(resolve => {
       setTimeout(() => {
-        // resolve({
-        //   theme: {
-        //     primary: {
-        //       100: '#5eb3a7',
-        //       200: '#1A9084',
-        //       300: '#167168',
-        //       400: '#10564F',
-        //     },
-        //     logo: 'https://cdn3d.iconscout.com/3d/free/thumb/free-react-native-3d-logo-download-in-png-blend-fbx-gltf-file-formats--software-social-media-pack-logos-4642743.png?f=webp',
-        //   },
-        // });
-
-        reject(new Error('Failed to fetch instance data'));
+        resolve({
+          theme: {
+            primary: {
+              100: '#5eb3a7',
+              200: '#1A9084',
+              300: '#167168',
+              400: '#10564F',
+            },
+            logo: 'https://cdn3d.iconscout.com/3d/free/thumb/free-react-native-3d-logo-download-in-png-blend-fbx-gltf-file-formats--software-social-media-pack-logos-4642743.png?f=webp',
+          },
+        });
       }, 2000);
     });
   }

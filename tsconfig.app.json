@@ -29,6 +29,7 @@
       "@theme/*": ["theme/*"],
       "@assets/*": ["assets/*"],
       "@types/*": ["types/*"],
+      "@types": ["types"],
       "@store": ["store"],
       "@store/*": ["store/*"]
     },

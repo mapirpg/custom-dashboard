@@ -7,8 +7,9 @@ export const useAuth = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const login = (credentials: { email: string; password: string }) => {
-    dispatch(auth.login(credentials));
+  const login = async (credentials: { email: string; password: string }) => {
+    const res = await dispatch(auth.login(credentials));
+    return res;
   };
 
   const logout = () => {

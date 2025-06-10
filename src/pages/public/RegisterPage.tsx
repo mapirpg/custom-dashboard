@@ -88,7 +88,7 @@ const RegisterPage = () => {
       )}
 
       <Typography component="h2" variant="h6" align="center" gutterBottom>
-        {t('auth.createAccount')}
+        {t('common.createAccount')}
       </Typography>
 
       <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
@@ -123,7 +123,7 @@ const RegisterPage = () => {
               required
               fullWidth
               id="email"
-              label={t('auth.email')}
+              label={t('common.email')}
               autoComplete="email"
               disabled={isLoading}
               error={!!errors.email}
@@ -142,7 +142,7 @@ const RegisterPage = () => {
               required
               fullWidth
               id="password"
-              label={t('auth.password')}
+              label={t('common.password')}
               type={showPassword ? 'text' : 'password'}
               autoComplete="new-password"
               disabled={isLoading}
@@ -175,7 +175,7 @@ const RegisterPage = () => {
               required
               fullWidth
               id="confirmPassword"
-              label={t('auth.confirmPassword')}
+              label={t('common.confirmPassword')}
               type={showConfirmPassword ? 'text' : 'password'}
               autoComplete="new-password"
               disabled={isLoading}
@@ -204,12 +204,12 @@ const RegisterPage = () => {
           sx={{ mt: 3, mb: 2 }}
           disabled={isLoading}
         >
-          {isLoading ? t('auth.register') + '...' : t('auth.signUp')}
+          {isLoading ? t('common.register') + '...' : t('common.signUp')}
         </Button>{' '}
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
           <Box>
             <Link component={RouterLink} to="/auth/login" variant="body2">
-              {t('auth.haveAccount')} {t('auth.signIn')}
+              {t('common.haveAccount')} {t('common.signIn')}
             </Link>
           </Box>
         </Box>

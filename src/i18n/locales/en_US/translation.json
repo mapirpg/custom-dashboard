@@ -1,5 +1,7 @@
 {
   "common": {
+    "confirm": "Confirm",
+    "createAccount": "Create Account",
     "brandName": "My App",
     "save": "Save",
     "cancel": "Cancel",
@@ -7,9 +9,7 @@
     "error": "Error",
     "success": "Success",
     "allRightsReserved": "All rights reserved",
-    "language": "Language"
-  },
-  "auth": {
+    "language": "Language",
     "login": "Login",
     "register": "Register",
     "email": "Email Address",
@@ -21,6 +21,10 @@
     "signUp": "Sign Up",
     "signIn": "Sign In",
     "logout": "Logout"
+  },
+  "alerts": {
+    "changeLanguage": "Change Language",
+    "changeLanguageConfirmation": "Are you sure you want to change the language? Unsaved data may be lost."
   },
   "navigation": {
     "home": "Home",
@@ -60,6 +64,7 @@
     "PST": "Pacific Standard Time (PST)"
   },
   "errors": {
+    "loginFailed": "Login failed. Please check your credentials.",
     "invalidEmail": "Invalid email address",
     "nameRequired": "Name must be at least 2 characters",
     "emailRequired": "Please enter a valid email address",

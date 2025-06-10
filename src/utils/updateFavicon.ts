@@ -1,5 +1,6 @@
 export const updateFavicon = (faviconUrl: string): void => {
   const existingFavicons = document.querySelectorAll('link[rel*="icon"]');
+
   existingFavicons.forEach(favicon => {
     document.head.removeChild(favicon);
   });

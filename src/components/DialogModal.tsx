@@ -1,5 +1,5 @@
 import { useDialog } from '@/hooks/useRedux';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { AppBar, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 const DialogModal = () => {
@@ -8,7 +8,9 @@ const DialogModal = () => {
 
   return (
     <Dialog open={Boolean(isOpen)} onClose={closeDialog}>
-      <DialogTitle>{title}</DialogTitle>
+      <AppBar elevation={0} position="static">
+        <DialogTitle>{title}</DialogTitle>
+      </AppBar>
       <DialogContent>{content}</DialogContent>
       <DialogActions>
         <Button onClick={closeDialog} color="inherit">

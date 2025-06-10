@@ -8,20 +8,23 @@
     "error": "Erro",
     "success": "Sucesso",
     "allRightsReserved": "Todos os direitos reservados",
-    "language": "Idioma"
-  },
-  "auth": {
+    "language": "Idioma",
+    "email": "Email",
+    "password": "Senha",
     "login": "Entrar",
     "register": "Registrar",
-    "email": "Endereço de Email",
-    "password": "Senha",
     "confirmPassword": "Confirmar Senha",
     "forgotPassword": "Esqueceu a senha?",
     "noAccount": "Não tem uma conta?",
     "haveAccount": "Já tem uma conta?",
     "signUp": "Cadastrar",
     "signIn": "Entrar",
-    "logout": "Sair"
+    "logout": "Sair",
+    "createAccount": "Criar Conta"
+  },
+  "alerts": {
+    "changeLanguage": "Alterar Idioma",
+    "changeLanguageConfirmation": "Você tem certeza de que deseja alterar o idioma? Dados não salvos poderão ser perdidos."
   },
   "navigation": {
     "home": "Início",
@@ -69,6 +72,7 @@
     "passwordMatch": "As senhas não coincidem",
     "unauthorized": "Acesso não autorizado",
     "notFound": "A página que você está procurando não existe",
-    "generalError": "Algo deu errado. Por favor, tente novamente."
+    "generalError": "Algo deu errado. Por favor, tente novamente.",
+    "loginFailed": "Falha ao entrar. Verifique suas credenciais e tente novamente."
   }
 }

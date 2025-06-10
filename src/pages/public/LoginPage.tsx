@@ -1,101 +1,81 @@
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { Button, Link, Box, Typography, Alert } from '@mui/material';
+import { Button, Link, Box, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAuth, useAppDispatch } from '@hooks';
-import { login, clearError } from '@store/authSlice';
+import { useAuth, useAlert } from '@hooks';
 import { useTranslation } from 'react-i18next';
 import FormInput from '@components/FormInput';
 import { Logo } from '@components/Logo';
+import { useLoginForm, LoginFormValuesProps } from '@hooks/forms/useLoginForm';
+import { useMutation } from '@tanstack/react-query';
+import { ApiError } from '@types';
 
 const LoginPage = () => {
-  const { error, isLoading } = useAuth();
-  const dispatch = useAppDispatch();
+  const { isLoading, login } = useAuth();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { schema } = useLoginForm();
+  const { showAlert } = useAlert();
 
-  const schema = z.object({
-    email: z.string().email(t('errors.invalidEmail')),
-    password: z.string(),
-  });
-
-  type LoginFormValues = z.infer<typeof schema>;
-
-  const { control, handleSubmit } = useForm<LoginFormValues>({
+  const { control, handleSubmit } = useForm<LoginFormValuesProps>({
     resolver: zodResolver(schema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: 'admin@example.com',
+      password: 'admin',
     },
   });
 
-  const onSubmit = async (data: LoginFormValues) => {
-    try {
-      const resultAction = await dispatch(login({ email: data.email, password: data.password }));
+  const { mutate: onSubmit, isPending: isSubmitting } = useMutation({
+    mutationFn: async (data: LoginFormValuesProps) => {
+      const res = await login({ email: data.email, password: data.password });
 
-      if (login.fulfilled.match(resultAction)) {
-        navigate('/');
+      if (res?.meta?.requestStatus !== 'fulfilled') {
+        throw new Error((res?.payload as string) || t('error.loginFailed'));
       }
-    } catch (err) {
-      console.error('Login error:', err);
-    }
-  };
+
+      return res;
+    },
+    onSuccess: () => navigate('/dashboard'),
+    onError: (error: ApiError) =>
+      showAlert({
+        message: error?.message || t('error.loginFailed'),
+        severity: 'error',
+      }),
+  });
 
   return (
     <Box sx={{ width: '100%', mt: 2 }}>
       <Logo />
 
-      {error && (
-        <Alert severity="error" onClose={() => dispatch(clearError())} sx={{ mb: 2 }}>
-          {error}
-        </Alert>
-      )}
-
-      <Typography component="h2" variant="h6" align="center" gutterBottom>
-        {t('auth.signIn')}
+      <Typography component="h2" variant="h6" align="center" sx={{ my: 2 }}>
+        {t('common.signIn')}
       </Typography>
 
-      <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
+      <Box component="form" onSubmit={handleSubmit(v => onSubmit(v))} sx={{ mt: 1 }}>
         <FormInput control={control} name="email" />
         <FormInput control={control} name="password" inputType="password" />
+
         <Button
+          variant="contained"
           type="submit"
           fullWidth
-          variant="contained"
           sx={{ mt: 3, mb: 2 }}
-          disabled={isLoading}
+          disabled={isLoading || isSubmitting}
         >
-          {isLoading ? t('auth.login') + '...' : t('auth.signIn')}
-        </Button>{' '}
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-          <Box>
-            <Link component={RouterLink} to="/auth/forgot-password" variant="body2">
-              {t('auth.forgotPassword')}
-            </Link>
-          </Box>
-          <Box>
-            <Link component={RouterLink} to="/auth/register" variant="body2">
-              {t('auth.noAccount')} {t('auth.signUp')}
-            </Link>
-          </Box>
+          {isLoading || isSubmitting ? t('common.login') + '...' : t('common.signIn')}
+        </Button>
+      </Box>
+
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box>
+          <Link component={RouterLink} to="/auth/forgot-password" variant="body2">
+            {t('common.forgotPassword')}
+          </Link>
         </Box>
-        <Box sx={{ mt: 3 }}>
-          <Typography variant="body2" color="text.secondary" align="center">
-            Demo Accounts:
-          </Typography>
-          <Typography
-            variant="caption"
-            display="block"
-            color="text.secondary"
-            align="center"
-            sx={{ mt: 1 }}
-          >
-            User: user@example.com / password
-          </Typography>
-          <Typography variant="caption" display="block" color="text.secondary" align="center">
-            Admin: admin@example.com / admin
-          </Typography>
+        <Box>
+          <Link component={RouterLink} to="/auth/register" variant="body2">
+            {t('common.noAccount')} {t('common.signUp')}
+          </Link>
         </Box>
       </Box>
     </Box>
