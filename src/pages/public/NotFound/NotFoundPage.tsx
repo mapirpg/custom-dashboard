@@ -7,6 +7,7 @@ const NotFoundPage = () => {
   return (
     <Box
       sx={{
+        width: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -21,7 +22,6 @@ const NotFoundPage = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          maxWidth: 500,
         }}
       >
         <Typography variant="h1" color="primary" fontWeight="bold">

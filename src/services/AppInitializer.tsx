@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useEffect, useMemo } from 'react';
 import { checkAuth } from '@store/authSlice';
 import { initializeLanguage } from '@store/languageSlice';
@@ -9,9 +10,16 @@ import { useQuery } from '@tanstack/react-query';
 import Instance from '@/data/models/instance';
 import { LoadingScreen } from '@/components/Loading';
 import { updateFavicon } from '@/utils/updateFavicon';
+import { translationKeysVerify } from '@/utils/translatiosVerification';
+import env from '../data/env';
 
 interface AppInitializerProps {
   children: React.ReactNode;
+}
+
+if (env.isDev) {
+  translationKeysVerify();
+  console.warn('AvaliableRoutes:', env.avaliableRouteIds);
 }
 
 const AppInitializer: React.FC<AppInitializerProps> = ({ children }) => {

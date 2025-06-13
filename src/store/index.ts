@@ -4,6 +4,7 @@ import authReducer from './authSlice';
 import languageReducer from './languageSlice';
 import themeReducer from './themeSlice';
 import dialogReducer, { closeDialog, openDialog } from './dialogSlice';
+import routerReducer, { setRoutes, setCurrentRoute, resetRouter } from './routerSlice';
 import { changeLanguage, initializeLanguage, updateLanguageName } from './languageSlice';
 import { initializeTheme, setMode, themeSlice, toggleMode } from './themeSlice';
 import { login, logout, signup, checkAuth, authSlice, clearError } from './authSlice';
@@ -13,6 +14,7 @@ export type LanguageState = ReturnType<typeof languageReducer>;
 export type ThemeState = ReturnType<typeof themeReducer>;
 export type AlertState = ReturnType<typeof alertReducer>;
 export type DialogState = ReturnType<typeof dialogReducer>;
+export type RouterState = ReturnType<typeof routerReducer>;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
@@ -21,6 +23,7 @@ export const alert = { showAlert, hideAlert };
 export const dialog = { openDialog, closeDialog };
 export const language = { changeLanguage, initializeLanguage, updateLanguageName };
 export const theme = { initializeTheme, setMode, themeSlice, toggleMode };
+export const router = { setRoutes, setCurrentRoute, resetRouter };
 
 export const store = configureStore({
   reducer: {
@@ -29,5 +32,6 @@ export const store = configureStore({
     theme: themeReducer,
     dialog: dialogReducer,
     language: languageReducer,
+    router: routerReducer,
   },
 });

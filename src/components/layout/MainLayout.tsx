@@ -54,7 +54,7 @@ const StyledAppBar = styled(AppBar, {
 }));
 
 const MainLayout = () => {
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(true);
   const theme = useTheme();
   const { logout } = useAuth();
   const navigate = useNavigate();

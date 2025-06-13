@@ -8,10 +8,8 @@ import { Provider as ReduxProvider } from 'react-redux';
 import './index.css';
 import '@i18n/i18n';
 import { store } from './store';
-import AppInitializer from './services/AppInitializer.tsx';
-import { translationKeysVerify } from './utils/translatiosVerification.ts';
-import env from './data/env.ts';
-import App from './App.tsx';
+import AppInitializer from './services/AppInitializer';
+import App from './App';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,10 +19,6 @@ const queryClient = new QueryClient({
     },
   },
 });
-
-if (env.isDev) {
-  translationKeysVerify();
-}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
