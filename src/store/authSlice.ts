@@ -1,14 +1,10 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: 'user' | 'admin';
-}
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { IUser } from '@/data/interfaces/user';
+import User from '@/data/models/user';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 interface AuthState {
-  user: User | null;
+  user: IUser | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
@@ -21,52 +17,54 @@ const initialState: AuthState = {
   error: null,
 };
 
-export const checkAuth = createAsyncThunk('auth/checkAuth', async () => {
-  const storedUser = localStorage.getItem('user');
-
-  if (storedUser) {
-    return JSON.parse(storedUser) as User;
-  }
-
-  return null;
-});
-
 export const login = createAsyncThunk(
   'auth/login',
-  async ({ email, password }: { email: string; password: string }, { rejectWithValue }) => {
+  async ({ email, password }: Partial<IUser>, { rejectWithValue }) => {
+    if (!email || !password) {
+      return rejectWithValue('Email and password are required');
+    }
+
     try {
-      if (email === 'user@example.com' && password === 'password') {
-        const mockUser: User = {
-          id: '1',
-          name: 'Demo User',
-          email: email,
-          role: 'user',
-        };
+      const res = await User.signIn(email, password);
 
-        localStorage.setItem('user', JSON.stringify(mockUser));
-        return mockUser;
-      } else if (email === 'admin@example.com' && password === 'admin') {
-        const mockAdmin: User = {
-          id: '2',
-          name: 'Admin User',
-          email: email,
-          role: 'admin',
-        };
-
-        localStorage.setItem('user', JSON.stringify(mockAdmin));
-        return mockAdmin;
-      } else {
+      if (!res) {
         return rejectWithValue('Invalid email or password');
       }
-    } catch (error) {
-      if (error instanceof Error) {
-        return rejectWithValue(error.message);
-      }
 
-      return rejectWithValue('An unknown error occurred');
+      const user: IUser = {
+        id: res.id,
+        name: res.name,
+        email: res.email,
+        role: res.role || 'user',
+      };
+
+      localStorage.setItem('user', JSON.stringify(user));
+
+      return user;
+    } catch (error: any) {
+      return rejectWithValue(error);
     }
   },
 );
+
+export const checkAuth = createAsyncThunk('auth/checkAuth', async () => {
+  const res = await User.revalidate();
+
+  if (!res) {
+    throw new Error('User not found');
+  }
+
+  const user: IUser = {
+    id: res.id,
+    name: res.name,
+    email: res.email,
+    role: res.role || 'user',
+  };
+
+  localStorage.setItem('user', JSON.stringify(user));
+
+  return user;
+});
 
 export const signup = createAsyncThunk(
   'auth/signup',
@@ -76,7 +74,7 @@ export const signup = createAsyncThunk(
         return rejectWithValue('Email already in use');
       }
 
-      const newUser: User = {
+      const newUser: IUser = {
         id: Date.now().toString(),
         name,
         email,
@@ -110,50 +108,18 @@ export const authSlice = createSlice({
     },
   },
   extraReducers: builder => {
-    builder
-      .addCase(checkAuth.pending, state => {
-        state.isLoading = true;
-      })
-      .addCase(checkAuth.fulfilled, (state, action: PayloadAction<User | null>) => {
-        state.user = action.payload;
-        state.isAuthenticated = !!action.payload;
-        state.isLoading = false;
-      })
-      .addCase(checkAuth.rejected, state => {
-        state.user = null;
-        state.isAuthenticated = false;
-        state.isLoading = false;
-      })
-      .addCase(login.pending, state => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(login.fulfilled, (state, action: PayloadAction<User>) => {
-        state.user = action.payload;
-        state.isAuthenticated = true;
-        state.isLoading = false;
-        state.error = null;
-      })
-      .addCase(login.rejected, (state, action) => {
-        state.user = null;
-        state.isAuthenticated = false;
-        state.isLoading = false;
-        state.error = action.payload as string;
-      })
-      .addCase(signup.pending, state => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(signup.fulfilled, (state, action: PayloadAction<User>) => {
-        state.user = action.payload;
-        state.isAuthenticated = true;
-        state.isLoading = false;
-        state.error = null;
-      })
-      .addCase(signup.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload as string;
-      });
+    builder.addCase(login.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.user = action.payload;
+      state.isAuthenticated = true;
+      state.error = null;
+    });
+    builder.addCase(checkAuth.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.user = action.payload;
+      state.isAuthenticated = true;
+      state.error = null;
+    });
   },
 });
 

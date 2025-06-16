@@ -17,7 +17,10 @@ export const useAuth = () => {
 
   const login = async (credentials: { email: string; password: string }) => {
     const res = await dispatch(auth.login(credentials));
-    return res;
+
+    if (!auth.login.fulfilled.match(res)) {
+      throw new Error(res?.payload as string);
+    }
   };
 
   const logout = () => {
@@ -39,6 +42,14 @@ export const useAuth = () => {
     return user.role.includes(role);
   };
 
+  const revalidate = async () => {
+    const res = await dispatch(auth.checkAuth());
+
+    if (!auth.checkAuth.fulfilled.match(res)) {
+      throw new Error(res?.payload as string);
+    }
+  };
+
   return {
     user,
     isAuthenticated,
@@ -48,6 +59,7 @@ export const useAuth = () => {
     logout,
     register,
     hasRole,
+    revalidate,
   };
 };
 
@@ -60,15 +72,20 @@ export const useLanguage = () => {
     dispatch(language.changeLanguage(normalizedCode));
   };
 
+  const initialize = () => {
+    dispatch(language.initializeLanguage());
+  };
+
   return {
     // Garantir que o currentLanguage está no formato correto
     currentLanguage: normalizeLanguageCode(currentLanguage),
     languages,
+    initialize,
     changeLanguage,
   };
 };
 
-export const useThemeMode = () => {
+export const useTheme = () => {
   const { mode } = useAppSelector(state => state.theme);
   const dispatch = useAppDispatch();
 
@@ -76,9 +93,14 @@ export const useThemeMode = () => {
     dispatch(theme.toggleMode());
   };
 
+  const initialize = () => {
+    dispatch(theme.initializeTheme());
+  };
+
   return {
     mode,
     toggleMode,
+    initialize,
   };
 };
 

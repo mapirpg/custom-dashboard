@@ -1,10 +1,10 @@
 import { LightMode, DarkMode } from '@mui/icons-material';
-import { useThemeMode, useAppDispatch } from '@hooks/useRedux';
+import { useTheme, useAppDispatch } from '@hooks/useRedux';
 import { toggleMode } from '@store/themeSlice';
 import { IconButton } from '@mui/material';
 
 const ThemeModeSwitcher = () => {
-  const { mode } = useThemeMode();
+  const { mode } = useTheme();
   const dispatch = useAppDispatch();
 
   const handleToggleMode = () => {

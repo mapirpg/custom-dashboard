@@ -9,9 +9,10 @@ export const LoadingScreen = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#010101',
       }}
     >
-      <CircularProgress />
+      <CircularProgress size={50} />
     </Box>
   );
 };

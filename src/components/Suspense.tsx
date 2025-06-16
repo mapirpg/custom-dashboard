@@ -1,10 +1,18 @@
 import React, { Suspense } from 'react';
+import { LoadingScreen } from '@components/Loading';
+import Container from './Container';
 
 const DialogModal = React.lazy(() => import('./DialogModal'));
 
 const SuspenseComponents = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense
+      fallback={
+        <Container>
+          <LoadingScreen />
+        </Container>
+      }
+    >
       <DialogModal />
     </Suspense>
   );

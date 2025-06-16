@@ -2,7 +2,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Button, Link, Box, Grid, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAuth, useAlert, useRouter } from '@hooks';
+import { useAuth, useAlert } from '@hooks';
 import { useTranslation } from 'react-i18next';
 import FormInput from '@components/FormInput';
 import { Logo } from '@components/Logo';
@@ -11,8 +11,7 @@ import { useMutation } from '@tanstack/react-query';
 import { ApiError } from '@types';
 
 const LoginPage = () => {
-  const { isLoading, login } = useAuth();
-  const { navigateTo } = useRouter();
+  const { login } = useAuth();
   const { t } = useTranslation();
   const { schema } = useLoginForm();
   const { showAlert } = useAlert();
@@ -26,21 +25,14 @@ const LoginPage = () => {
   });
 
   const { mutate: onSubmit, isPending: isSubmitting } = useMutation({
-    mutationFn: async (data: LoginFormValuesProps) => {
-      const res = await login({ email: data.email, password: data.password });
-
-      if (res?.meta?.requestStatus !== 'fulfilled') {
-        throw new Error((res?.payload as string) || t('error.loginFailed'));
-      }
-
-      return res;
-    },
-    onSuccess: () => navigateTo('/'),
-    onError: (error: ApiError) =>
+    mutationFn: async (data: LoginFormValuesProps) =>
+      login({ email: data.email, password: data.password }),
+    onError: (error: ApiError) => {
       showAlert({
         message: error?.message || t('error.loginFailed'),
         severity: 'error',
-      }),
+      });
+    },
   });
 
   return (
@@ -73,8 +65,8 @@ const LoginPage = () => {
           <FormInput control={control} name="email" />
           <FormInput control={control} name="password" inputType="password" />
 
-          <Button variant="contained" type="submit" fullWidth disabled={isLoading || isSubmitting}>
-            {isLoading || isSubmitting ? t('common.login') + '...' : t('common.signIn')}
+          <Button variant="contained" type="submit" fullWidth loading={isSubmitting}>
+            {isSubmitting ? t('common.login') + '...' : t('common.signIn')}
           </Button>
 
           <Box

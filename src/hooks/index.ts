@@ -1,5 +1,5 @@
 import {
-  useThemeMode,
+  useTheme,
   useLanguage,
   useDialog,
   useAlert,
@@ -13,7 +13,7 @@ import { usePageTransition } from './usePageTransition';
 export {
   useAuth,
   useLanguage,
-  useThemeMode,
+  useTheme,
   useDialog,
   useAlert,
   useAppDispatch,

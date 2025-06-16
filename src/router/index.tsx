@@ -8,6 +8,7 @@ import { LoadingScreen } from '@/components/Loading';
 import navigationConfig, { RouteProps } from './navigationConfig';
 import { useAppDispatch } from '@/hooks';
 import { setCurrentRoute, setRoutes } from '@/store/routerSlice';
+import Container from '@/components/Container';
 
 const routeComponentCache: Record<string, React.LazyExoticComponent<any>> = {};
 
@@ -57,7 +58,13 @@ const getNestedRoutes = (children: RouteProps[] = []) => {
       const WithTransition = React.lazy(() => import('@/components/WithPageTransition'));
 
       const routeElement = (
-        <Suspense fallback={<LoadingScreen />}>
+        <Suspense
+          fallback={
+            <Container>
+              <LoadingScreen />
+            </Container>
+          }
+        >
           <WithTransition>
             <Component />
           </WithTransition>

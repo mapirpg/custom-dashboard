@@ -1,9 +1,6 @@
 /* eslint-disable no-console */
 import React, { useEffect, useMemo } from 'react';
-import { checkAuth } from '@store/authSlice';
-import { initializeLanguage } from '@store/languageSlice';
-import { initializeTheme } from '@store/themeSlice';
-import { useAppDispatch, useThemeMode } from '../hooks/useRedux';
+import { useAuth, useLanguage, useTheme } from '@hooks';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material';
 import createAppTheme from '@theme';
 import { useQuery } from '@tanstack/react-query';
@@ -12,6 +9,7 @@ import { LoadingScreen } from '@/components/Loading';
 import { updateFavicon } from '@/utils/updateFavicon';
 import { translationKeysVerify } from '@/utils/translatiosVerification';
 import env from '../data/env';
+import Container from '@/components/Container';
 
 interface AppInitializerProps {
   children: React.ReactNode;
@@ -23,30 +21,43 @@ if (env.isDev) {
 }
 
 const AppInitializer: React.FC<AppInitializerProps> = ({ children }) => {
-  const dispatch = useAppDispatch();
-  const { mode } = useThemeMode();
+  const theme = useTheme();
+  const auth = useAuth();
+  const language = useLanguage();
 
   const { data: instance, isLoading } = useQuery({
     queryKey: ['instance'],
     queryFn: Instance.getInstance,
   });
 
-  const theme = useMemo(() => createAppTheme(mode, instance?.theme), [mode, instance]);
+  const instanceTheme = useMemo(
+    () => createAppTheme(theme?.mode, instance?.theme),
+    [theme?.mode, instance],
+  );
 
   useEffect(() => {
-    dispatch(checkAuth());
-    dispatch(initializeLanguage());
-    dispatch(initializeTheme());
-  }, [dispatch]);
+    auth.revalidate();
+    language.initialize();
+    theme.initialize();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (instance?.theme?.logo) {
-      updateFavicon(instance.theme.logo);
+      updateFavicon(instance?.theme?.logo);
     }
   }, [instance]);
 
   return (
-    <MuiThemeProvider theme={theme}>{isLoading ? <LoadingScreen /> : children}</MuiThemeProvider>
+    <MuiThemeProvider theme={instanceTheme}>
+      {isLoading ? (
+        <Container>
+          <LoadingScreen />
+        </Container>
+      ) : (
+        children
+      )}
+    </MuiThemeProvider>
   );
 };
 

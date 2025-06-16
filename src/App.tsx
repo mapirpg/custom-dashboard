@@ -14,8 +14,8 @@ function App() {
   return (
     <ErrorBoundary>
       <AlertSnackbar />
-      <AppRoutes isAuthenticated={isAuthenticated} />
       <SuspenseComponents />
+      <AppRoutes isAuthenticated={isAuthenticated} />
     </ErrorBoundary>
   );
 }
