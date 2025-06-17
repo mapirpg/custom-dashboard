@@ -1,4 +1,4 @@
-import Instance from '@/data/models/instance';
+import Instance from '@data/models/instance';
 import { createTheme, PaletteMode } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 
@@ -273,6 +273,15 @@ export const createAppTheme = (mode: PaletteMode, customBrandColors = defaultThe
             },
           },
         },
+      },
+    },
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 600,
+        md: 960,
+        lg: 1280,
+        xl: 1720,
       },
     },
   });

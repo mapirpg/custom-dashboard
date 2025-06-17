@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { useMemo } from 'react';
 import {
   Box,
   CssBaseline,
@@ -16,20 +15,20 @@ import {
   ListItemText,
   useTheme,
   useMediaQuery,
-  Container,
 } from '@mui/material';
 import {
   Menu as MenuIcon,
   ChevronLeft as ChevronLeftIcon,
-  Home as HomeIcon,
   ExitToApp as LogoutIcon,
 } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
-import { useAuth } from '@hooks';
-import { useNavigate, Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector, useAuth, useRouter } from '@hooks';
 import { useTranslation } from 'react-i18next';
 import ThemeModeSwitcher from '../ThemeModeSwitcher';
 import LanguageSwitcher from '../LanguageSwitcher';
+import Icon from '@components/Icon';
+import { drawer as drawerSlice } from '@store';
+import { Outlet } from 'react-router-dom';
 
 const DRAWER_WIDTH = 240;
 
@@ -54,26 +53,36 @@ const StyledAppBar = styled(AppBar, {
 }));
 
 const MainLayout = () => {
-  const [drawerOpen, setDrawerOpen] = useState(true);
   const theme = useTheme();
   const { logout } = useAuth();
-  const navigate = useNavigate();
   const { t } = useTranslation();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
+  const { routes, navigateTo } = useRouter();
+  const dispatch = useAppDispatch();
+  const drawerOpen = useAppSelector(state => state.drawer.open);
+
   const handleDrawerToggle = () => {
-    setDrawerOpen(!drawerOpen);
+    dispatch(drawerSlice.toggleDrawer());
   };
 
   const handleNavItemClick = (path: string) => {
-    navigate(path);
+    navigateTo(path);
 
     if (isSmallScreen) {
-      setDrawerOpen(false);
+      dispatch(drawerSlice.toggleDrawer());
     }
   };
 
-  const navItems = [{ text: t('navigation.home'), icon: <HomeIcon />, path: '/' }];
+  const nvItems = useMemo(() => {
+    const items = routes.find(i => i?.id === 'main-layout');
+
+    if (items?.children) {
+      return items.children?.filter(item => !item?.hide);
+    }
+
+    return [];
+  }, [routes]);
 
   const drawer = (
     <>
@@ -94,14 +103,18 @@ const MainLayout = () => {
       </Toolbar>
       <Divider />
       <List>
-        {navItems.map(item => (
-          <ListItem key={item.text} disablePadding>
-            <ListItemButton onClick={() => handleNavItemClick(item.path)}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {nvItems?.map(item => {
+          return (
+            <ListItem key={item?.id} disablePadding>
+              <ListItemButton onClick={() => handleNavItemClick(item?.path)}>
+                <ListItemIcon>
+                  <Icon name={item.icon} />
+                </ListItemIcon>
+                <ListItemText primary={item?.title} />
+              </ListItemButton>
+            </ListItem>
+          );
+        })}
       </List>
       <Divider />
 
@@ -122,30 +135,34 @@ const MainLayout = () => {
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <StyledAppBar position="fixed" open={drawerOpen}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerToggle}
-            edge="start"
-            sx={{ mr: 2 }}
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', maxWidth: '100vw' }}>
+          {!drawerOpen ? (
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerToggle}
+              edge="start"
+              sx={{ mr: 2 }}
+            >
+              <MenuIcon />
+            </IconButton>
+          ) : (
+            <Box />
+          )}
+
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'flex-end',
+              gap: 1,
+            }}
           >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            component={Link}
-            to="/"
-            variant="h6"
-            color="inherit"
-            noWrap
-            sx={{ flexGrow: 1, textDecoration: 'none' }}
-          >
-            React Application
-          </Typography>
-          <LanguageSwitcher />
-          <ThemeModeSwitcher />
+            <LanguageSwitcher />
+            <ThemeModeSwitcher />
+          </Box>
         </Toolbar>
       </StyledAppBar>
+
       <Drawer
         variant={isSmallScreen ? 'temporary' : 'persistent'}
         open={drawerOpen}
@@ -154,7 +171,7 @@ const MainLayout = () => {
           keepMounted: true,
         }}
         sx={{
-          width: DRAWER_WIDTH,
+          width: drawerOpen ? DRAWER_WIDTH : 0,
           flexShrink: 0,
           '& .MuiDrawer-paper': {
             width: DRAWER_WIDTH,
@@ -164,20 +181,23 @@ const MainLayout = () => {
       >
         {drawer}
       </Drawer>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          p: 3,
-          width: { sm: `calc(100% - ${drawerOpen ? DRAWER_WIDTH : 0}px)` },
-          minHeight: '100vh',
-          backgroundColor: theme.palette.background.default,
-        }}
-      >
+
+      <Box component="main">
         <Toolbar />
-        <Container maxWidth="xl">
+        <Box
+          sx={{
+            p: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            height: isSmallScreen ? '90vh' : '80vh',
+            width: isSmallScreen ? '95vw' : drawerOpen ? '75vw' : `calc(75vw + ${DRAWER_WIDTH}px)`,
+            flexGrow: 1,
+            boxShadow: theme.shadows[9],
+            borderRadius: 2,
+          }}
+        >
           <Outlet />
-        </Container>
+        </Box>
       </Box>
     </Box>
   );

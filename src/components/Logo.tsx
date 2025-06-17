@@ -2,7 +2,7 @@ import SqrLogo from '@assets/logo_sqr.png';
 import RectLogo from '@assets/logo_rct.png';
 import { useMemo } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { IIstance } from '@/data/interfaces/instance';
+import { IIstance } from '@data/interfaces/instance';
 
 interface LogoProps {
   type?: 'rct' | 'sqr';

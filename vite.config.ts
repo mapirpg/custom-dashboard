@@ -17,6 +17,8 @@ export default defineConfig({
       '@assets': resolve(__dirname, './src/assets'),
       '@types': resolve(__dirname, './src/types'),
       '@store': resolve(__dirname, './src/store'),
+      '@data': resolve(__dirname, './src/data'),
+      '@router': resolve(__dirname, './src/router'),
     },
   },
 });

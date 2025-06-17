@@ -9,7 +9,7 @@ export const LoadingScreen = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#010101',
+        backgroundColor: 'background.default',
       }}
     >
       <CircularProgress size={50} />

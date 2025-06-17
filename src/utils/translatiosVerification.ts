@@ -21,7 +21,6 @@ export const translationKeysVerify = () => {
     }, []);
   };
 
-  // Função para verificar se uma chave aninhada existe em um objeto
   const hasNestedKey = (obj: Record<string, any>, path: string): boolean => {
     const parts = path.split('.');
     let current = obj;

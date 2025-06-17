@@ -8,6 +8,8 @@ import routerReducer, { setRoutes, setCurrentRoute, resetRouter } from './router
 import { changeLanguage, initializeLanguage, updateLanguageName } from './languageSlice';
 import { initializeTheme, setMode, themeSlice, toggleMode } from './themeSlice';
 import { login, logout, signup, checkAuth, authSlice, clearError } from './authSlice';
+import drawerReducer, { toggleDrawer } from './drawerSlice';
+import { DialogPayloadProps as _DialogPayloadProps } from './dialogSlice';
 
 export type AuthState = ReturnType<typeof authReducer>;
 export type LanguageState = ReturnType<typeof languageReducer>;
@@ -17,6 +19,8 @@ export type DialogState = ReturnType<typeof dialogReducer>;
 export type RouterState = ReturnType<typeof routerReducer>;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+export type DrawerState = ReturnType<typeof drawerReducer>;
+export type DialogPayloadProps = _DialogPayloadProps;
 
 export const auth = { login, logout, signup, checkAuth, authSlice, clearError };
 export const alert = { showAlert, hideAlert };
@@ -24,6 +28,7 @@ export const dialog = { openDialog, closeDialog };
 export const language = { changeLanguage, initializeLanguage, updateLanguageName };
 export const theme = { initializeTheme, setMode, themeSlice, toggleMode };
 export const router = { setRoutes, setCurrentRoute, resetRouter };
+export const drawer = { toggleDrawer };
 
 export const store = configureStore({
   reducer: {
@@ -33,5 +38,6 @@ export const store = configureStore({
     dialog: dialogReducer,
     language: languageReducer,
     router: routerReducer,
+    drawer: drawerReducer,
   },
 });

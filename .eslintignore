@@ -4,3 +4,4 @@ build
 coverage
 .public
 eslint.config.js
+/vite.config.ts

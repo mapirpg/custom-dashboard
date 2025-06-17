@@ -4,12 +4,12 @@ import { useAuth, useLanguage, useTheme } from '@hooks';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material';
 import createAppTheme from '@theme';
 import { useQuery } from '@tanstack/react-query';
-import Instance from '@/data/models/instance';
-import { LoadingScreen } from '@/components/Loading';
-import { updateFavicon } from '@/utils/updateFavicon';
-import { translationKeysVerify } from '@/utils/translatiosVerification';
+import Instance from '@data/models/instance';
+import { LoadingScreen } from '@components/Loading';
+import { updateFavicon } from '@utils/updateFavicon';
+import { translationKeysVerify } from '@utils/translatiosVerification';
 import env from '../data/env';
-import Container from '@/components/Container';
+import Container from '@components/Container';
 
 interface AppInitializerProps {
   children: React.ReactNode;

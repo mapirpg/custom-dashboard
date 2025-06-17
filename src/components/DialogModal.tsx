@@ -1,4 +1,4 @@
-import { useDialog } from '@/hooks/useRedux';
+import { useDialog } from '@hooks/useRedux';
 import { AppBar, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 

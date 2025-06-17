@@ -17,7 +17,6 @@
     /* Path aliases */
     "baseUrl": "./src",
     "paths": {
-      "@/*": ["*"],
       "@components/*": ["components/*"],
       "@hooks/*": ["hooks/*"],
       "@hooks": ["hooks"],
@@ -31,7 +30,11 @@
       "@types/*": ["types/*"],
       "@types": ["types"],
       "@store": ["store"],
-      "@store/*": ["store/*"]
+      "@store/*": ["store/*"],
+      "@data": ["data"],
+      "@data/*": ["data/*"],
+      "@router": ["router"],
+      "@router/*": ["router/*"]
     },
 
     /* Linting */

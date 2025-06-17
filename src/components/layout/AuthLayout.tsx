@@ -1,8 +1,8 @@
-﻿import { Outlet } from 'react-router-dom';
-import { AppBar, Box, Typography } from '@mui/material';
+﻿import { AppBar, Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '@components/LanguageSwitcher';
 import ThemeModeSwitcher from '@components/ThemeModeSwitcher';
+import { Outlet } from 'react-router-dom';
 
 const AuthLayout = () => {
   const { t } = useTranslation();

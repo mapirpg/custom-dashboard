@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IUser } from '@/data/interfaces/user';
-import User from '@/data/models/user';
+import { IUser } from '@data/interfaces/user';
+import User from '@data/models/user';
+import Storage from '@data/storage';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 interface AuthState {
@@ -38,7 +39,7 @@ export const login = createAsyncThunk(
         role: res.role || 'user',
       };
 
-      localStorage.setItem('user', JSON.stringify(user));
+      Storage.setItem('user', user);
 
       return user;
     } catch (error: any) {
@@ -61,7 +62,7 @@ export const checkAuth = createAsyncThunk('auth/checkAuth', async () => {
     role: res.role || 'user',
   };
 
-  localStorage.setItem('user', JSON.stringify(user));
+  Storage.setItem('user', user);
 
   return user;
 });
@@ -81,7 +82,7 @@ export const signup = createAsyncThunk(
         role: 'user',
       };
 
-      localStorage.setItem('user', JSON.stringify(newUser));
+      Storage.setItem('user', newUser);
       return newUser;
     } catch (error) {
       if (error instanceof Error) {
@@ -98,7 +99,7 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     logout: state => {
-      localStorage.removeItem('user');
+      Storage.removeItem('user');
       state.user = null;
       state.isAuthenticated = false;
       state.error = null;

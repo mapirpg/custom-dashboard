@@ -5,7 +5,6 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import translationEN from './locales/en_US/translation.json';
 import translationPT from './locales/pt_BR/translation.json';
 
-// Mapeamento de códigos de idioma com hífen para underscore
 const languageMapping: Record<string, string> = {
   'en-US': 'en_US',
   'pt-BR': 'pt_BR',

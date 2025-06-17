@@ -2,7 +2,8 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import i18n from '@i18n/i18n';
 import PT_BR_FLAG from '@assets/flags/BR.svg';
 import EN_US_FLAG from '@assets/flags/US.svg';
-import { normalizeLanguageCode } from '@/utils/normalizeLanguageCode';
+import { normalizeLanguageCode } from '@utils/normalizeLanguageCode';
+import Storage from '@data/storage';
 
 interface Language {
   code: string;
@@ -17,7 +18,7 @@ interface LanguageState {
 }
 
 export const initializeLanguage = createAsyncThunk('language/initialize', async () => {
-  const savedLanguage = localStorage.getItem('i18nextLng');
+  const savedLanguage = Storage.getItem('i18nextLng');
 
   if (savedLanguage) {
     const normalizedCode = normalizeLanguageCode(savedLanguage) || 'pt_BR';
@@ -44,7 +45,7 @@ export const languageSlice = createSlice({
       const lang = normalizeLanguageCode(action.payload);
       state.currentLanguage = lang;
       i18n.changeLanguage(lang);
-      localStorage.setItem('i18nextLng', lang);
+      Storage.setItem('i18nextLng', lang);
     },
     updateLanguageName: (state, action: PayloadAction<{ code: string; name: string }>) => {
       const { code, name } = action.payload;

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RouteProps } from '@/router/navigationConfig';
+import { RouteProps } from '@router/navigationConfig';
 
 interface RouterState {
   routes: RouteProps[];

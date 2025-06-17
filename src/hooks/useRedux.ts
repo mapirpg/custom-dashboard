@@ -1,11 +1,21 @@
 /* eslint-disable no-console */
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import { auth, theme, alert, dialog, language, RootState, AlertState, AppDispatch } from '@store';
-import { DialogPayloadProps } from '@/store/dialogSlice';
-import { normalizeLanguageCode } from '@/utils/normalizeLanguageCode';
+import {
+  auth,
+  theme,
+  alert,
+  router,
+  dialog,
+  language,
+  RootState,
+  AlertState,
+  AppDispatch,
+  DialogPayloadProps,
+} from '@store';
+import { normalizeLanguageCode } from '@utils/normalizeLanguageCode';
 import { useCallback } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import { setCurrentRoute } from '@/store/routerSlice';
+import { RouteProps } from '@router/navigationConfig';
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
@@ -77,7 +87,6 @@ export const useLanguage = () => {
   };
 
   return {
-    // Garantir que o currentLanguage está no formato correto
     currentLanguage: normalizeLanguageCode(currentLanguage),
     languages,
     initialize,
@@ -166,36 +175,37 @@ export const useRouter = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
-  const router = useAppSelector(state => state.router);
+  const state = useAppSelector(state => state.router);
 
   const navigateTo = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (path: string, options?: { replace?: boolean; state?: any }) => {
       const fullPath = path.startsWith('/') ? path : `/${path}`;
 
-      console.log(`Navigating to: ${fullPath}`);
-
-      // Dispatch com await para garantir que o Redux seja atualizado antes da navegação
       dispatch(
-        setCurrentRoute({
+        router.setCurrentRoute({
           path: fullPath,
           params: params as Record<string, string>,
         }),
       );
 
-      // Usar replace:true para garantir uma navegação limpa
       navigate(fullPath, { replace: true, ...(options || {}) });
     },
     [dispatch, navigate, params],
   );
 
+  const setRoutes = (routes: RouteProps[]) => {
+    dispatch(router.setRoutes(routes));
+  };
+
   return {
     location,
-    currentPath: location.pathname,
     params,
     navigateTo,
-    previousPath: router.previous?.path,
+    setRoutes,
+    routes: state.routes,
     routeState: location.state,
-    routes: router.routes,
+    currentPath: location.pathname,
+    previousPath: state.previous?.path,
   };
 };

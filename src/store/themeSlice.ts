@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { PaletteMode } from '@mui/material';
+import Storage from '@data/storage';
 
 interface ThemeState {
   mode: PaletteMode;
 }
 
 export const initializeTheme = createAsyncThunk('theme/initialize', async () => {
-  const storedMode = localStorage.getItem('themeMode');
+  const storedMode = Storage.getItem('themeMode');
 
   if (storedMode === 'dark' || storedMode === 'light') {
     return storedMode as PaletteMode;
@@ -30,11 +31,11 @@ export const themeSlice = createSlice({
     toggleMode: state => {
       const newMode = state.mode === 'light' ? 'dark' : 'light';
       state.mode = newMode;
-      localStorage.setItem('themeMode', newMode);
+      Storage.setItem('themeMode', newMode);
     },
     setMode: (state, action) => {
       state.mode = action.payload;
-      localStorage.setItem('themeMode', action.payload);
+      Storage.setItem('themeMode', action.payload);
     },
   },
   extraReducers: builder => {

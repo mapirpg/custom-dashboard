@@ -8,7 +8,7 @@ import {
   useRouter,
   useAuth,
 } from './useRedux';
-import { usePageTransition } from './usePageTransition';
+import { useDynamicComponent } from './useDynamicComponent';
 
 export {
   useAuth,
@@ -19,5 +19,5 @@ export {
   useAppDispatch,
   useAppSelector,
   useRouter,
-  usePageTransition,
+  useDynamicComponent,
 };
