@@ -6,7 +6,13 @@ const LanguageSwitcher = () => {
   const { t } = useTranslation();
   const { languages, currentLanguage } = useLanguage();
   const { openDialog } = useDialog();
-  const selectedLanguage = languages.find(lang => lang.code === currentLanguage);
+
+  // Procura o idioma atual na lista de idiomas disponíveis
+  // ou usa o idioma padrão ou o primeiro da lista como fallback
+  const selectedLanguage =
+    languages.find(lang => lang.code === currentLanguage) ||
+    languages.find(lang => lang.default) ||
+    languages[0];
 
   const handleChangeLanguage = (lang: string) => {
     openDialog({
@@ -17,15 +23,21 @@ const LanguageSwitcher = () => {
     });
   };
 
+  const safeCurrentLanguage = languages.some(lang => lang.code === currentLanguage)
+    ? currentLanguage
+    : languages.find(lang => lang.default)?.code || languages[0]?.code || '';
+
   return (
     <FormControl>
       <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        value={currentLanguage}
+        labelId="language-select-label"
+        id="language-select"
+        value={safeCurrentLanguage}
         onChange={e => handleChangeLanguage(e.target.value)}
         variant="outlined"
         sx={{
+          height: '50px',
+          paddingX: '8px',
           border: 'transparent',
           backgroundColor: 'transparent',
           '& .MuiOutlinedInput-notchedOutline': {

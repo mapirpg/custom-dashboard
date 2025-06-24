@@ -79,6 +79,8 @@ export const useLanguage = () => {
 
   const changeLanguage = (languageCode: string) => {
     const normalizedCode = normalizeLanguageCode(languageCode);
+    console.log(`Changing language to: ${normalizedCode}`);
+
     dispatch(language.changeLanguage(normalizedCode));
   };
 
@@ -86,8 +88,12 @@ export const useLanguage = () => {
     dispatch(language.initializeLanguage());
   };
 
+  const validCurrentLanguage = languages.some(lang => lang.code === currentLanguage)
+    ? currentLanguage
+    : languages.find(lang => lang.default)?.code || languages[0]?.code || 'pt_BR';
+
   return {
-    currentLanguage: normalizeLanguageCode(currentLanguage),
+    currentLanguage: normalizeLanguageCode(validCurrentLanguage),
     languages,
     initialize,
     changeLanguage,

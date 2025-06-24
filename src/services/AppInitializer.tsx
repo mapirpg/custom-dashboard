@@ -9,7 +9,7 @@ import { LoadingScreen } from '@components/Loading';
 import { updateFavicon } from '@utils/updateFavicon';
 import { translationKeysVerify } from '@utils/translatiosVerification';
 import env from '../data/env';
-import Container from '@components/Container';
+import AppContainer from '@components/AppContainer';
 
 interface AppInitializerProps {
   children: React.ReactNode;
@@ -51,9 +51,9 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ children }) => {
   return (
     <MuiThemeProvider theme={instanceTheme}>
       {isLoading ? (
-        <Container>
+        <AppContainer>
           <LoadingScreen />
-        </Container>
+        </AppContainer>
       ) : (
         children
       )}

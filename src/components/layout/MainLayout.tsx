@@ -29,8 +29,11 @@ import LanguageSwitcher from '../LanguageSwitcher';
 import Icon from '@components/Icon';
 import { drawer as drawerSlice } from '@store';
 import { Outlet } from 'react-router-dom';
-
-const DRAWER_WIDTH = 240;
+import {
+  MAIN_LAYOUT_DRAWER_WIDTH,
+  MAIN_LAYOUT_HEADER_HEIGHT,
+  MAIN_LAYOUT_HEIGHT,
+} from '@utils/constants';
 
 const StyledAppBar = styled(AppBar, {
   shouldForwardProp: prop => prop !== 'open',
@@ -43,8 +46,8 @@ const StyledAppBar = styled(AppBar, {
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
-    marginLeft: DRAWER_WIDTH,
-    width: `calc(100% - ${DRAWER_WIDTH}px)`,
+    marginLeft: MAIN_LAYOUT_DRAWER_WIDTH,
+    width: `calc(100% - ${MAIN_LAYOUT_DRAWER_WIDTH}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -95,7 +98,7 @@ const MainLayout = () => {
         }}
       >
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          App Name
+          {t('common.brandName')}
         </Typography>
         <IconButton onClick={handleDrawerToggle}>
           <ChevronLeftIcon />
@@ -134,7 +137,13 @@ const MainLayout = () => {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <StyledAppBar position="fixed" open={drawerOpen}>
+      <StyledAppBar
+        position="fixed"
+        sx={{
+          height: `${MAIN_LAYOUT_HEADER_HEIGHT}svh`,
+        }}
+        open={drawerOpen}
+      >
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', maxWidth: '100vw' }}>
           {!drawerOpen ? (
             <IconButton
@@ -171,10 +180,10 @@ const MainLayout = () => {
           keepMounted: true,
         }}
         sx={{
-          width: drawerOpen ? DRAWER_WIDTH : 0,
+          width: drawerOpen ? MAIN_LAYOUT_DRAWER_WIDTH : 0,
           flexShrink: 0,
           '& .MuiDrawer-paper': {
-            width: DRAWER_WIDTH,
+            width: MAIN_LAYOUT_DRAWER_WIDTH,
             boxSizing: 'border-box',
           },
         }}
@@ -186,14 +195,10 @@ const MainLayout = () => {
         <Toolbar />
         <Box
           sx={{
-            p: 2,
-            display: 'flex',
-            flexDirection: 'column',
-            height: isSmallScreen ? '90vh' : '80vh',
-            width: isSmallScreen ? '95vw' : drawerOpen ? '75vw' : `calc(75vw + ${DRAWER_WIDTH}px)`,
-            flexGrow: 1,
-            boxShadow: theme.shadows[9],
-            borderRadius: 2,
+            p: 0,
+            m: 0,
+            height: `${MAIN_LAYOUT_HEIGHT}svh`,
+            width: '100%',
           }}
         >
           <Outlet />

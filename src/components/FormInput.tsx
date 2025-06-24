@@ -69,6 +69,11 @@ function FormInput<T extends FieldValues>({
         name={name}
         render={({ field, fieldState }) => (
           <TextField
+            sx={{
+              m: 0,
+              p: 0,
+              ...inputProps,
+            }}
             {...defaultProps[inputType || 'text']}
             {...field}
             {...inputProps}

@@ -1,6 +1,6 @@
 import { Box, BoxProps } from '@mui/material';
 
-const Container = (props: BoxProps) => {
+const AppContainer = (props: BoxProps) => {
   return (
     <Box
       sx={{
@@ -21,4 +21,4 @@ const Container = (props: BoxProps) => {
   );
 };
 
-export default Container;
+export default AppContainer;

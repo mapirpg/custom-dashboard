@@ -31,13 +31,19 @@ class StorageModel {
 
       if (!item) {
         return null;
-      } else if (typeof item !== 'string') {
+      }
+
+      if (key === 'i18nextLng') {
+        return item as unknown as StorageModelTypes[K];
+      }
+
+      try {
         return JSON.parse(item) as StorageModelTypes[K];
-      } else {
-        return item as StorageModelTypes[K];
+      } catch {
+        return item as unknown as StorageModelTypes[K];
       }
     } catch (error) {
-      console.error(error);
+      console.error(`Erro ao obter o item '${String(key)}' do localStorage:`, error);
       return null;
     }
   }

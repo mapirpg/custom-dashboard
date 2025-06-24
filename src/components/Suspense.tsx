@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { LoadingScreen } from '@components/Loading';
-import Container from './Container';
+import AppContainer from './AppContainer';
 
 const DialogModal = React.lazy(() => import('./DialogModal'));
 
@@ -8,9 +8,9 @@ const SuspenseComponents = () => {
   return (
     <Suspense
       fallback={
-        <Container>
+        <AppContainer>
           <LoadingScreen />
-        </Container>
+        </AppContainer>
       }
     >
       <DialogModal />
