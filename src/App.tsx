@@ -1,4 +1,3 @@
-import { useAuth } from '@hooks';
 import ErrorBoundary from '@components/ErrorBoundary';
 import { useTranslation } from 'react-i18next';
 import AlertSnackbar from '@components/AlertSnackbar';
@@ -8,14 +7,13 @@ import './App.css';
 
 function App() {
   const { t } = useTranslation();
-  const { isAuthenticated } = useAuth();
   document.title = t('common.brandName');
 
   return (
     <ErrorBoundary>
       <AlertSnackbar />
       <SuspenseComponents />
-      <AppRoutes isAuthenticated={isAuthenticated} />
+      <AppRoutes />
     </ErrorBoundary>
   );
 }

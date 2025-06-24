@@ -3,17 +3,18 @@ import { Route, Routes } from 'react-router-dom';
 import LayoutWrapper from '@components/layout/LayoutWrapper';
 import navigationConfig, { RouteProps } from './navigationConfig';
 import { useEffect } from 'react';
-import { useRouter } from '@hooks';
+import { useAuth, useRouter } from '@hooks';
 
-const AppRoutes = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
+const AppRoutes = () => {
   const { setRoutes } = useRouter();
+  const { isAuthenticated } = useAuth();
   const routes = navigationConfig(isAuthenticated);
   const layout = routes[0] || routes.find(route => route.layout === 'empty');
 
   useEffect(() => {
     setRoutes(routes);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <Routes>

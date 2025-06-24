@@ -2,7 +2,7 @@ import React from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Box, useMediaQuery } from '@mui/material';
 import { useAppSelector } from '@hooks/useRedux';
-import { MAIN_LAYOUT_DRAWER_WIDTH, MAIN_LAYOUT_HEIGHT } from '@utils/constants';
+import { MAIN_LAYOUT_DRAWER_WIDTH, MAIN_LAYOUT_HEIGHT } from '@data/constants';
 
 const PageContainer = ({
   header,

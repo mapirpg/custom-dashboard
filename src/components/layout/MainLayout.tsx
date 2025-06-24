@@ -33,7 +33,7 @@ import {
   MAIN_LAYOUT_DRAWER_WIDTH,
   MAIN_LAYOUT_HEADER_HEIGHT,
   MAIN_LAYOUT_HEIGHT,
-} from '@utils/constants';
+} from '@data/constants';
 
 const StyledAppBar = styled(AppBar, {
   shouldForwardProp: prop => prop !== 'open',

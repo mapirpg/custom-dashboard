@@ -9,6 +9,7 @@ import {
   useAuth,
 } from './useRedux';
 import { useDynamicComponent } from './useDynamicComponent';
+import { useTableFeatures } from './useTableFeatures';
 
 export {
   useAuth,
@@ -20,4 +21,5 @@ export {
   useAppSelector,
   useRouter,
   useDynamicComponent,
+  useTableFeatures,
 };

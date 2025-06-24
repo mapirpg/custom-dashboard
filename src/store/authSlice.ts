@@ -5,7 +5,7 @@ import Storage from '@data/storage';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 interface AuthState {
-  user: IUser | null;
+  user?: IUser | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
@@ -42,29 +42,39 @@ export const login = createAsyncThunk(
       Storage.setItem('user', user);
 
       return user;
-    } catch (error: any) {
-      return rejectWithValue(error);
+    } catch (error) {
+      return rejectWithValue(error instanceof Error ? error.message : 'Login failed');
     }
   },
 );
 
-export const checkAuth = createAsyncThunk('auth/checkAuth', async () => {
-  const res = await User.revalidate();
+export const checkAuth = createAsyncThunk('auth/checkAuth', async (_, { rejectWithValue }) => {
+  const storedUser = Storage.getItem('user');
 
-  if (!res) {
-    throw new Error('User not found');
+  if (!storedUser) {
+    return rejectWithValue('No user found in storage');
   }
 
-  const user: IUser = {
-    id: res.id,
-    name: res.name,
-    email: res.email,
-    role: res.role || 'user',
-  };
+  try {
+    const res = await User.revalidate(storedUser);
 
-  Storage.setItem('user', user);
+    if (!res) {
+      throw new Error('User not found');
+    }
 
-  return user;
+    const user: IUser = {
+      id: res.id,
+      name: res.name,
+      email: res.email,
+      role: res.role || 'user',
+    };
+
+    Storage.setItem('user', user);
+
+    return user;
+  } catch (error) {
+    rejectWithValue(error instanceof Error ? error.message : 'User revalidate failed');
+  }
 });
 
 export const signup = createAsyncThunk(
@@ -85,11 +95,7 @@ export const signup = createAsyncThunk(
       Storage.setItem('user', newUser);
       return newUser;
     } catch (error) {
-      if (error instanceof Error) {
-        return rejectWithValue(error.message);
-      }
-
-      return rejectWithValue('An unknown error occurred');
+      return rejectWithValue(error instanceof Error ? error.message : 'Signup failed');
     }
   },
 );

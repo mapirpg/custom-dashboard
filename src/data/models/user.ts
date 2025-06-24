@@ -1,5 +1,4 @@
 import { IUser } from '@data/interfaces/user';
-import Storage from '@data/storage';
 class UserModel {
   public async signIn(email: string, password: string): Promise<IUser | null> {
     return new Promise((resolve, reject) => {
@@ -18,15 +17,13 @@ class UserModel {
     });
   }
 
-  public async revalidate(): Promise<IUser | null> {
-    const storedUser = Storage.getItem('user');
-
+  public async revalidate(user?: IUser): Promise<IUser | null> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        if (!storedUser) {
+        if (!user) {
           reject('Api error: User not found');
         } else {
-          resolve(storedUser);
+          resolve(user);
         }
       }, 1000);
     });
