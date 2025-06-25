@@ -1,24 +1,22 @@
 import React from 'react';
-import { visuallyHidden } from '@mui/utils';
 import MuiTableHead from '@mui/material/TableHead';
-import { Box, Checkbox, TableCell, TableRow, TableSortLabel } from '@mui/material';
+import { Checkbox, TableCell, TableRow, TableSortLabel } from '@mui/material';
 
-import { TableDataProps, TableHeadProps } from '.';
+import { ITableHeadRow } from './types';
 
-function TableHead({
+function TableHead<T>({
+  checkable = false,
   headCells = [],
-  order = 'asc',
-  orderBy = '',
-  rowCount = 0,
+  onRequestSort,
+  onSelectAllClick,
+  order,
+  orderBy,
   numSelected = 0,
-  onRequestSort = () => {},
-  onSelectAllClick = () => {},
-  checkable,
-}: TableHeadProps) {
-  const createSortHandler =
-    (property: keyof TableDataProps) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort?.(event, property);
-    };
+  rowCount = 0,
+}: ITableHeadRow<T>) {
+  const createSortHandler = (property: keyof T) => (event: React.MouseEvent<unknown>) => {
+    onRequestSort?.(event, property);
+  };
 
   return (
     <MuiTableHead
@@ -47,14 +45,13 @@ function TableHead({
         </TableCell>
         {headCells?.map(headCell => (
           <TableCell
-            width={headCell.width || `${100 / headCells.length}%`}
-            key={headCell.id}
+            sx={{ width: headCell.width || `${100 / headCells.length}%` }}
+            key={String(headCell.id)}
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
-              active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
               sx={theme => ({
@@ -64,11 +61,6 @@ function TableHead({
               })}
             >
               {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
             </TableSortLabel>
           </TableCell>
         ))}

@@ -98,7 +98,7 @@ const MainLayout = () => {
         }}
       >
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          {t('common.brandName')}
+          {t('brandName')}
         </Typography>
         <IconButton onClick={handleDrawerToggle}>
           <ChevronLeftIcon />
@@ -127,7 +127,7 @@ const MainLayout = () => {
             <ListItemIcon>
               <LogoutIcon />
             </ListItemIcon>
-            <ListItemText primary={t('common.logout')} />
+            <ListItemText primary={t('logout')} />
           </ListItemButton>
         </ListItem>
       </List>

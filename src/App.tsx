@@ -7,7 +7,7 @@ import './App.css';
 
 function App() {
   const { t } = useTranslation();
-  document.title = t('common.brandName');
+  document.title = t('brandName');
 
   return (
     <ErrorBoundary>

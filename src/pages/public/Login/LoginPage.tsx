@@ -58,7 +58,7 @@ const LoginPage = () => {
         </Box>
 
         <Typography variant="h5" sx={{ mt: 2, mb: 4 }}>
-          {t('common.login')}
+          {t('login')}
         </Typography>
 
         <Box component="form" onSubmit={handleSubmit(v => onSubmit(v))} sx={{ mt: 1 }}>
@@ -66,7 +66,7 @@ const LoginPage = () => {
           <FormInput control={control} name="password" inputType="password" />
 
           <Button variant="contained" type="submit" fullWidth loading={isSubmitting}>
-            {isSubmitting ? t('common.login') + '...' : t('common.signIn')}
+            {isSubmitting ? t('login') + '...' : t('signIn')}
           </Button>
 
           <Box
@@ -79,10 +79,10 @@ const LoginPage = () => {
             }}
           >
             <Link component={RouterLink} to="/forgot-password" variant="body2">
-              {t('common.forgotPassword')}
+              {t('forgotPassword')}
             </Link>
             <Link component={RouterLink} to="/register" variant="body2">
-              {t('common.noAccount')} {t('common.signUp')}
+              {t('noAccount')} {t('signUp')}
             </Link>
           </Box>
         </Box>

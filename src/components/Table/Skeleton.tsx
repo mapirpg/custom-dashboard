@@ -10,7 +10,7 @@ import { ROWS_PER_PAGE } from '@data/constants';
 function TableSkeleton({
   rows = ROWS_PER_PAGE[1],
   columns = 6,
-  checkable = false,
+  checkable = true,
 }: {
   rows?: number;
   columns?: number;
@@ -21,8 +21,8 @@ function TableSkeleton({
 
   return (
     <>
-      <TableContainer sx={{ maxHeight: 56, overflow: 'visible', boxShadow: 'none' }}>
-        <MuiTable sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
+      <TableContainer sx={{ maxHeight: 56, overflow: 'visible', boxShadow: 'none', width: '100%' }}>
+        <MuiTable sx={{ minWidth: 750, tableLayout: 'fixed' }} aria-labelledby="tableTitle">
           <MuiTableHead
             sx={theme => ({
               bgcolor: theme.palette.primary.light,
@@ -37,7 +37,13 @@ function TableSkeleton({
               </TableCell>
 
               {tableColumns.map(column => (
-                <TableCell key={column} padding={column === 0 ? 'none' : 'normal'}>
+                <TableCell
+                  key={column}
+                  padding={column === 0 ? 'none' : 'normal'}
+                  sx={{
+                    width: `${100 / tableColumns.length}%`,
+                  }}
+                >
                   <Skeleton
                     variant="text"
                     width={column === 0 ? 120 : 80}
@@ -72,6 +78,9 @@ function TableSkeleton({
                     key={column}
                     padding={column === 0 ? 'none' : 'normal'}
                     align={column === 0 ? 'left' : 'right'}
+                    sx={{
+                      width: `${100 / tableColumns.length}%`,
+                    }}
                   >
                     <Skeleton variant="text" width={column === 0 ? '100%' : 60} height={20} />
                   </TableCell>

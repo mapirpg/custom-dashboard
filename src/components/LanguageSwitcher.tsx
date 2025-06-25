@@ -16,8 +16,8 @@ const LanguageSwitcher = () => {
 
   const handleChangeLanguage = (lang: string) => {
     openDialog({
-      content: t('alerts.changeLanguageConfirmation'),
-      title: t('alerts.changeLanguage'),
+      content: t('changeLanguageConfirmation'),
+      title: t('changeLanguage'),
       actionType: 'CHANGE_LANGUAGE',
       actionPayload: { lang },
     });

@@ -77,7 +77,7 @@ function FormInput<T extends FieldValues>({
             {...defaultProps[inputType || 'text']}
             {...field}
             {...inputProps}
-            label={inputProps?.label || t(`common.${name}`)}
+            label={inputProps?.label || t(`${name}`)}
             error={!!fieldState.error}
             helperText={fieldState.error ? fieldState.error.message : ' '}
             variant="outlined"

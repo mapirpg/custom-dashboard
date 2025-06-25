@@ -17,7 +17,7 @@ const RegisterPage = () => {
     >
       <Box>
         <Link component={RouterLink} to="/" variant="body2" replace>
-          {t('common.haveAccount')} {t('common.signIn')}
+          {t('haveAccount')} {t('signIn')}
         </Link>
       </Box>
     </Box>

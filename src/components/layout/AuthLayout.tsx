@@ -65,7 +65,7 @@ const AuthLayout = () => {
       >
         <Typography variant="body2" color="text.secondary">
           &copy;
-          {` ${new Date().getFullYear()} ${t('common.brandName')}. ${t('common.allRightsReserved')} `}
+          {` ${new Date().getFullYear()} ${t('brandName')}. ${t('allRightsReserved')} `}
         </Typography>
       </Box>
     </Box>

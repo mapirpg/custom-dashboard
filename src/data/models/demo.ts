@@ -1,14 +1,14 @@
+export interface TableDataProps {
+  id: string;
+  name: string;
+  calories: number;
+  fat: number;
+  carbs: number;
+  protein: number;
+}
+
 class DemoModel {
-  public async getTableData(quantity?: number): Promise<
-    Array<{
-      id: string;
-      name: string;
-      calories: number;
-      fat: number;
-      carbs: number;
-      protein: number;
-    }>
-  > {
+  public async getTableData(quantity?: number): Promise<Array<TableDataProps>> {
     return new Promise(resolve => {
       const res = Array.from({ length: quantity || 100 }, (_, index) => ({
         id: `dessert-${index + 1}`,

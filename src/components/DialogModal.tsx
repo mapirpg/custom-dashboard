@@ -14,10 +14,10 @@ const DialogModal = () => {
       <DialogContent>{content}</DialogContent>
       <DialogActions>
         <Button onClick={closeDialog} color="inherit">
-          {t('common.cancel')}
+          {t('cancel')}
         </Button>
         <Button onClick={onConfirm} color="primary" variant="contained">
-          {t('common.confirm')}
+          {t('confirm')}
         </Button>
       </DialogActions>
     </Dialog>
