@@ -1,13 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { PerPageVelueProps } from '@data/constants';
 
 export interface ITableCell<T> {
   id: string;
-  field: keyof T;
-  value: T[keyof T] | React.ReactNode;
+  field: keyof T | string;
+  value: T[keyof T] | React.ReactNode | any;
   numeric?: boolean;
   width?: string | number;
   index?: number;
+  formatter?: (value: T[keyof T]) => string | React.ReactNode;
+  type?: 'common' | 'number' | 'date' | 'boolean' | 'avatar';
+  rawValue?: any;
+  path?: string;
 }
 
 export interface ITableRow<T> {

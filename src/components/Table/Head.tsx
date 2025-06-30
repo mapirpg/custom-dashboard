@@ -22,9 +22,6 @@ function TableHead<T>({
     <MuiTableHead
       sx={theme => ({
         bgcolor: theme.palette.primary.light,
-        position: 'sticky',
-        top: 0,
-        zIndex: 10,
       })}
     >
       <TableRow>

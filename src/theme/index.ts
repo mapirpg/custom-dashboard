@@ -91,6 +91,9 @@ export const createAppTheme = (mode: PaletteMode, customBrandColors = defaultThe
   const darkThemeColors = generateDarkPalette(customBrandColors);
 
   return createTheme({
+    shape: {
+      borderRadius: '8px',
+    },
     palette: {
       mode,
       ...(mode === 'light' ? themeLightColors : darkThemeColors),

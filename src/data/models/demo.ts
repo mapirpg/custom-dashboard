@@ -5,6 +5,19 @@ export interface TableDataProps {
   fat: number;
   carbs: number;
   protein: number;
+  avatar: string;
+  address?: {
+    street?: string;
+    city?: string;
+    state?: string;
+    zip?: string;
+  };
+  weekDays?: string[];
+  schedule?: Array<{
+    day: string;
+    startTime: string;
+    endTime: string;
+  }>;
 }
 
 class DemoModel {
@@ -17,6 +30,26 @@ class DemoModel {
         fat: Math.random() * 20,
         carbs: Math.random() * 50,
         protein: Math.random() * 10,
+        avatar: `https://i.pravatar.cc/150?img=${index + 1}`,
+        address: {
+          street: `Street ${index + 1}`,
+          city: `City ${index + 1}`,
+          state: `State ${index + 1}`,
+          zip: `Zip ${index + 1}`,
+        },
+        weekDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        schedule: [
+          {
+            day: `Day ${index + 1}`,
+            startTime: `08:00`,
+            endTime: `17:00`,
+          },
+          {
+            day: `Day ${index + 1} Evening`,
+            startTime: `18:00`,
+            endTime: `22:00`,
+          },
+        ],
       }));
 
       setTimeout(() => {

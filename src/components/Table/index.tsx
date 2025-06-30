@@ -45,7 +45,10 @@ function Table<T>({
     const hasData = Boolean(data);
 
     const derivedHeadCells = hasHead ? head?.headCells : hasData ? getHeaderCells(data) : [];
-    const derivedRowsCells = hasRows ? rows : hasData ? getRowsCells(data, derivedHeadCells) : [];
+
+    const rowsResult = hasData ? getRowsCells(data, derivedHeadCells) : { rows: [] };
+
+    const derivedRowsCells = hasRows ? rows : rowsResult.rows;
 
     return {
       rowsCells: derivedRowsCells || [],
@@ -120,7 +123,7 @@ function Table<T>({
 
   return (
     <Paper
-      sx={{
+      sx={theme => ({
         width: '100%',
         flexGrow: 1,
         display: 'flex',
@@ -128,25 +131,34 @@ function Table<T>({
         alignItems: 'center',
         flexDirection: 'column',
         height: '100%',
-      }}
+        borderRadius: theme.shape.borderRadius,
+      })}
     >
       {isLoading ? (
         <TableSkeleton />
       ) : (
         <>
-          <TableContainer sx={{ maxHeight: 56, overflow: 'visible', boxShadow: 'none' }}>
-            <MuiTable sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
-              <TableHead
-                onRequestSort={handleRequestSort}
-                onSelectAllClick={handleSelectAllClick}
-                numSelected={selected.length}
-                rowCount={rowsCells.length}
-                checkable={checkable ? true : head?.checkable}
-                headCells={headCells}
-                order={tableSort.order}
-                orderBy={tableSort.orderBy}
-              />
-            </MuiTable>
+          <TableContainer
+            sx={theme => ({
+              maxHeight: 56,
+              overflow: 'hidden',
+              boxShadow: 'none',
+              borderTopLeftRadius: theme.shape.borderRadius,
+              borderTopRightRadius: theme.shape.borderRadius,
+            })}
+          >
+            {/* <MuiTable sx={{ minWidth: 750 }} aria-labelledby="tableTitle"> */}
+            <TableHead
+              onRequestSort={handleRequestSort}
+              onSelectAllClick={handleSelectAllClick}
+              numSelected={selected.length}
+              rowCount={rowsCells.length}
+              checkable={checkable ? true : head?.checkable}
+              headCells={headCells}
+              order={tableSort.order}
+              orderBy={tableSort.orderBy}
+            />
+            {/* </MuiTable> */}
           </TableContainer>
 
           <TableContainer
