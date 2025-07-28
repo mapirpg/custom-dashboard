@@ -18,6 +18,11 @@ export interface TableDataProps {
     startTime: string;
     endTime: string;
   }>;
+  a: {
+    b: {
+      c: string;
+    };
+  };
 }
 
 class DemoModel {
@@ -50,10 +55,23 @@ class DemoModel {
             endTime: `22:00`,
           },
         ],
+        a: {
+          b: {
+            c: `Nested value ${index + 1}`,
+          },
+        },
       }));
 
       setTimeout(() => {
         resolve(res);
+      }, 1000);
+    });
+  }
+
+  public async sendData<T>(data: T): Promise<T> {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(data);
       }, 1000);
     });
   }

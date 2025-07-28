@@ -1,18 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { PerPageVelueProps } from '@data/constants';
+import { NestedPaths } from '@utils/getNestedValue';
 
 export interface ITableCell<T> {
   id: string;
-  field: keyof T | string;
-  value: T[keyof T] | React.ReactNode | any;
+  field: NestedPaths<T>;
+  value?: T[keyof T] | React.ReactNode | any;
   numeric?: boolean;
   width?: string | number;
   index?: number;
-  formatter?: (value: T[keyof T]) => string | React.ReactNode;
+  formatter?: (value: any) => any;
   type?: 'common' | 'number' | 'date' | 'boolean' | 'avatar';
   rawValue?: any;
   path?: string;
+  nestedField?: string;
+  label?: string;
+  sortable?: boolean;
 }
 
 export interface ITableRow<T> {
@@ -24,9 +28,8 @@ export interface ITableRow<T> {
 export interface ITableHeadCell<T> {
   id: keyof T;
   label: string;
-  numeric: boolean;
   width?: string | number;
-  disablePadding: boolean;
+  sortable?: boolean;
 }
 
 export interface ITableHeadRow<T> {
@@ -38,6 +41,7 @@ export interface ITableHeadRow<T> {
   orderBy?: keyof T | null;
   numSelected?: number;
   rowCount?: number;
+  sortable?: boolean;
 }
 
 export interface ITableOrder<T> {

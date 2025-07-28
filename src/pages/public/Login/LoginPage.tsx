@@ -62,12 +62,14 @@ const LoginPage = () => {
         </Typography>
 
         <Box component="form" onSubmit={handleSubmit(v => onSubmit(v))} sx={{ mt: 1 }}>
-          <FormInput control={control} name="email" />
-          <FormInput control={control} name="password" inputType="password" />
+          <Grid container spacing={2} sx={{ mb: 2 }} columns={1}>
+            <FormInput control={control} name="email" />
+            <FormInput control={control} name="password" inputType="password" />
 
-          <Button variant="contained" type="submit" fullWidth loading={isSubmitting}>
-            {isSubmitting ? t('login') + '...' : t('signIn')}
-          </Button>
+            <Button variant="contained" type="submit" fullWidth loading={isSubmitting}>
+              {isSubmitting ? t('login') + '...' : t('signIn')}
+            </Button>
+          </Grid>
 
           <Box
             sx={{

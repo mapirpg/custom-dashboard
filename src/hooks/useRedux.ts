@@ -79,7 +79,6 @@ export const useLanguage = () => {
 
   const changeLanguage = (languageCode: string) => {
     const normalizedCode = normalizeLanguageCode(languageCode);
-    console.log(`Changing language to: ${normalizedCode}`);
 
     dispatch(language.changeLanguage(normalizedCode));
   };

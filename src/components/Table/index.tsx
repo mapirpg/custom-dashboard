@@ -16,16 +16,15 @@ import { useTableFeatures } from '@hooks/useTableFeatures';
 import { ITable, ITableOrder, ITableRow } from './types';
 
 function Table<T>({
-  data,
   head,
-  rows,
+  rows = [],
   isLoading,
   checkable,
   initialValues,
   onChangePage,
   onChangeRowsPerPage,
 }: ITable<T>) {
-  const { getSortedRows, getHeaderCells, getRowsCells } = useTableFeatures<T>();
+  const { getSortedRows } = useTableFeatures<T>();
 
   const [selected, setSelected] = React.useState<ITableRow<T>['id'][]>(
     initialValues?.selecteds || [],
@@ -39,35 +38,17 @@ function Table<T>({
     orderBy: initialValues?.orderBy || (head?.headCells?.[0]?.id as keyof T) || null,
   });
 
-  const { rowsCells, headCells } = React.useMemo(() => {
-    const hasRows = Boolean(rows);
-    const hasHead = Boolean(head?.headCells);
-    const hasData = Boolean(data);
-
-    const derivedHeadCells = hasHead ? head?.headCells : hasData ? getHeaderCells(data) : [];
-
-    const rowsResult = hasData ? getRowsCells(data, derivedHeadCells) : { rows: [] };
-
-    const derivedRowsCells = hasRows ? rows : rowsResult.rows;
-
-    return {
-      rowsCells: derivedRowsCells || [],
-      headCells: derivedHeadCells || [],
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, head?.headCells, rows]);
-
   const { visibleRows, emptyRows } = React.useMemo(
     () => ({
-      visibleRows: getSortedRows(rowsCells, {
+      visibleRows: getSortedRows(rows, {
         page,
         rowsPerPage,
         tableSort,
       }),
-      emptyRows: page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rowsCells.length) : 0,
+      emptyRows: page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [rows, page, rowsPerPage, tableSort, rowsCells],
+    [rows, page, rowsPerPage, tableSort, rows],
   );
 
   const handleRequestSort = (_event: React.MouseEvent<unknown>, property: keyof T) => {
@@ -85,7 +66,7 @@ function Table<T>({
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = (rows ?? rowsCells).map(n => String(n.id));
+      const newSelected = rows.map(n => String(n.id));
 
       if (newSelected) {
         setSelected(newSelected);
@@ -147,18 +128,16 @@ function Table<T>({
               borderTopRightRadius: theme.shape.borderRadius,
             })}
           >
-            {/* <MuiTable sx={{ minWidth: 750 }} aria-labelledby="tableTitle"> */}
             <TableHead
               onRequestSort={handleRequestSort}
               onSelectAllClick={handleSelectAllClick}
               numSelected={selected.length}
-              rowCount={rowsCells.length}
+              rowCount={rows?.length}
               checkable={checkable ? true : head?.checkable}
-              headCells={headCells}
+              headCells={head?.headCells || []}
               order={tableSort.order}
               orderBy={tableSort.orderBy}
             />
-            {/* </MuiTable> */}
           </TableContainer>
 
           <TableContainer
@@ -208,7 +187,7 @@ function Table<T>({
                       aria-checked={isItemSelected}
                       tabIndex={-1}
                       key={String(row.id)}
-                      selected={isItemSelected}
+                      selected={checkable && isItemSelected}
                       sx={{ cursor: 'pointer' }}
                     >
                       <TableRow
@@ -241,7 +220,7 @@ function Table<T>({
             <TablePagination
               component="div"
               page={page}
-              count={rowsCells.length}
+              count={rows?.length || 0}
               rowsPerPage={rowsPerPage}
               onPageChange={handleChangePage}
               rowsPerPageOptions={ROWS_PER_PAGE}

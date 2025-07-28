@@ -1,15 +1,19 @@
 import React from 'react';
 import { useTheme } from '@mui/material/styles';
-import { Box, useMediaQuery } from '@mui/material';
+import { Box, BoxProps, useMediaQuery } from '@mui/material';
 import { useAppSelector } from '@hooks/useRedux';
 import { MAIN_LAYOUT_DRAWER_WIDTH, MAIN_LAYOUT_HEIGHT } from '@data/constants';
 
 const PageContainer = ({
   header,
   content,
+  headerProps,
+  contentProps,
 }: {
   content?: React.ReactNode;
   header?: React.ReactNode;
+  headerProps?: BoxProps;
+  contentProps?: BoxProps;
 }) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -36,6 +40,7 @@ const PageContainer = ({
             borderRadius: 2,
             mb: 1,
           })}
+          {...headerProps}
         >
           {header}
         </Box>
@@ -57,6 +62,7 @@ const PageContainer = ({
           boxShadow: theme.shadows[9],
           borderRadius: 2,
         })}
+        {...contentProps}
       >
         {content}
       </Box>
