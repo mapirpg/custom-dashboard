@@ -56,5 +56,15 @@
   "passwordLength": "Password must be at least 8 characters long",
   "passwordMatch": "Passwords do not match",
   "unauthorized": "Unauthorized access",
-  "generalError": "Something went wrong. Please try again."
+  "generalError": "Something went wrong. Please try again.",
+  "inputs": "Inputs",
+  "table": "Table",
+  "selectLanguage": "Select Language",
+  "activeLightMode": "Activate Light Mode",
+  "activeDarkMode": "Activate Dark Mode",
+  "submit": "Submit",
+  "form": "Form",
+  "invalidPassword": "Invalid password",
+  "requiredField": "This field is required",
+  "passwordsNotMatch": "Passwords do not match"
 }

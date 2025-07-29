@@ -1,13 +1,10 @@
-import { useMemo } from 'react';
+import { ITableHeadCell, ITableRow } from '@components/Table/types';
 import Demo, { TableDataProps } from '@data/models/demo';
 import { useTableFeatures } from '@hooks/useTableFeatures';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { useForm } from 'react-hook-form';
-import { ITableHeadCell, ITableRow } from '@components/Table/types';
-import { FormValues } from '@components/Forms/DemoForm';
-import { useFormValidation } from '@hooks/useFormValidation';
+import { useQuery } from '@tanstack/react-query';
+import { useMemo } from 'react';
 
-const DemoController = () => {
+const TableController = () => {
   const { data, isLoading } = useQuery({
     queryKey: ['demo-table-data'],
     queryFn: () => Demo.getTableData(),
@@ -76,50 +73,11 @@ const DemoController = () => {
     [data, getTableCells],
   );
 
-  const { resolver } = useFormValidation<FormValues>({
-    fields: [
-      {
-        field: 'email',
-        type: 'email',
-      },
-      {
-        field: 'password',
-        errorMessage: 'invalidPassword',
-      },
-      {
-        field: 'confirmPassword',
-        compareField: 'password',
-        errorMessage: 'passwordsNotMatch',
-      },
-    ],
-  });
-
-  const formMethods = useForm<FormValues>({
-    defaultValues: {
-      // text: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      // number: 0,
-      // date: new Date(),
-      // autoComplete: '',
-    },
-    resolver,
-  });
-
-  const { mutate } = useMutation({
-    mutationFn: Demo.sendData<FormValues>,
-  });
-
-  const handleFormSubmit = (values: FormValues) => mutate(values);
-
   return {
     rows,
     isLoading,
     headCells,
-    formMethods,
-    onFormSubmit: formMethods.handleSubmit(handleFormSubmit),
   };
 };
 
-export default DemoController;
+export default TableController;

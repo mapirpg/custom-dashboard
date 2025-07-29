@@ -75,6 +75,19 @@ class DemoModel {
       }, 1000);
     });
   }
+
+  public async getSelectOptions(): Promise<Array<{ name: string; opt: string }>> {
+    return new Promise(resolve => {
+      const options = Array.from({ length: 10 }, (_, index) => ({
+        name: `Option ${index + 1}`,
+        opt: `option-${index + 1}`,
+      }));
+
+      setTimeout(() => {
+        resolve(options);
+      }, 1000);
+    });
+  }
 }
 
 const Demo = new DemoModel();

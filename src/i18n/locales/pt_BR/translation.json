@@ -56,5 +56,15 @@
   "passwordMatch": "As senhas não coincidem",
   "unauthorized": "Acesso não autorizado",
   "generalError": "Algo deu errado. Por favor, tente novamente.",
-  "loginFailed": "Falha ao entrar. Verifique suas credenciais e tente novamente."
+  "loginFailed": "Falha ao entrar. Verifique suas credenciais e tente novamente.",
+  "inputs": "Entradas",
+  "table": "Tabela",
+  "selectLanguage": "Selecione o Idioma",
+  "activeLightMode": "Ativar Modo Claro",
+  "activeDarkMode": "Ativar modo Escuro",
+  "submit": "Enviar",
+  "form": "Formulário",
+  "invalidPassword": "Senha inválida",
+  "requiredField": "Este campo é obrigatório",
+  "passwordsNotMatch": "As senhas não coincidem"
 }

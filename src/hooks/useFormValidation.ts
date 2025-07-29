@@ -39,7 +39,9 @@ export const useFormValidation = <T extends FieldValues>({ fields }: ValidationP
     props = { required: true },
   ) => {
     return props.required
-      ? z.string().min(1, { message: props?.errorMessage || t('requiredField') })
+      ? z
+          .string()
+          .min(1, { message: props?.errorMessage ? t(props?.errorMessage) : t('requiredField') })
       : z.string().optional();
   };
 
@@ -64,21 +66,24 @@ export const useFormValidation = <T extends FieldValues>({ fields }: ValidationP
       ),
     );
 
-    fields
-      .filter(item => item.compareField)
-      .forEach(item => {
-        schema = schema.refine(
-          data => {
-            const compareValue = data[item.compareField as keyof T];
-            const fieldValue = data[item.field as keyof T];
-            return compareValue === fieldValue;
-          },
-          {
-            message: item.errorMessage || t('fieldsMustMatch'),
-            path: [String(item.field)],
-          },
-        );
+    const compareFields = fields.filter(item => item.compareField);
+
+    if (compareFields.length > 0) {
+      schema = schema.superRefine((data, ctx) => {
+        compareFields.forEach(item => {
+          const compareValue = data[item.compareField as keyof T];
+          const fieldValue = data[item.field as keyof T];
+
+          if (compareValue !== fieldValue) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: item.errorMessage ? t(item.errorMessage) : t('fieldsMustMatch'),
+              path: [item.field as string],
+            });
+          }
+        });
       });
+    }
 
     return schema;
   };

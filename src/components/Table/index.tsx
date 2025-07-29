@@ -128,16 +128,18 @@ function Table<T>({
               borderTopRightRadius: theme.shape.borderRadius,
             })}
           >
-            <TableHead
-              onRequestSort={handleRequestSort}
-              onSelectAllClick={handleSelectAllClick}
-              numSelected={selected.length}
-              rowCount={rows?.length}
-              checkable={checkable ? true : head?.checkable}
-              headCells={head?.headCells || []}
-              order={tableSort.order}
-              orderBy={tableSort.orderBy}
-            />
+            <MuiTable>
+              <TableHead
+                onRequestSort={handleRequestSort}
+                onSelectAllClick={handleSelectAllClick}
+                numSelected={selected.length}
+                rowCount={rows?.length}
+                checkable={checkable ? true : head?.checkable}
+                headCells={head?.headCells || []}
+                order={tableSort.order}
+                orderBy={tableSort.orderBy}
+              />
+            </MuiTable>
           </TableContainer>
 
           <TableContainer

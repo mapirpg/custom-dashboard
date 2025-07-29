@@ -1,4 +1,4 @@
-import FormInput from '@components/FormInput';
+import FormInput, { InputSelectOption } from '@components/FormInput';
 import { Button, Grid } from '@mui/material';
 import { UseFormReturn } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -12,9 +12,18 @@ export interface FormValues {
   date: Date;
   autoComplete: string;
   confirmPassword: string;
+  select: string;
 }
 
-function DemoForm({ formMethods }: { formMethods: UseFormReturn<FormValues> }) {
+function DemoForm({
+  formMethods,
+  selectOptions,
+  loadingOptions,
+}: {
+  formMethods: UseFormReturn<FormValues>;
+  selectOptions?: Array<InputSelectOption>;
+  loadingOptions?: boolean;
+}) {
   const { t } = useTranslation();
   const { control } = formMethods;
 
@@ -22,22 +31,20 @@ function DemoForm({ formMethods }: { formMethods: UseFormReturn<FormValues> }) {
     <Grid container size={{ xs: 12, md: 6 }} columnSpacing={2} sx={{ padding: 2 }}>
       <FormInput control={control} name="email" inputType="email" />
 
+      <FormInput control={control} name="text" />
+
       <FormInput control={control} name="password" inputType="password" />
       <FormInput control={control} name="confirmPassword" inputType="password" />
 
-      {/*
       <FormInput
         control={control}
-        name="error"
+        name="select"
+        inputType="autoComplete"
+        options={selectOptions}
         inputProps={{
-          error: true,
-          helperText: t('inputWithError'),
+          disabled: loadingOptions,
         }}
       />
-
-      <FormInput control={control} name="number" inputType="number" />
-
-      <FormInput control={control} name="autoComplete" inputType="autoComplete" /> */}
 
       <Grid size={12}>
         <Button variant="contained" type="submit">
