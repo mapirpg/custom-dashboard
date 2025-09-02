@@ -59,6 +59,14 @@ export const useRouteConfig = ({
             path: 'table',
             routePath: 'app/Table',
           },
+          {
+            id: 'reservation',
+            name: 'Reservation',
+            icon: 'eventCalendar',
+            title: t('reservation'),
+            path: 'reservation',
+            routePath: 'app/Reservation',
+          },
         ],
       },
     ];
