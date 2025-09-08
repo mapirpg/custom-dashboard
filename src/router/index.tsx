@@ -11,23 +11,42 @@ const AppRoutes = () => {
   const { routes } = useRouteConfig({ isAuthenticated });
   const layout = routes[0] ||
     routes.find(route => route.layout === 'empty') || { path: '/', children: [] };
+
   useEffect(() => {
     setRoutes(routes);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
 
+  const renderRoutes = (routes: RouteProps[]) => {
+    return routes.map((route: RouteProps) => {
+      if (route.children && route.children.length > 0) {
+        return (
+          <Route
+            key={route.id}
+            path={route.path}
+            element={<RouteComponent routePath={route.routePath || ''} name={route.name} />}
+          >
+            {renderRoutes(route.children)}
+          </Route>
+        );
+      } else {
+        return (
+          <Route
+            key={route.id}
+            path={route.path}
+            index={route.index}
+            element={<RouteComponent routePath={route.routePath || ''} name={route.name} />}
+          />
+        );
+      }
+    });
+  };
+
   return (
     <Routes>
       <Route path={layout.path} element={<LayoutWrapper routes={routes} />}>
-        {layout.children?.map((child: RouteProps) => (
-          <Route
-            key={child.id}
-            path={child.path}
-            index={child.index}
-            element={<RouteComponent routePath={child.routePath || ''} name={child.name} />}
-          />
-        ))}
-        <Route path="*" element={<RouteComponent routePath="public/NotFound" name="NotFound" />} />
+        {renderRoutes(layout.children || [])}
+        <Route path="*" element={<RouteComponent routePath="public/notfound" name="NotFound" />} />
       </Route>
     </Routes>
   );

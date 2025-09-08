@@ -1,6 +1,7 @@
 import Instance from '@data/models/instance';
 import { createTheme, PaletteMode } from '@mui/material';
 import { alpha } from '@mui/material/styles';
+import '@mui/x-date-pickers/themeAugmentation';
 
 const defaultTheme = Instance.defaultInstance?.theme;
 
@@ -182,9 +183,12 @@ export const createAppTheme = (mode: PaletteMode, customBrandColors = defaultThe
         },
       },
       MuiTextField: {
+        defaultProps: {
+          size: 'small',
+          margin: 'dense',
+        },
         styleOverrides: {
           root: {
-            marginBottom: 16,
             '& .MuiInputBase-root': {
               borderRadius: 8,
             },
@@ -273,6 +277,48 @@ export const createAppTheme = (mode: PaletteMode, customBrandColors = defaultThe
             '&.Mui-error': {
               color:
                 mode === 'light' ? themeLightColors?.error?.main : darkThemeColors?.error?.main,
+            },
+          },
+        },
+      },
+      MuiDatePicker: {
+        defaultProps: {
+          slotProps: {
+            textField: {
+              size: 'small',
+              margin: 'dense',
+              sx: {
+                '& .MuiInputBase-root': { minHeight: 30 },
+                '& .MuiOutlinedInput-input': { padding: '3px 6px' },
+              },
+            },
+          },
+        },
+      },
+      MuiTimePicker: {
+        defaultProps: {
+          slotProps: {
+            textField: {
+              size: 'small',
+              margin: 'dense',
+              sx: {
+                '& .MuiInputBase-root': { minHeight: 30 },
+                '& .MuiOutlinedInput-input': { padding: '3px 6px' },
+              },
+            },
+          },
+        },
+      },
+      MuiDateTimePicker: {
+        defaultProps: {
+          slotProps: {
+            textField: {
+              size: 'small',
+              margin: 'dense',
+              sx: {
+                '& .MuiInputBase-root': { minHeight: 30 },
+                '& .MuiOutlinedInput-input': { padding: '3px 6px' },
+              },
             },
           },
         },

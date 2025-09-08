@@ -187,7 +187,7 @@ function FormInput<T extends FieldValues>({
   };
 
   return (
-    <Grid {...gridProps} size={{ xs: 12, md: 6 }} sx={{ minHeight: '90px' }}>
+    <Grid {...gridProps} size={{ xs: 12, md: 6 }}>
       <Controller
         control={control}
         name={name}

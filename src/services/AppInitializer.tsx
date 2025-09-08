@@ -18,6 +18,8 @@ interface AppInitializerProps {
 if (env.isDev) {
   translationKeysVerify();
   console.warn('AvaliableRoutes:', env.avaliableRouteIds);
+  console.warn('Looking for: app/areas/register');
+  console.warn('Found:', env.avaliableRouteIds?.includes('app/areas/register'));
 }
 
 const AppInitializer: React.FC<AppInitializerProps> = ({ children }) => {

@@ -5,13 +5,22 @@ const appRouteModules: Record<string, () => Promise<any>> = import.meta.glob(
 );
 
 export const avaliableRouteIds = Object.keys(appRouteModules).reduce<string[]>((acc, path) => {
-  const match = path.match(/([^/]+)Route\.tsx$/);
+  const relativePath = path.replace('../pages/', '');
+  const withoutRoute = relativePath.replace(/Route\.tsx$/, '');
+  const parts = withoutRoute.split('/');
 
-  if (match) {
-    const routeId = match[1].toLowerCase();
-    acc.push(routeId);
+  if (parts.length > 1) {
+    const lastPart = parts[parts.length - 1].toLowerCase();
+    const secondLastPart = parts[parts.length - 2].toLowerCase();
+
+    if (lastPart.includes(secondLastPart) || secondLastPart.includes(lastPart)) {
+      parts.pop();
+    }
   }
 
+  const routePath = parts.map(part => part.toLowerCase()).join('/');
+
+  acc.push(routePath);
   return acc;
 }, []);
 
