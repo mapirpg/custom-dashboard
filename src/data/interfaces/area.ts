@@ -6,6 +6,7 @@ export interface WeekSchedule {
 
 export interface AvaliableWeek {
   day: string;
+  completeLabel?: string;
   dayValue: number;
   start: string;
   end: string;

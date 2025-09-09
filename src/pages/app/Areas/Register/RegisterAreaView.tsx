@@ -2,8 +2,10 @@ import AreaForm, { FormValues } from '@components/Forms/AreaForm';
 import PageContainer from '@components/PageContainer';
 import { Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 const RegisterAreaView = () => {
+  const { t } = useTranslation();
   const methods = useForm<FormValues>({
     defaultValues: {
       name: '',
@@ -19,7 +21,7 @@ const RegisterAreaView = () => {
 
   return (
     <PageContainer
-      header={<Typography variant="h4">Register Area</Typography>}
+      header={<Typography variant="h4">{t('register_area')}</Typography>}
       content={<AreaForm formMethods={methods} />}
     />
   );

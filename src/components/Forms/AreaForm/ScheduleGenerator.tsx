@@ -2,10 +2,11 @@ import { AvaliableWeek } from '@data/interfaces/area';
 import { Download } from '@mui/icons-material';
 import { Button, Grid, Typography } from '@mui/material';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { Controller, Path, useForm, useFormContext, useWatch } from 'react-hook-form';
+import { Controller, useForm, useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { FormValues } from '.';
 import dayjs from 'dayjs';
+import { useMemo } from 'react';
 
 export const ScheduleGenerator = ({
   selectedWeekDay,
@@ -17,21 +18,21 @@ export const ScheduleGenerator = ({
   onGeneratePress?: (props: { start: string; end: string; interval: string }) => void;
 }) => {
   const { t } = useTranslation();
-  const { control } = useFormContext<FormValues>();
-
-  const weekIndex = (selectedWeekDay?.dayValue || 1) - 1;
-
-  const weekStart = useWatch({
+  const { control, watch } = useFormContext<FormValues>();
+  const week = useWatch({
     control,
-    name: `avaliability.week[${weekIndex}].start` as Path<FormValues>,
-    defaultValue: '',
-  }) as string;
+    name: 'avaliability.week',
+    defaultValue: [],
+  }) as AvaliableWeek[];
 
-  const weekEnd = useWatch({
-    control,
-    name: `avaliability.week[${weekIndex}].end` as Path<FormValues>,
-    defaultValue: '',
-  }) as string;
+  const weekIndex = week.findIndex(w => w.dayValue === selectedWeekDay?.dayValue);
+
+  const { start, end } = useMemo(() => {
+    const start = watch(`avaliability.week.${weekIndex}.start`) as string;
+    const end = watch(`avaliability.week.${weekIndex}.end`) as string;
+    return { start, end };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watch, weekIndex, week]);
 
   const formMethods = useForm<{ interval: string }>({
     defaultValues: { interval: '' },
@@ -74,7 +75,7 @@ export const ScheduleGenerator = ({
           name="interval"
           render={({ field }) => (
             <TimePicker
-              disabled={!weekStart || !weekEnd}
+              disabled={!start || !end}
               ampm={false}
               label={t('interval')}
               format="HH:mm"
@@ -87,14 +88,14 @@ export const ScheduleGenerator = ({
 
       <Grid size={4}>
         <Button
-          disabled={!weekStart || !weekEnd || !interval}
+          disabled={!start || !end || !interval}
           loading={isGenerating}
           sx={{
             height: 40,
             mt: 0.5,
           }}
           variant="contained"
-          onClick={() => onGeneratePress?.({ start: weekStart, end: weekEnd, interval })}
+          onClick={() => onGeneratePress?.({ start, end, interval })}
         >
           <Download />
         </Button>

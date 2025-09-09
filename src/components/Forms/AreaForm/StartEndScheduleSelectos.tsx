@@ -1,6 +1,6 @@
 import { Grid, IconButton, Typography } from '@mui/material';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { FormValues, SchedulePosition } from '.';
+import { FormValues, TimePosition } from '.';
 import { PickerValue } from '@mui/x-date-pickers/internals';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
@@ -9,26 +9,22 @@ import { Delete } from '@mui/icons-material';
 import { Path, useFormContext, useWatch } from 'react-hook-form';
 
 export const StartEndScheduleSelectors = ({
-  scheduleIndex,
   onTimePickerChange,
   selectedWeekDay,
   onRemovePeriodInSchedule,
+  scheduleIndex,
 }: {
-  scheduleIndex: number;
   selectedWeekDay: AvaliableWeek;
-  onTimePickerChange: (
-    value: PickerValue,
-    position: SchedulePosition,
-    scheduleIndex: number,
-  ) => void;
+  onTimePickerChange: (value: PickerValue, position: TimePosition, scheduleIndex: number) => void;
   onRemovePeriodInSchedule: (scheduleIndex: number) => void;
+  scheduleIndex: number;
 }) => {
   const { t } = useTranslation();
   const { control } = useFormContext<FormValues>();
 
   const weekEnd = useWatch({
     control,
-    name: `avaliability.week[${(selectedWeekDay?.dayValue || 1) - 1}].end` as Path<FormValues>,
+    name: `avaliability.week[${scheduleIndex}].end` as Path<FormValues>,
     defaultValue: '',
   }) as string;
 
@@ -38,15 +34,15 @@ export const StartEndScheduleSelectors = ({
       {['start', 'end'].map(key => (
         <Grid size={5} key={key}>
           <TimePicker
-            label={t(key) + ' ' + (scheduleIndex + 1)}
+            label={t(key)}
             ampm={false}
             format="HH:mm"
             value={
-              selectedWeekDay.schedules[scheduleIndex][key as SchedulePosition]
-                ? dayjs(selectedWeekDay.schedules[scheduleIndex][key as SchedulePosition], 'HH:mm')
+              selectedWeekDay.schedules?.[scheduleIndex]?.[key as TimePosition]
+                ? dayjs(selectedWeekDay.schedules[scheduleIndex][key as TimePosition], 'HH:mm')
                 : null
             }
-            onChange={v => onTimePickerChange(v, key as SchedulePosition, scheduleIndex)}
+            onChange={v => onTimePickerChange(v, key as TimePosition, scheduleIndex)}
             maxTime={dayjs(weekEnd, 'HH:mm')}
           />
         </Grid>

@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { Area, AvaliableWeek, WeekSchedule } from '@data/interfaces/area';
-import { Add, ClearAll } from '@mui/icons-material';
-import { Box, Button, Divider, Grid, Typography } from '@mui/material';
-import { FormProvider, Path, UseFormReturn, useWatch } from 'react-hook-form';
+import { Box, Divider, Grid, Typography } from '@mui/material';
+import { FormProvider, UseFormReturn, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { PickerValue } from '@mui/x-date-pickers/internals';
-import { DaysOfWeekButtons } from './DaysOfWeekButtons';
+import { DayOfWeek, DaysOfWeekButtons } from './DaysOfWeekButtons';
 import { DayPeriodSelector } from './DayPeriodSelector';
 import { SummaryDayItem } from './SummaryDayItem';
 import { StartEndScheduleSelectors } from './StartEndScheduleSelectos';
 import { ScheduleGenerator } from './ScheduleGenerator';
+import { ManualScheduleControl } from './ManualScheduleControl';
 
 export interface FormValues extends Area {}
 
@@ -17,7 +17,7 @@ interface AreaFormProps {
   formMethods: UseFormReturn<FormValues>;
 }
 
-export type SchedulePosition = 'start' | 'end';
+export type TimePosition = 'start' | 'end';
 
 function AreaForm({ formMethods }: AreaFormProps) {
   const { t } = useTranslation();
@@ -25,19 +25,6 @@ function AreaForm({ formMethods }: AreaFormProps) {
 
   const [isGenerating, setIsGenerating] = useState(false);
   const [selectedWeekDay, setSelectedWeekDay] = useState<AvaliableWeek>();
-  const weekIndex = (selectedWeekDay?.dayValue || 1) - 1;
-
-  const weekStart = useWatch({
-    control,
-    name: `avaliability.week[${weekIndex}].start` as Path<FormValues>,
-    defaultValue: '',
-  }) as string;
-
-  const weekEnd = useWatch({
-    control,
-    name: `avaliability.week[${weekIndex}].end` as Path<FormValues>,
-    defaultValue: '',
-  }) as string;
 
   const week = useWatch({
     control,
@@ -45,7 +32,7 @@ function AreaForm({ formMethods }: AreaFormProps) {
     defaultValue: [],
   }) as AvaliableWeek[];
 
-  const handleDayOfWeekPress = (day: { label: string; value: number }) => {
+  const handleDayOfWeekPress = (day: DayOfWeek) => {
     const index = week.findIndex(d => d?.dayValue === day?.value);
 
     setSelectedWeekDay(
@@ -55,21 +42,34 @@ function AreaForm({ formMethods }: AreaFormProps) {
             start: '',
             end: '',
             day: day.label,
+            completeLabel: day.completeLabel,
             dayValue: day.value,
             schedules: [],
           },
     );
   };
 
-  const handleAddPeriodInSchedule = () => {
+  const handlePeriodChange = (props: { value: PickerValue; position: TimePosition }) => {
+    if (!selectedWeekDay) return;
+
+    const newTime = props.value ? props.value.format('HH:mm') : '';
+
+    const updatedDay = { ...selectedWeekDay, [props.position]: newTime };
+
+    formMethods.setValue('avaliability.week', [
+      ...week.filter(d => d.dayValue !== selectedWeekDay.dayValue),
+      updatedDay,
+    ]);
+
+    setSelectedWeekDay(updatedDay);
+  };
+
+  const handleAddPeriodInSchedule = ({ start, end }: { start: string; end: string }) => {
     if (!selectedWeekDay) return;
 
     const updatedDay = {
       ...selectedWeekDay,
-      schedules: [
-        ...(selectedWeekDay.schedules || []),
-        { start: weekStart, end: weekEnd, isAvalilable: true },
-      ],
+      schedules: [...(selectedWeekDay.schedules || []), { start, end, isAvalilable: true }],
     };
 
     formMethods.setValue('avaliability.week', [
@@ -117,18 +117,22 @@ function AreaForm({ formMethods }: AreaFormProps) {
     setSelectedWeekDay(updatedDay);
   };
 
-  const handleScheduleTimeChange = (v: PickerValue, position: SchedulePosition, index: number) => {
+  const handleScheduleTimeChange = (v: PickerValue, position: TimePosition, index: number) => {
     if (!selectedWeekDay) return;
 
     const newTime = v ? v.format('HH:mm') : '';
+
     const updatedSchedules = selectedWeekDay.schedules.map((s, i) =>
       i === index ? { ...s, [position]: newTime } : s,
     );
+
     const updatedDay = { ...selectedWeekDay, schedules: updatedSchedules };
+
     formMethods.setValue('avaliability.week', [
       ...week.filter(d => d.dayValue !== selectedWeekDay.dayValue),
       updatedDay,
     ]);
+
     setSelectedWeekDay(updatedDay);
   };
 
@@ -204,33 +208,23 @@ function AreaForm({ formMethods }: AreaFormProps) {
           />
 
           <Grid size={0.5} />
-          {selectedWeekDay && <DayPeriodSelector weekIndex={weekIndex} />}
+          {selectedWeekDay && (
+            <DayPeriodSelector
+              selectedWeekDay={selectedWeekDay}
+              onDayPeriodChange={handlePeriodChange}
+            />
+          )}
         </Grid>
 
         <Divider sx={{ width: '100%', mb: 1, mt: 2 }} />
         {selectedWeekDay ? (
           <>
             <Grid container size={12} columnSpacing={2} alignItems={'center'}>
-              <Grid>
-                <Button
-                  disabled={!weekStart || !weekEnd}
-                  variant="contained"
-                  onClick={handleAddPeriodInSchedule}
-                >
-                  <Add />
-                </Button>
-              </Grid>
-
-              <Grid>
-                <Button
-                  variant="contained"
-                  onClick={handleClearAllSchedules}
-                  disabled={(selectedWeekDay?.schedules || []).length === 0}
-                >
-                  <ClearAll />
-                </Button>
-              </Grid>
-
+              <ManualScheduleControl
+                selectedWeekDay={selectedWeekDay}
+                handleAdd={handleAddPeriodInSchedule}
+                handleClear={handleClearAllSchedules}
+              />
               <Grid size={1} />
               <ScheduleGenerator
                 isGenerating={isGenerating}
@@ -277,13 +271,9 @@ function AreaForm({ formMethods }: AreaFormProps) {
               >
                 <Typography>{t('summary')}</Typography>
                 {week
-                  .filter(
-                    day => day && typeof day.dayValue === 'number' && day.schedules?.length > 0,
-                  )
+                  .filter(i => i.schedules.length)
                   .map(day =>
-                    day?.dayValue ? (
-                      <SummaryDayItem key={day.dayValue} dayValue={day.dayValue} />
-                    ) : null,
+                    day?.dayValue ? <SummaryDayItem key={day.dayValue} dayData={day} /> : null,
                   )}
               </Grid>
             </Grid>

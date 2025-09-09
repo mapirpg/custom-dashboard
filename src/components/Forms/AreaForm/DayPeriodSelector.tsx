@@ -1,47 +1,39 @@
 import { Grid } from '@mui/material';
-import { Controller, Path, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { FormValues } from '.';
+import { TimePosition } from '.';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import dayjs from 'dayjs';
+import { AvaliableWeek } from '@data/interfaces/area';
+import { PickerValue } from '@mui/x-date-pickers/internals';
 
-export const DayPeriodSelector = ({ weekIndex }: { weekIndex: number }) => {
+export const DayPeriodSelector = ({
+  selectedWeekDay,
+  onDayPeriodChange,
+}: {
+  selectedWeekDay: AvaliableWeek;
+  onDayPeriodChange: (props: { value: PickerValue; position: TimePosition }) => void;
+}) => {
   const { t } = useTranslation();
-  const { control } = useFormContext<FormValues>();
 
   return (
     <>
       <Grid size={2}>
-        <Controller
-          key={weekIndex}
-          control={control}
-          name={`avaliability.week[${weekIndex}].start` as Path<FormValues>}
-          render={({ field }) => (
-            <TimePicker
-              ampm={false}
-              label={t('week_day_start_period')}
-              format="HH:mm"
-              value={field.value ? dayjs(field.value as string, 'HH:mm') : null}
-              onChange={v => field.onChange(v ? v.format('HH:mm') : '')}
-            />
-          )}
+        <TimePicker
+          ampm={false}
+          label={`${selectedWeekDay?.completeLabel} - ${t('start')}`}
+          format="HH:mm"
+          value={dayjs(selectedWeekDay?.start, 'HH:mm')}
+          onChange={v => onDayPeriodChange({ value: v, position: 'start' })}
         />
       </Grid>
 
       <Grid size={2}>
-        <Controller
-          control={control}
-          key={weekIndex}
-          name={`avaliability.week[${weekIndex}].end` as Path<FormValues>}
-          render={({ field }) => (
-            <TimePicker
-              ampm={false}
-              label={t('week_day_end_period')}
-              format="HH:mm"
-              value={field.value ? dayjs(field.value as string, 'HH:mm') : null}
-              onChange={v => field.onChange(v ? v.format('HH:mm') : '')}
-            />
-          )}
+        <TimePicker
+          ampm={false}
+          label={`${selectedWeekDay?.completeLabel} - ${t('end')}`}
+          format="HH:mm"
+          value={dayjs(selectedWeekDay?.end, 'HH:mm')}
+          onChange={v => onDayPeriodChange({ value: v, position: 'end' })}
         />
       </Grid>
     </>
